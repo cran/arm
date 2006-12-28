@@ -1,0 +1,36 @@
+import("lme4")
+
+export(
+       "balanceplot",
+       "bayesglm",
+       "bayesglm.fit",
+       "bayespolr", 
+       "coefplot", 
+       "corrplot",
+       "display.lm", 
+       "display.glm",
+       "display.mer",
+       "display.polr",
+       "go",
+       "invlogit",
+       "matching", 
+       "mcsamp",
+       "rescale",
+       "se.coef.lm",
+       "se.coef.glm",
+       "se.coef.mer",
+       "se.fixef",
+       "se.ranef",
+       "sigma.hat.lm",
+       "sigma.hat.glm",
+       "sigma.hat.mer",
+       "standardize"
+)
+
+
+exportMethods(
+              "display",
+              "se.coef",
+              "sim",
+              "sigma.hat"
+              )
