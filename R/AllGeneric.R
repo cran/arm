@@ -1,3 +1,10 @@
+#if (!isGeneric("coefplot")) {
+#    setGeneric("coefplot",
+#               function(fit, ...)
+#               standardGeneric("coefplot"))
+#}
+
+
 if (!isGeneric("display")) {
     setGeneric("display",
                function(object, digits=2)

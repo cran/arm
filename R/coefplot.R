@@ -53,7 +53,7 @@ coefplot <- function(fit,
     #=====================================================================
     
     # plotting!!
-    par(mgp=c(2,0.5,0), tcl=-0.2)                 
+    #par(mgp=c(2,0.5,0), tcl=-0.2)                 
     plot(coef, idx, axes=F, type="n",                                     
         xlim=x.scale, ylim=y.scale, 
         xlab=x.label, ylab=y.label,                   
@@ -70,7 +70,7 @@ coefplot <- function(fit,
     axis(2, 1:n.x, longnames[1:n.x], las=2, tck=FALSE, lty=0, hadj=1, cex.axis=cex.var)  
     }}
     else if (object.class=="lmer" | object.class=="glmer"){
-            stop(message = "lmer class has not been implemented!\n")
+            stop(message = "mer class has not been implemented!\n")
     }
     else if (object.class=="bugs") {
         stop(message = "bugs class has not been implemented!\n")

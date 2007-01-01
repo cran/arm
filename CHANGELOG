@@ -1,7 +1,14 @@
-2006-12-28  Yu-Sung Su  <ys463@columbia.edu>
+2006-12-29  Andrew Gelman  <gelman@stat.columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-2
+    * man/bayeglm.Rd: Update description in the "details" and "arguments" sections.
+    * man/bayepolr.Rd: Update description in the "details" and "arguments" sections.
+    * R/bayesglm.R: Adapt bayesglm to handle gaussians.
+    
+2006-12-28  Andrew Gelman  <gelman@stat.columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-1
     * man/display.Rd: Update description in the "arugments" section.
     * man/bayeglm.Rd: Update description in the "details" section.
     * man/bayepolr.Rd: Update description in the "details" section.
     * man/frisk.Rd: Remove frisk documentation.
     * data/frisk.R: Remove frisk data.
+    

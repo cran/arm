@@ -18,6 +18,10 @@ simulations of beta from a mer object
 
 \usage{
 sim(object, n.sims = 100)
+
+sim.lm (object, n.sims = 100)
+sim.glm (object, n.sims = 100)
+sim.mer (object, n.sims = 100)
 }
 
 \arguments{

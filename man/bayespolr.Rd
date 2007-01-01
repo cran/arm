@@ -57,35 +57,57 @@ bayespolr(formula, data, weights, start, ...,
           (corresponding to a Cauchy latent variable and only available
           in R >= 2.1.0).}
   
-  \item{prior.mean}{prior mean for the coefficients: default is 0.}
+  \item{prior.mean}{prior mean for the coefficients: default is 0. 
+    Can be a vector of length equal to the number of predictors 
+    (not counting the intercepts). If it is a scalar, it is 
+    expanded to the length of this vector.}
   
-  \item{prior.scale}{prior scale for the coefficients: default is 2.5.}
+  \item{prior.scale}{prior scale for the coefficients: default is 2.5.
+    Can be a vector of length equal to the number of predictors 
+    (not counting the intercepts). If it is a scalar, it is expanded 
+    to the length of this vector.}
   
-  \item{prior.df}{for t distribution: default is 1 (Cauchy).}
+  \item{prior.df}{for t distribution: default is 1 (Cauchy). 
+    Set to Inf to get normal prior distributions. Can 
+    be a vector of length equal to the number of predictors (not counting 
+    the intercepts). If it is a scalar, it is expanded to the length of this 
+    vector.}
    
-  \item{scaled}{if scaled = TRUE, then the prior distribution is rescaled.}
+  \item{scaled}{if scaled = TRUE, then the prior distribution is rescaled.
+    Can be a vector of length equal to the number of cutpoints 
+    (intercepts). If it is a scalar, it is expanded to the length of 
+    this vector.}
    
-  \item{prior.mean.for.cutpoints}{prior mean for cutpoints: default is 0.}
+  \item{prior.mean.for.cutpoints}{prior mean for cutpoints: default is 0.
+    Can be a vector of length equal to the number of cutpoints 
+    (intercepts). If it is a scalar, it is expanded to the length of 
+    this vector.}
   
-  \item{prior.scale.for.cutpoints}{prior scale for cutpoints: default is 10.}
+  \item{prior.scale.for.cutpoints}{prior scale for cutpoints: default is 10.
+    Can be a vector of length equal to the number of cutpoints 
+    (intercepts). If it is a scalar, it is expanded to the length 
+    of this vector.}
   
-  \item{prior.df.for.cutpoints}{for t distribution: default is 1 (Cauchy).}
+  \item{prior.df.for.cutpoints}{for t distribution: default is 1 (Cauchy).
+    Can be a vector of length equal to the number of cutpoints 
+    (intercepts). If it is a scalar, it is expanded to the length 
+    of this vector.}
 }
-\details{The program is a simple alteration of polr() that uses an approximate EM
-    algorithm to update the betas at each step using an augmented regression
-    to represent the prior information. If scaled=TRUE, the scales for 
-    the prior distributions of the coefficients are determined as follows:
-    
-    For a predictor with only one value, we just use prior.scale. 
-    For a predictor with two values, we use prior.scale/range(x).
-    For a predictor with more than two values, we use prior.scale/(2*sd(x)).
-    
-    we use weaker a prior distribution to the cutpoints 
-    (constant terms)-a Cauchy with center 0 and scale 10.
-    
-    The new arguments here are: \code{prior.mean}, \code{prior.scale},
-    \code{prior.df}, \code{scaled}, \code{prior.mean.for.cutpoints},
-    \code{prior.scale.for.cutpoints}, \code{prior.df.for.cutpoints}}
+\details{
+The program is a simple alteration of \code{polr()} that augments the 
+loglikelihood with the log of the t prior distributions for the 
+coefficients.
+
+We use Student-t prior distributions for the coefficients. The prior 
+distributions for the intercepts (the cutpoints) are set so they apply 
+to the value when all predictors are set to their mean values.
+
+If scaled=TRUE, the scales for the prior distributions of the 
+coefficients are determined as follows: For a predictor with only one 
+value, we just use \code{prior.scale}. For a predictor with two 
+values, we use prior.scale/range(x). 
+For a predictor with more than two values, we use prior.scale/(2*sd(x)).
+}
 
 \value{See \code{polr} for details.}
 

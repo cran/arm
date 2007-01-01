@@ -20,6 +20,10 @@
 se.coef (object)
 se.fixef (object)
 se.ranef (object)
+
+se.coef.lm (object)
+se.coef.glm (object)
+se.coef.mer (object)
 }
 \arguments{
   \item{object}{object of lm, glm, lmer and glmer fit}

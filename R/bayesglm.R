@@ -1,12 +1,12 @@
 bayesglm <-
 function (formula, family = gaussian, data, weights, subset, 
     na.action, start = NULL, etastart, mustart, offset, control = glm.control(...), 
-    model = TRUE, method = "glm.fit", x = FALSE, y = TRUE, contrasts = NULL,
-    prior.mean=0, prior.scale=2.5, prior.scale.for.intercept=10,
-    prior.df=1, scaled=TRUE, n.iter=50, ...) 
+    model = TRUE, method = "glm.fit", x = FALSE, y = TRUE, contrasts = NULL, 
+    prior.mean = 0, prior.scale = 2.5, prior.scale.for.intercept = 10, 
+    prior.df = 1, scaled = TRUE, n.iter = 50, ...) 
 {
     call <- match.call()
-    if (is.character(family))
+    if (is.character(family)) 
         family <- get(family, mode = "function", envir = parent.frame())
     if (is.function(family)) 
         family <- family()
@@ -45,20 +45,21 @@ function (formula, family = gaussian, data, weights, subset,
             length(offset), NROW(Y)), domain = NA)
     mustart <- model.extract(mf, "mustart")
     etastart <- model.extract(mf, "etastart")
-# change glm.fit to bayesglm.fit
     fit <- bayesglm.fit(x = X, y = Y, weights = weights, start = start, 
-        etastart = etastart, mustart = mustart, offset = offset,                    
-        family = family, control=glm.control(maxit=n.iter),
-        intercept = attr(mt, "intercept") > 0,          
-        prior.mean=prior.mean, prior.scale=prior.scale, prior.scale.for.intercept=prior.scale.for.intercept, prior.df=prior.df, scaled=scaled)
+        etastart = etastart, mustart = mustart, offset = offset, 
+        family = family, control = glm.control(maxit = n.iter), 
+        intercept = attr(mt, "intercept") > 0, prior.mean = prior.mean, 
+        prior.scale = prior.scale, prior.scale.for.intercept = prior.scale.for.intercept, 
+        prior.df = prior.df, scaled = scaled)
     if (any(offset) && attr(mt, "intercept") > 0) {
-# change glm.fit to bayesglm.fit
-      cat ("bayesglm not yet set up to do deviance comparion here\n")
-        fit$null.deviance <- bayesglm.fit(x = X[, "(Intercept)", drop = FALSE], 
-            y = Y, weights = weights, offset = offset, family = family, 
-            control = control, intercept = TRUE,
-            prior.mean=prior.mean, prior.scale=prior.scale, prior.scale.for.intercept=prior.scale.for.intercept, prior.df=prior.df, scaled=scaled)$deviance
-    }  
+        cat("bayesglm not yet set up to do deviance comparion here\n")
+        fit$null.deviance <- bayesglm.fit(x = X[, "(Intercept)", 
+            drop = FALSE], y = Y, weights = weights, offset = offset, 
+            family = family, control = control, intercept = TRUE, 
+            prior.mean = prior.mean, prior.scale = prior.scale, 
+            prior.scale.for.intercept = prior.scale.for.intercept, 
+            prior.df = prior.df, scaled = scaled)$deviance
+    }
     if (model) 
         fit$model <- mf
     fit$na.action <- attr(mf, "na.action")
@@ -74,37 +75,46 @@ function (formula, family = gaussian, data, weights, subset,
     fit
 }
 
-bayesglm.fit <- 
+bayesglm.fit <-
 function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL, 
     mustart = NULL, offset = rep(0, nobs), family = gaussian(), 
-    control = glm.control(), intercept = TRUE,
-    prior.mean=0, prior.scale=2.5, prior.scale.for.intercept=10,
-    prior.df=1, scaled=TRUE)
+    control = glm.control(), intercept = TRUE, prior.mean = 0, 
+    prior.scale = 2.5, prior.scale.for.intercept = 10, prior.df = 1, 
+    scaled = TRUE) 
 {
-# If only one set of prior parameters is set, expand to all the coefs
-    J <- NCOL (x)
-    if (length(prior.mean)==1) prior.mean <- rep (prior.mean, J)
-    if (length(prior.scale)==1){
-      prior.scale <- rep (prior.scale, J)
-      if (scaled==TRUE){
-  # Rescale prior sd's using the sd's of the columns of x
-        for (j in 1:J){
-          x.obs <- x[,j]
-          x.obs <- x.obs[!is.na(x.obs)]
-          num.categories <- length(unique(x.obs))
-          if (num.categories==2){
-            prior.scale[j] <- prior.scale[j]/(max(x.obs)-min(x.obs))
-          }
-          else if (num.categories>2){
-            prior.scale[j] <- prior.scale[j]/(2*sd(x.obs))
-          }
+    J <- NCOL(x)
+    if (length(prior.mean) == 1) 
+        prior.mean <- rep(prior.mean, J)
+    if (length(prior.scale) == 1) {
+        prior.scale <- rep(prior.scale, J)
+        y.scale <- 1
+        if (scaled == TRUE){
+          if (family$family=="gaussian") {            #####
+            y.obs <- y[!is.na(y)]                     #####
+            num.categories <- length(unique(y))       #####
+            if (num.categories==2)                    #####
+              y.scale <- max(y.obs) - min(y.obs)      #####
+            else                                      #####
+              y.scale <- 2*sd(y.obs)                  #####
+          }                                           #####
+            for (j in 1:J) {
+                x.obs <- x[, j]
+                x.obs <- x.obs[!is.na(x.obs)]
+                num.categories <- length(unique(x.obs))
+                if (num.categories == 2) {
+                  prior.scale[j] <- prior.scale[j]*y.scale/(max(x.obs) - #####
+                    min(x.obs))
+                }
+                else if (num.categories > 2) {
+                  prior.scale[j] <- prior.scale[j]*y.scale/(2*sd(x.obs)) #####
+                }
+            }
         }
-      }
     }
-    if (is.numeric(prior.scale.for.intercept) & intercept)
-      prior.scale[1] <- prior.scale.for.intercept
-    if (length(prior.df)==1) prior.df <- rep (prior.df, J)
-# End initialization of prior parameters
+    if (is.numeric(prior.scale.for.intercept) & intercept) 
+        prior.scale[1] <- prior.scale.for.intercept
+    if (length(prior.df) == 1) 
+        prior.df <- rep(prior.df, J)
     x <- as.matrix(x)
     xnames <- dimnames(x)[[2]]
     ynames <- if (is.matrix(y)) 
@@ -175,9 +185,7 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
             stop("cannot find valid starting values: please specify some")
         devold <- sum(dev.resids(y, mu, weights))
         boundary <- conv <- FALSE
-# Initialize the prior sd at the prior scale
         prior.sd <- prior.scale
-#
         for (iter in 1:control$maxit) {
             good <- weights > 0
             varmu <- variance(mu)[good]
@@ -198,16 +206,23 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
             z <- (eta - offset)[good] + (y - mu)[good]/mu.eta.val[good]
             w <- sqrt((weights[good] * mu.eta.val[good]^2)/variance(mu)[good])
             ngoodobs <- as.integer(nobs - sum(!good))
-# This is where we augment the data with the prior information
-            z.star <- c (z, prior.mean)
-            x.star <- rbind (x, diag(NCOL(x)))
-            if (intercept) x.star[NROW(x)+1,] <- colMeans(x)   # 17 Dec
-            w.star <- c (w, 1/prior.sd)
-            good.star <- c (good, rep(TRUE,NCOL(x)))
+        dispersion <- if (family$family %in% c("poisson", ##### code taken
+            "binomial"))                                 ##### from summary.glm
+            1                                            #####
+        else {                                           #####
+            sum((w*(y-mu)[good]^2)/(ngoodobs-ncol(x)))   #####
+        }                                                #####
+            z.star <- c(z, prior.mean)
+            x.star <- rbind(x, diag(NCOL(x)))
+            if (intercept) 
+                x.star[NROW(x) + 1, ] <- colMeans(x)
+            w.star <- c(w/sqrt(dispersion), 1/prior.sd)  #####
+            good.star <- c(good, rep(TRUE, NCOL(x)))
             ngoodobs.star <- ngoodobs + NCOL(x)
-            fit <- .Fortran("dqrls", qr = x.star[good.star, ] * w.star, n = ngoodobs.star, 
-                p = nvars, y = w.star * z.star, ny = as.integer(1), tol = min(1e-07, 
-                  control$epsilon/1000), coefficients = double(nvars), 
+            fit <- .Fortran("dqrls", qr = x.star[good.star, ] * 
+                w.star, n = ngoodobs.star, p = nvars, y = w.star * 
+                z.star, ny = as.integer(1), tol = min(1e-07, 
+                control$epsilon/1000), coefficients = double(nvars), 
                 residuals = double(ngoodobs.star), effects = double(ngoodobs.star), 
                 rank = integer(1), pivot = 1:nvars, qraux = double(nvars), 
                 work = double(2 * nvars), PACKAGE = "base")
@@ -217,19 +232,12 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
                   iter)
                 break
             }
-# Pull out the estimates and se's
             coefs.hat <- fit$coefficients
-            # V.coefs <- solve (t(x.star)%*%diag(w.star^2)%*%x.star)
-            V.coefs <- chol2inv(fit$qr[1:ncol(x.star), 1:ncol(x.star), drop = FALSE])
-            # V.coefs <- solve (t(x.star)%*%diag(w.star^2)%*%x.star)   #computation using the formula:  slower but perhaps more trustworthy?
-# Now update the prior scale
-            prior.sd <- ifelse (prior.df==Inf, prior.scale,
-              sqrt (((coefs.hat-prior.mean)^2 + diag(V.coefs) +
-                prior.df*prior.scale^2)/(1 + prior.df)))
-# Comment out the next 3 lines because all is ok with a Bayesian prior dist.
-#            if (nobs < fit$rank) 
-#                stop(gettextf("X matrix has rank %d, but only %d observations", 
-#                  fit$rank, nobs), domain = NA)
+            V.coefs <- chol2inv(fit$qr[1:ncol(x.star), 1:ncol(x.star), 
+                drop = FALSE])
+            prior.sd <- ifelse(prior.df == Inf, prior.scale, 
+                sqrt(((coefs.hat - prior.mean)^2 + diag(V.coefs) + 
+                  prior.df * prior.scale^2)/(1 + prior.df)))
             start[fit$pivot] <- fit$coefficients
             eta <- drop(x %*% start)
             mu <- linkinv(eta <- eta + offset)
@@ -278,7 +286,8 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
                 if (control$trace) 
                   cat("Step halved: new deviance =", dev, "\n")
             }
-            if (iter>1 & abs(dev - devold)/(0.1 + abs(dev)) < control$epsilon) {
+            if (iter > 1 & abs(dev - devold)/(0.1 + abs(dev)) < 
+                control$epsilon) {
                 conv <- TRUE
                 coef <- start
                 break
@@ -327,9 +336,6 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
     names(wt) <- ynames
     names(weights) <- ynames
     names(y) <- ynames
-    #if (!EMPTY) 
-    #    names(fit$effects) <- c(xxnames[seq(len = fit$rank)], 
-    #        rep.int("", sum(good) - fit$rank))
     wtdmu <- if (intercept) 
         sum(weights * y)/sum(weights)
     else linkinv(offset)
@@ -348,59 +354,7 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
         linear.predictors = eta, deviance = dev, aic = aic.model, 
         null.deviance = nulldev, iter = iter, weights = wt, prior.weights = weights, 
         df.residual = resdf, df.null = nulldf, y = y, converged = conv, 
-        boundary = boundary)
-}
-
-# Now, for some examples.  First make sure you have the functions at http://www.stat.columbia.edu/~gelman/bugsR/regression.R
-
-if (0){
-  n <- 100
-  x1 <- rnorm (n)
-  x1 <- (x1-mean(x1))/(2*sd(x1))   # standardization
-  x2 <- rbinom (n, 1, .5)
-  b0 <- 1
-  b1 <- 1.5
-  b2 <- 2
-  y <- rbinom (n, 1, invlogit(b0+b1*x1+b2*x2))
-
-  M1 <- glm (y ~ x1 + x2, family=binomial(link="logit"))
-  display (M1)  # (using the display() function from regression.R)
-
-  M2 <- bayesglm (y ~ x1 + x2, family=binomial(link="logit"), prior.scale=Inf, prior.df=Inf)
-  display (M2)  # just a test:  this should be identical to classical logit
-
-  M3 <- bayesglm (y ~ x1 + x2, family=binomial(link="logit"))  # default Cauchy prior with scale 2.5
-  display (M3)
-
-  M4 <- bayesglm (y ~ x1 + x2, family=binomial(link="logit"), prior.scale=2.5, prior.df=1)  # Same as M3, explicitly specifying Cauchy prior with scale 2.5
-  display (M4)
-
-  M5 <- bayesglm (y ~ x1 + x2, family=binomial(link="logit"), prior.scale=2.5, prior.df=7)   # t_7 prior with scale 2.5
-  display (M5)
-
-  M6 <- bayesglm (y ~ x1 + x2, family=binomial(link="logit"), prior.scale=2.5, prior.df=Inf)  # normal prior with scale 2.5
-  display (M6)
-
-# Create separation:  set y=1 whenever x2=1
-# Now it should blow up without the prior!
-
-  y <- ifelse (x2==1, 1, y)
-
-  M1 <- glm (y ~ x1 + x2, family=binomial(link="logit"))
-  display (M1)
-
-  M2 <- bayesglm (y ~ x1 + x2, family=binomial(link="logit"), prior.scale=Inf, prior.df=Inf) # Same as M1
-  display (M2)
-
-  M3 <- bayesglm (y ~ x1 + x2, family=binomial(link="logit"))
-  display (M3)
-
-  M4 <- bayesglm (y ~ x1 + x2, family=binomial(link="logit"), prior.scale=2.5, prior.df=1)  # Same as M3
-  display (M4)
-
-  M5 <- bayesglm (y ~ x1 + x2, family=binomial(link="logit"), prior.scale=2.5, prior.df=7)
-  display (M5)
-
-  M6 <- bayesglm (y ~ x1 + x2, family=binomial(link="logit"), prior.scale=2.5, prior.df=Inf)
-  display (M6)
+        boundary = boundary,                                             #####
+        prior.mean=prior.mean, prior.scale=prior.scale,                  #####
+         prior.df=prior.df, prior.sd=prior.sd)                           #####
 }

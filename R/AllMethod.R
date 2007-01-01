@@ -1,3 +1,12 @@
+# coefplot methods
+
+#setMethod("coefplot", signature(object = "lm"),
+#    function(fit, ...)
+#   coefplot.lm (fit, ...)
+#    }
+#)
+
+
 # display methods
 
 setMethod("display", signature(object = "lm"),

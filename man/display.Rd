@@ -16,7 +16,12 @@
     clean printout of lm, glm, mer and polr objects.}
 
 \usage{
-    display(object, digits = 2)
+    display (object, digits = 2)
+    
+    display.lm (object, digits=2)
+    display.glm (object, digits=2)
+    display.mer (object, digits=2)
+    display.polr (object, digits=2)
 }
 
 \arguments{
@@ -81,49 +86,59 @@
    x <- rnorm (100)
    y1 <- rnorm (100, a[group] + b[group]*x, sigma.y)
    y2 <- rbinom(100, 1, prob=invlogit(a[group] + b*x))
-# 
-# Then fit and display a simple varying-intercept model:
- 
-   M1 <- lmer (y1 ~ x + (1|group))
+
+#
+# display a simple linear model
+#
+   M1 <- lm (y1 ~ x)
    display (M1)
-   M1.sim <- mcsamp (M1)
-   print (M1.sim)
-   plot (M1.sim)
-# 
-# Then the full varying-intercept, varying-slope model:
-# 
-   M2 <- lmer (y1 ~ x + (1 + x |group))
+  
+#
+# display a simple logit model
+#
+   M2 <- glm (y2 ~ x, family=binomial(link="logit"))
    display (M2)
-   M2.sim <- mcsamp (M2)
-   print (M2.sim)
-   plot (M2.sim)
+#
+# Then fit and display a simple varying-intercept model:
 # 
-# Then the full varying-intercept, logit model:
-# 
-   M3 <- lmer (y2 ~ x + (1|group), family=binomial(link="logit"))
+   M3 <- lmer (y1 ~ x + (1|group))
    display (M3)
    M3.sim <- mcsamp (M3)
    print (M3.sim)
    plot (M3.sim)
 # 
-# Then the full varying-intercept, varying-slope logit model:
+# Then the full varying-intercept, varying-slope model:
 # 
-   M4 <- lmer (y2 ~ x + (1 + x |group), family=binomial(link="logit"))
+   M4 <- lmer (y1 ~ x + (1 + x |group))
    display (M4)
    M4.sim <- mcsamp (M4)
    print (M4.sim)
    plot (M4.sim)
+# 
+# Then the full varying-intercept, logit model:
+# 
+   M5 <- lmer (y2 ~ x + (1|group), family=binomial(link="logit"))
+   display (M5)
+   M5.sim <- mcsamp (M5)
+   print (M5.sim)
+   plot (M5.sim)
+# 
+# Then the full varying-intercept, varying-slope logit model:
+# 
+   M6 <- lmer (y2 ~ x + (1 + x |group), family=binomial(link="logit"))
+   display (M6)
+   M6.sim <- mcsamp (M6)
+   print (M6.sim)
+   plot (M6.sim)
 
 # 
 # Then the ordered logit model from polr
 #
-   M5 <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
-   display(M5)
+   M7 <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
+   display(M7)
    
-   M6 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
-   display(M6)
-
-   
+   M8 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
+   display(M8)   
 }
 
 \keyword{methods}

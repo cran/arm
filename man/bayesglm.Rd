@@ -10,7 +10,7 @@
         for the coefficients.}
         
 \usage{
-bayesglm(formula, family = gaussian, data, 
+bayesglm (formula, family = gaussian, data, 
     weights, subset, na.action, 
     start = NULL, etastart, mustart, 
     offset, control = glm.control(...), 
@@ -19,6 +19,13 @@ bayesglm(formula, family = gaussian, data,
     prior.mean = 0, prior.scale = 2.5, 
     prior.scale.for.intercept = 10, prior.df = 1, 
     scaled = TRUE, n.iter = 50, ...)
+    
+bayesglm.fit (x, y, weights = rep(1, nobs), 
+    start = NULL, etastart = NULL, 
+    mustart = NULL, offset = rep(0, nobs), family = gaussian(), 
+    control = glm.control(), intercept = TRUE,
+    prior.mean=0, prior.scale=2.5, prior.scale.for.intercept=10,
+    prior.df=1, scaled=TRUE)
 }
 
 \arguments{
@@ -87,14 +94,26 @@ bayesglm(formula, family = gaussian, data,
 
   \item{contrasts}{an optional list. See the \code{contrasts.arg}
     of \code{model.matrix.default}.}
+    
+  \item{intercept}{logical. Should an intercept be included in the
+    \emph{null} model?}
      
-  \item{prior.mean}{prior mean for the coefficients: default is 0.}
+  \item{prior.mean}{prior mean for the coefficients:default is 0. Can be a vector 
+    of length equal to the number of predictors 
+    (including the intercept, if any). If it is a scalar, it is 
+    expanded to the length of this vector.}
   
-  \item{prior.scale}{prior scale for the coefficients: default is 2.5.}
+  \item{prior.scale}{prior scale for the coefficients: default is 2.5. 
+    Can be a vector of length equal to the number of predictors 
+    (including the intercept, if any). If it is a scalar, it is 
+    expanded to the length of this vector.}
   
   \item{prior.scale.for.intercept}{prior scale for the intercept: default is 10.}
   
-  \item{prior.df}{for t distribution: default is 1 (Cauchy).}
+  \item{prior.df}{for t distribution: default is 1 (Cauchy). Set to Inf to 
+    get normal prior distributions. Can be a vector of length equal to 
+    the number of predictors (including the intercept, if any). 
+    If it is a scalar, it is expanded to the length of this vector.}
   
   \item{scaled}{if scaled = TRUE, then the prior distribution is rescaled: 
     default is TRUE}
@@ -104,25 +123,32 @@ bayesglm(formula, family = gaussian, data,
   \item{\dots}{further arguments passed to or from other methods.}
 }
 \details{
-    The program is a simple alteration of glm() that uses an approximate EM
-    algorithm to update the betas at each step using an augmented regression
-    to represent the prior information. If scaled=TRUE, the scales for 
-    the prior distributions of the coefficients are determined as follows:
-    
-    For a predictor with only one value, we just use prior.scale. 
-    For a predictor with two values, we use prior.scale/range(x).
-    For a predictor with more than two values, we use prior.scale/(2*sd(x)).
-    
-    We use a weaker prior distribution to the constant term-a Cauchy with center 0 and scale 10.
-    
-    We include all the \code{glm()} arguments but we haven't tested that they all
-    work.  The new arguments here are: \code{prior.mean}, \code{prior.scale},
-    \code{prior.scale.for.intercept}, \code{prior.df} and \code{scaled}.  
-    }
+The program is a simple alteration of \code{glm()} that uses an approximate EM 
+algorithm to update the betas at each step using an augmented regression 
+to represent the prior information.
+
+We use Student-t prior distributions for the coefficients. The prior 
+distribution for the constant term is set so it applies to the value 
+when all predictors are set to their mean values.
+
+If scaled=TRUE, the scales for the prior distributions of the 
+coefficients are determined as follows: For a predictor with only one 
+value, we just use prior.scale. For a predictor with two values, we use 
+prior.scale/range(x). For a predictor with more than two values, we use 
+prior.scale/(2*sd(x)).
+
+We include all the \code{glm()} arguments but we haven't tested that all the 
+options (e.g., \code{offests}, \code{contrasts}, 
+\code{deviance} for the null model) all work.
+
+The new arguments here are: \code{prior.mean}, \code{prior.scale}, 
+\code{prior.scale.for.intercept}, \code{prior.df}, and 
+\code{scaled}.
+}
 
 \value{See \code{glm} for details.}
 
-\references{A. Gelman, Aleks Jakulin, Maria Grazia Pittau and and Yu-Sung Su, 
+\references{Andrew Gelman, Aleks Jakulin, Maria Grazia Pittau and Yu-Sung Su, 
             A default prior distribution for logistic and other regression models,  
 unpublished paper available at \url{http://www.stat.columbia.edu/~gelman/standardize/}
 }
@@ -139,7 +165,6 @@ unpublished paper available at \url{http://www.stat.columbia.edu/~gelman/standar
 \examples{
   n <- 100
   x1 <- rnorm (n)
-  x1 <- (x1-mean(x1))/(2*sd(x1))   # standardization
   x2 <- rbinom (n, 1, .5)
   b0 <- 1
   b1 <- 1.5
