@@ -3,7 +3,7 @@ function (formula, family = gaussian, data, weights, subset,
     na.action, start = NULL, etastart, mustart, offset, control = glm.control(...), 
     model = TRUE, method = "glm.fit", x = FALSE, y = TRUE, contrasts = NULL, 
     prior.mean = 0, prior.scale = 2.5, prior.scale.for.intercept = 10, 
-    prior.df = 1, scaled = TRUE, n.iter = 50, ...) 
+    prior.df = 1, scaled = TRUE, n.iter = 100, ...) 
 {
     call <- match.call()
     if (is.character(family)) 

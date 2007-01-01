@@ -15,7 +15,8 @@ bayespolr(formula, data, weights, start, ...,
     method = c("logistic", "probit", "cloglog", "cauchit"), 
     prior.mean = 0, prior.scale = 2.5, prior.df = 1, 
     scaled = TRUE, prior.mean.for.cutpoints = 0, 
-    prior.scale.for.cutpoints = 10, prior.df.for.cutpoints = 1)
+    prior.scale.for.cutpoints = 10, prior.df.for.cutpoints = 1,
+    n.iter = 100)
 }
 
 \arguments{
@@ -92,6 +93,8 @@ bayespolr(formula, data, weights, start, ...,
     Can be a vector of length equal to the number of cutpoints 
     (intercepts). If it is a scalar, it is expanded to the length 
     of this vector.}
+  
+  \item{n.iter}{default is 100.}
 }
 \details{
 The program is a simple alteration of \code{polr()} that augments the 
@@ -120,9 +123,27 @@ For a predictor with more than two values, we use prior.scale/(2*sd(x)).
 }
 
 \examples{
-    M1 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
-    display(M1)
+    M1 <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
+    display (M1)
+    
+    M2 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing,
+        prior.scale=Inf, prior.df=Inf) # Same as M1
+    display (M2)
+    
+    M3 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
+    display (M3)
+    
+    M4 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing,
+        prior.scale=2.5, prior.df=1)  # Same as M3
+    display (M4)   
+    
+    M5 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing,
+        prior.scale=2.5, prior.df=7)
+    display (M5)
 
+    M6 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing,
+        prior.scale=2.5, prior.df=Inf)
+    display (M6)
 }
 
 \keyword{models}

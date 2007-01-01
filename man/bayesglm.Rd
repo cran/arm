@@ -18,7 +18,7 @@ bayesglm (formula, family = gaussian, data,
     x = FALSE, y = TRUE, contrasts = NULL, 
     prior.mean = 0, prior.scale = 2.5, 
     prior.scale.for.intercept = 10, prior.df = 1, 
-    scaled = TRUE, n.iter = 50, ...)
+    scaled = TRUE, n.iter = 100, ...)
     
 bayesglm.fit (x, y, weights = rep(1, nobs), 
     start = NULL, etastart = NULL, 
@@ -118,7 +118,7 @@ bayesglm.fit (x, y, weights = rep(1, nobs),
   \item{scaled}{if scaled = TRUE, then the prior distribution is rescaled: 
     default is TRUE}
   
-  \item{n.iter}{default is 50.}
+  \item{n.iter}{default is 100.}
   
   \item{\dots}{further arguments passed to or from other methods.}
 }

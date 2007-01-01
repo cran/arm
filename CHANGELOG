@@ -1,4 +1,11 @@
-2006-12-29  Andrew Gelman  <gelman@stat.columbia.edu>
+2006-1-1  Andrew Gelman <gelman@stat.columbia.edu>
+          Yu-Sung Su    <ys463@columbia.edu> 
+    * DESCRIPTION (Version, Date): 1.0-3
+    * man/bayepolr.Rd: Add more examples.
+    * R/bayesglm.R: Change n.iter=50 to n.iter=100.
+    * R/bayespolr.R: Add n.iter=100 option, arguments check.
+
+2006-12-29  Andrew Gelman   <gelman@stat.columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-2
     * man/bayeglm.Rd: Update description in the "details" and "arguments" sections.
     * man/bayepolr.Rd: Update description in the "details" and "arguments" sections.
