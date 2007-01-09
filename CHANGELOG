@@ -1,3 +1,14 @@
+2006-1-9  Yu-Sung Su    y<s463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-4
+    * NAMESPACE: export sim.lm, sim.glm, sim.mer.
+    * man/coefplot.Rd: Add two examples that compares glm and bayesglm.
+    * man/corrfplot.Rd: Add one example, using lalonde data.
+    * R/AllInternal.R: Add rwish & dwish as interal functions
+            from Martin and Quinn's MCMCpack
+    * R/load.first.R: Add arm version claim
+    * R/coefplot.R: Adjust coefplot options, making it more like plot.default
+    * R/sim.R: adjust sim.mer.R to deal with Sigma not positive definite.
+
 2006-1-1  Andrew Gelman <gelman@stat.columbia.edu>
           Yu-Sung Su    <ys463@columbia.edu> 
     * DESCRIPTION (Version, Date): 1.0-3

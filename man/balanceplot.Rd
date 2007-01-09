@@ -44,7 +44,7 @@ Regression and Multilevel/Hierarchical Models, Cambridge University Press, 2006.
 (Chater 10)
 }
 
-\author{Jeniffer Hill \email{jh1030@columbia.edu}; 
+\author{Jennifer Hill \email{jh1030@columbia.edu}; 
         Yu-Sung Su \email{ys463@columbia.edu}
         }
 

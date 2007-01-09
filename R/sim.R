@@ -44,10 +44,14 @@ sim.glm <- function(object, n.sims=100){
 
 sim.mer <- function(object, n.sims=100){
     object <- summary(object)
-    if (sum(unlist(lapply(object@bVar, is.na)))>0){
+    if (lapply(object@bVar,sum)<=0|sum(unlist(lapply(object@bVar, is.na)))>0){
         object@call$control <- list(usePQL=TRUE)
         object <- lmer(object@call$formula)
     }
+    #if (sum(unlist(lapply(object@bVar, is.na)))>0){
+    #    object@call$control <- list(usePQL=TRUE, PQLmaxIt=10000)
+    #    object <- lmer(object@call$formula)
+    #}
     useScale <- object@devComp[8]
     # simulate unmodeled coefficients
     fcoef <- .Call("mer_fixef", object, PACKAGE = "lme4")

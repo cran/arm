@@ -24,6 +24,9 @@ export(
        "sigma.hat.lm",
        "sigma.hat.glm",
        "sigma.hat.mer",
+       "sim.lm",
+       "sim.glm",
+       "sim.mer",
        "standardize"
 )
 

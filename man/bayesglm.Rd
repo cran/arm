@@ -156,7 +156,7 @@ unpublished paper available at \url{http://www.stat.columbia.edu/~gelman/standar
 \author{Andrew Gelman \email{gelman@stat.columbia.edu};
         Yu-Sung Su \email{ys463@columbia.edu};
         Maria Grazia Pittau \email{grazia@stat.columbia.edu};
-        Aleks Jakulin \email{Jackulin@stat.columbia.edu}}
+        Aleks Jakulin \email{Jakulin@stat.columbia.edu}}
 
 \seealso{\code{\link{glm}},
          \code{\link{bayespolr}}

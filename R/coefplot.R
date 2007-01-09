@@ -1,8 +1,9 @@
 coefplot <- function(fit,
-                     longnames=NULL, 
-                     x.label="", y.label="", main.label="", 
+                     longnames=NULL,
+                     xlim=NULL, ylim=NULL, 
+                     xlab="", ylab="", main="", ...,   
                      intercept=FALSE, varnames=TRUE, display.fit=FALSE, 
-                     cex.var=0.8, cex.pts=0.9, ...)
+                     cex.var=0.8, cex.pts=0.9)
 {
                             
     object.class <- class(fit)[[1]]
@@ -38,11 +39,16 @@ coefplot <- function(fit,
     }
 
     # create x.aixs.scale and y.axis.scale
-    min.x <- round(range(coef-2*sd)[1], 1)-0.1                               
-    max.x <- round(range(coef+2*sd)[2], 1)+0.1                                 
-    x.scale <- c(min.x, max.x)                                            
-    y.scale <- c((n.x+0.5), 0.5)                                          
-
+    if (is.null(xlim)){
+        min.x <- round(range(coef-2*sd)[1], 1)-0.1                               
+        max.x <- round(range(coef+2*sd)[2], 1)+0.1                                 
+        xlim <- c(min.x, max.x)                                                                                    
+    }
+    
+    if (is.null(ylim)){
+        ylim <- c((n.x+0.5), 0.5)  
+    }
+    
     #=========size and split the devices==================================
     #layout(matrix(c(1,2),1,2),c(3,7))
     #====plot varnames====================================================
@@ -51,13 +57,13 @@ coefplot <- function(fit,
     #    xlab="", ylab="", main="", ylim=y.scale)                         
     #axis(4, 1:n.x, longnames[1:n.x], las=2, tck=FALSE, lty=0, hadj=1, cex=cex01)
     #=====================================================================
-    
+
     # plotting!!
     #par(mgp=c(2,0.5,0), tcl=-0.2)                 
-    plot(coef, idx, axes=F, type="n",                                     
-        xlim=x.scale, ylim=y.scale, 
-        xlab=x.label, ylab=y.label,                   
-        main=main.label)                                                        
+    plot(coef, idx, type="n",                                     
+        xlim=xlim, ylim=ylim, 
+        xlab=xlab, ylab=ylab,                   
+        main=main, axes=F, ...)                                                   
     axis(1)                                
     axis(3)
     abline(v=0, lty=2)                                                 

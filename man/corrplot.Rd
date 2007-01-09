@@ -21,9 +21,10 @@ corrplot (data, var.names=NULL, details=TRUE, n.col.legend=5, cex.col=0.7,
   \item{cex.col}{font size of the color thermometer}
   \item{cex.var}{font size of the variable names}
   \item{digits}{number of digits shown in the text of the color theromoeter}
-  \item{color}{default is FALSE, which uses gray scale}
-  \item{abs}{if TRUE, transform all correlation values into positive values}
-  \item{...}{other plot options may be passed to this function}
+  \item{color}{color of the plot, default is FALSE, which uses gray scale}
+  \item{abs}{if TRUE, transform all correlation values into positive values.}
+  \item{...}{other plot options may be passed to this function, see 
+    \code{\link{plot.default}} and \code{\link{par}}.}
   
 }
 \details{
@@ -66,11 +67,15 @@ Journal of the American Statistical Association, Vol.101, N0. 474: p.409-23}
                  "a short name07","a short name08","a short name09",
                  "a short name10")
  
- #test 1
+ # example 1
  corrplot(test.data)
  
- #test 2
+ # example 2
  corrplot(test.data,test.names,n.col.legend=7)
+ 
+ # example 3
+ data(lalonde)
+ corrplot(lalonde, details=FALSE, color=TRUE)
 }
 
 \keyword{dplot}

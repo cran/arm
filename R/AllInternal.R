@@ -51,3 +51,58 @@ as.matrix.VarCorr <- function (varc, useScale, digits){
           if (useScale<0) reMat[nrow(reMat),] <- c ("No residual sd", rep("",ncol(reMat)-1))
           return (reMat)
       }
+
+
+# rwish and dwish functions stolen from Martin and Quinn's MCMCpack
+
+rwish <- function (v, S){
+  if (!is.matrix(S)) 
+        S <- matrix(S)
+    if (nrow(S) != ncol(S)) {
+        stop(message = "S not square in rwish().\n")
+    }
+    if (v < nrow(S)) {
+        stop(message = "v is less than the dimension of S in rwish().\n")
+    }
+    p <- nrow(S)
+    CC <- chol(S)
+    Z <- matrix(0, p, p)
+    diag(Z) <- sqrt(rchisq(p, v:(v - p + 1)))
+    if (p > 1) {
+        pseq <- 1:(p - 1)
+        Z[rep(p * pseq, pseq) + unlist(lapply(pseq, seq))] <- rnorm(p * 
+            (p - 1)/2)
+    }
+    return(crossprod(Z %*% CC))
+}
+
+dwish <- function (W, v, S) {
+    if (!is.matrix(S)) 
+        S <- matrix(S)
+    if (nrow(S) != ncol(S)) {
+        stop(message = "W not square in dwish()\n\n")
+    }
+    if (!is.matrix(W)) 
+        S <- matrix(W)
+    if (nrow(W) != ncol(W)) {
+        stop(message = "W not square in dwish()\n\n")
+    }
+    if (nrow(S) != ncol(W)) {
+        stop(message = "W and X of different dimensionality in dwish()\n\n")
+    }
+    if (v < nrow(S)) {
+        stop(message = "v is less than the dimension of S in  dwish()\n\n")
+    }
+    k <- nrow(S)
+    gammapart <- 1
+    for (i in 1:k) {
+        gammapart <- gammapart * gamma((v + 1 - i)/2)
+    }
+    denom <- gammapart * 2^(v * k/2) * pi^(k * (k - 1)/4)
+    detS <- det(S)
+    detW <- det(W)
+    hold <- solve(S) %*% W
+    tracehold <- sum(hold[row(hold) == col(hold)])
+    num <- detS^(-v/2) * detW^((v - k - 1)/2) * exp(-1/2 * tracehold)
+    return(num/denom)
+}
