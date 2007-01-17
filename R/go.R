@@ -1,6 +1,6 @@
 
 # Name:        go(..., add=FALSE,timer=FALSE)
-# Description: like source() but recalls the last source file names by default
+# Description: Like source() but recalls the last source file names by default. Multiple source files can be specified.
 # Parameters:  ... = list of filenames as character strings;
 #              add = add these names to the current list? if replace, then FALSE
 # Note:        does not pass parameters to source()
@@ -14,26 +14,27 @@
 # Modified:    2004-06-22
 #
 
-go <- function(..., which.source=NULL, add=FALSE, timer=FALSE)
+go <- function(..., add=FALSE, timer=FALSE)
 {
   last.sources <- getOption(".Last.Source")
-  sources <- sapply(list(...),I) # list into vector
-  if (length(sources)<1)
+  sources <- unlist(list(...))
+  if (length(sources)<1) {
     sources <- last.sources
-  else if (add)
+  } else if (add) {
     sources <- c(last.sources,sources)
-  if (length(sources)<1)
+  }
+  if (length(sources)<1) {
     return(cat("Usage: go('sourcefile', 'sourcefile2', ..., add=?, timer=?)\n"))
+  }
   options(".Last.Source"=sources)
-  if (!is.null(which.source))
-    sources <- sources[ which.source ]
   cat("Source file(s): ",sources,"\n")
+  yy <- NULL
   for (src in sources) {
     if (is.na(src)) {
       next
     }
     if (!file.exists(src)) {
-      src2 <- paste(src,".R",sep="")
+      src2 <- paste(src, ".R", sep="")
       if (file.exists(src2))
         src <- src2
       else {
@@ -46,14 +47,15 @@ go <- function(..., which.source=NULL, add=FALSE, timer=FALSE)
       cat("source('",src,"') : ",max(na.omit(system.time(source(src)))),
         " seconds elapsed.\n", sep='')
     else 
-      source(src)
+      yy[[src]] <- source(src)
   }
+  invisible(yy)
 }
 
 
 # By entering "G" on the console, go() is run. This is faster than typing "go()"...
-
-print.GO <- function(x) { go() }; G <- NA; class(G) <- 'GO'
+print.GO <- function(x,...) {go()}
+G <- structure(NA, class="GO")
+#class(G) <- "GO"
 
 # end of go.R
-

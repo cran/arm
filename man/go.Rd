@@ -1,5 +1,6 @@
 \name{go}
 \alias{go}
+\alias{G}
 
 \title{Function to Recall Last Source File}
 
@@ -7,13 +8,12 @@
     A function that like source() but recalls the last source file names by default.
 }
 \usage{
-go(..., which.source=NULL, add=FALSE, timer=FALSE)
+go(..., add=FALSE, timer=FALSE)
 }
 \arguments{
-  \item{...}{list of filenames as character strings}
-  \item{which.source}{the source file of which the first arugment belongs to}
-  \item{add}{add these names to the current list? if replace, then FALSE}
-  \item{timer}{time the execution time of go()}
+  \item{...}{list of filenames as character strings.}
+  \item{add}{add these names to the current list? if replace, then FALSE.}
+  \item{timer}{time the execution time of go().}
 }
 
 %\details{}
@@ -33,6 +33,7 @@ go(..., which.source=NULL, add=FALSE, timer=FALSE)
     go('myprog','somelib')  # same as above
     go('mytest')            # will run source('mytest') only
     go()                    # runs source('mytest') again
+    G                       # short cut to call go()
  }
 
 \keyword{methods}

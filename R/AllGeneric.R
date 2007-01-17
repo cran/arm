@@ -1,20 +1,20 @@
-#if (!isGeneric("coefplot")) {
-#    setGeneric("coefplot",
-#               function(fit, ...)
-#               standardGeneric("coefplot"))
-#}
+if (!isGeneric("coefplot")) {
+    setGeneric("coefplot",
+               function(object, ...)
+               standardGeneric("coefplot"))
+}
 
 
 if (!isGeneric("display")) {
     setGeneric("display",
-               function(object, digits=2)
+               function(object, ...)
                standardGeneric("display"))
 }
 
 
 if (!isGeneric("sim")) {
     setGeneric("sim",
-               function(object, n.sims=100)
+               function(object, ...)
                standardGeneric("sim"))
 }
 

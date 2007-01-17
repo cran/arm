@@ -1,4 +1,31 @@
-2006-1-9  Yu-Sung Su    y<s463@columbia.edu>
+2006-1-17  Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-6; Remove Brugs dependency.
+    * NAMESPACE: register bugs class.
+    * R/load.first.R: remove Brugs requirement (so arm can cross-platforms).
+
+2006-1-16  Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-5; Remove Brugs from Depends 
+        to Suggests.
+    * NAMESPACE: export binned.plot, coefplot.default, coefplot.bugs function, 
+        coeplot methods.
+    * man/binned.plot.Rd: Add decription file.
+    * man/coefplot.Rd: Add two examples for polr.
+    * R/AllGeneric.R: add coefplot generic.
+    * R/AllMethod.R: add coefplot.lm, coefplot.glm, coefplot.polr, 
+        coef.bugs methods.
+    * R/binned.plot.R: add binned.plot, binned.residual code.
+    * R/load.first.R: Call Brugs, car, foreign automatically.
+    
+2006-1-10  Yu-Sung Su     <ys463@columbia.edu>
+    * R/AllClass.R: register polr class.
+    * R/load.first.R: Add working directory checking.
+
+2006-1-9  Jouni Kerman    <kerman@stat.columbia.edu>
+          Yu-Sung Su      <ys463@columbia.edu>
+    * NAMESPACE: export G for use, register print.GO S3 method.
+    * R/go.R: drop unused argument.
+
+2006-1-9  Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-4
     * NAMESPACE: export sim.lm, sim.glm, sim.mer.
     * man/coefplot.Rd: Add two examples that compares glm and bayesglm.

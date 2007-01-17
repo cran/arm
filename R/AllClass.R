@@ -1,0 +1,2 @@
+setOldClass("polr")
+setOldClass("bugs")

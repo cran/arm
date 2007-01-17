@@ -15,6 +15,11 @@
 
 \usage{
 sigma.hat(object)
+
+# methods for sigma.hat()
+sigma.hat.lm (object)
+sigma.hat.glm (object)
+sigma.hat.mer (object)
 }
 
 \arguments{

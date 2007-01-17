@@ -1,20 +1,38 @@
 \name{coefplot}
+\docType{genericFunction}
 \alias{coefplot}
+\alias{coefplot,lm-method}
+\alias{coefplot,glm-method}
+\alias{coefplot,bugs-method}
+\alias{coefplot,polr-method}
+\alias{coefplot.default}
+\alias{coefplot.bugs}
 
-\title{Function for Making Coefficient Plot }
+
+\title{Generic Function for Making Coefficient Plot}
 \description{
- A function that plot the coefficients from a lm or glm fit
+ Functions that plot the coefficients from a lm, glm, bugs, and polr fits.
 }
 \usage{
-coefplot(fit, longnames=NULL,
-        xlim=NULL, ylim=NULL, 
-        xlab="", ylab="", main="", ...,   
-        intercept=FALSE, varnames=TRUE, display.fit=FALSE, 
-        cex.var=0.8, cex.pts=0.9)
+coefplot(object, ...)
+
+# methods for coefplot()
+coefplot.default (object, longnames=NULL,
+            xlim=NULL, ylim=NULL, 
+            xlab="", ylab="", main="", 
+            intercept=FALSE, varnames=TRUE, 
+            cex.var=0.8, cex.pts=0.9, col.pts=1)
+
+coefplot.bugs (object, longnames=NULL,
+            xlim=NULL, ylim=NULL, 
+            xlab="", ylab="", main="", 
+            varnames=TRUE, cex.var=0.8, cex.pts=0.9, col.pts=1)
+            
 }
 
 \arguments{
-  \item{fit}{fitted objects-lm or glm.}
+  \item{object}{fitted objects-lm, glm, bugs and polr.}
+  \item{...}{further arguments passed to or from other methods.}
   \item{longnames}{long variable names (vector). 
                     If not provided, use default variable names.}
   \item{xlim}{the x limits (x1, x2) of the plot.  Note that 'x1 > x2' is
@@ -22,19 +40,15 @@ coefplot(fit, longnames=NULL,
   \item{ylim}{the y limits of the plot}
   \item{xlab}{a label for the x axis, default is "".}
   \item{ylab}{a label for the y axis, default is "".}
-  \item{main}{a main title for the plot, default is "". See also 'title'.}
-  \item{...}{other plot options may be passed to this function, see 
-    \code{\link{plot.default}} and \code{\link{par}}.}
+  \item{main}{a main title for the plot, default is "". See also \code{title}.}
   \item{intercept}{If TRUE will plot intercept, default=FALSE.}
   \item{varnames}{ If FALSE will not plot variable names, default=TRUE.}
-  \item{display.fit}{If TRUE will display fitted output, default=FALSE.}
   \item{cex.var}{The fontsize of the varible names, default=0.8.}
   \item{cex.pts}{The size of data points, default=0.9.}
-  
-
+  \item{col.pts}{color of points and segments, default is black}
 }
 \details{
-  This function plots coefficients from lm and glm 
+  This function plots coefficients from lm, glm and polr
   with 1 sd and 2 sd interval bars.
 }
 \value{
@@ -73,18 +87,18 @@ coefplot(fit, longnames=NULL,
  # plot 1
  par (mfrow=c(2,2))
  coefplot(fit1)
- coefplot(fit2)
+ coefplot(fit2, col.pts="blue")
  
  
  # plot 2
  par (mar=c(2,8,2,0.5))
- coefplot(fit1, longnames=longnames, display=TRUE)
+ coefplot(fit1, longnames=longnames, intercept=TRUE)
  
  # plot 3
  par (mar=c(2,2,2,2))
  coefplot(fit2, longnames=longnames, varnames=FALSE)
  
- # plot comparison to show bayesglm works better than glm
+ # plot 4: comparison to show bayesglm works better than glm
  n <- 100
  x1 <- rnorm (n)
  x2 <- rbinom (n, 1, .5)
@@ -101,24 +115,39 @@ coefplot(fit, longnames=NULL,
  M2 <- bayesglm (y ~ x1 + x2, family=binomial(link="logit"))
        display (M2)
  
- ## stacked plot
- par(mar=c(2,5,3,1), mgp=c(2,0.25,0), oma=c(0,0,2,0), tcl=-0.2)
+    ## stacked plot
+    par(mar=c(2,5,3,1), mgp=c(2,0.25,0), oma=c(0,0,2,0), tcl=-0.2)
  
- coefplot(M2, xlim=c(0,7.5), intercept=TRUE)
- points(coef(M1), c(3:1)-0.1, col="red", pch=19)
- segments(coef(M1) + se.coef(M1), c(3:1)-0.1,
-    coef(M1) - se.coef(M1), c(3:1)-0.1, lwd=2, col="red")
- segments(coef(M1) + 2*se.coef(M1), c(3:1)-0.1,
-    coef(M1) - 2*se.coef(M1), c(3:1)-0.1, col="red")    
- mtext("Coefficients", side=3, at=0.1, outer=TRUE)
- mtext("Estimate", side=3, at=0.6, outer=TRUE)
+    coefplot(M2, xlim=c(-1,5), intercept=TRUE)
+    points(coef(M1), c(3:1)-0.1, col="red", pch=19)
+    segments(coef(M1) + se.coef(M1), c(3:1)-0.1,
+        coef(M1) - se.coef(M1), c(3:1)-0.1, lwd=2, col="red")
+    segments(coef(M1) + 2*se.coef(M1), c(3:1)-0.1,
+        coef(M1) - 2*se.coef(M1), c(3:1)-0.1, col="red")    
+    mtext("Coefficients", side=3, at=0.1, outer=TRUE)
+    mtext("Estimate", side=3, at=0.6, outer=TRUE)
  
- ## arrayed plot
- par(mfrow=c(1,2), mar=c(2,5,5,1), mgp=c(2,0.25,0), tcl=-0.2)
- x.scale <- c(0, 7.5) # fix x.scale for comparison
+    ## arrayed plot
+    par(mfrow=c(1,2), mar=c(2,5,5,1), mgp=c(2,0.25,0), tcl=-0.2)
+    x.scale <- c(0, 7.5) # fix x.scale for comparison
  
- coefplot(M1, xlim=x.scale, main="glm", intercept=TRUE)
- coefplot(M2, xlim=x.scale, main="bayesglm", intercept=TRUE) 
+    coefplot(M1, xlim=x.scale, main="glm", intercept=TRUE)
+    coefplot(M2, xlim=x.scale, main="bayesglm", intercept=TRUE)
+
+# plot 5: the ordered logit model from polr
+ M3 <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
+ par (mar=c(2,8,2,0.5))
+ coefplot(M3)
+   
+ M4 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
+ par (mar=c(2,8,2,0.5))
+ coefplot(M4)
+
+# plot 6: plot bugs 
+ M5 <- lmer(Reaction ~ Days + (1|Subject), sleepstudy)
+ M5.sim <- mcsamp(M5)
+ coefplot(M5.sim)   
 }
 
 \keyword{dplot}
+\keyword{methods}

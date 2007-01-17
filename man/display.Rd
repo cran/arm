@@ -16,8 +16,9 @@
     clean printout of lm, glm, mer and polr objects.}
 
 \usage{
-    display (object, digits = 2)
-    
+    display (object, ...)
+
+# methods for display()    
     display.lm (object, digits=2)
     display.glm (object, digits=2)
     display.mer (object, digits=2)
@@ -27,6 +28,7 @@
 \arguments{
   \item{object}{The output of a call to lm, glm, mer, polr, or related regressions 
     function with n data points and k predictors.}
+  \item{...}{further arguments passed to or from other methods.}
   \item{digits}{number of significant digits to display.}
   }
 

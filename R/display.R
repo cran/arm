@@ -12,7 +12,6 @@ display.lm <- function(object, digits=2){
     ", R-Squared = ", fround (summ$r.squared, 2), "\n", sep=""))
 }
 
-
 display.glm <- function(object, digits=2){
     call <- object$call
     summ <- summary (object)

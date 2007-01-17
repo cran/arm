@@ -1,62 +1,83 @@
 # coefplot methods
 
-#setMethod("coefplot", signature(object = "lm"),
-#    function(fit, ...)
-#   coefplot.lm (fit, ...)
-#    }
-#)
+setMethod("coefplot", signature(object = "lm"), 
+    function(object, ...)
+    {
+    coefplot.default (object, ...)
+    }
+)
 
+setMethod("coefplot", signature(object = "glm"),
+    function(object, ...)
+    {
+    coefplot.default (object, ...)
+    }
+)
+
+setMethod("coefplot", signature(object = "bugs"),
+    function(object, ...)
+    {
+    coefplot.bugs (object, ...)
+    }
+)
+
+setMethod("coefplot", signature(object = "polr"),
+    function(object, ...)
+    {
+    coefplot.default (object, ...)
+    }
+)
 
 # display methods
 
 setMethod("display", signature(object = "lm"),
-    function(object, digits=2)
+    function(object, ...)
     {
-    display.lm (object, digits=2)
+    display.lm (object, ...)
     }
 )
 
 setMethod("display", signature(object = "glm"),
-    function(object, digits=2)
+    function(object, ...)
     {
-    display.glm (object, digits=2)
+    display.glm (object, ...)
     }
 )
 
 setMethod("display", signature(object = "mer"),
-    function(object, digits=2)
+    function(object, ...)
     {
-    display.mer (object, digits=2)
+    display.mer (object, ...)
     }
 )
 
 setMethod("display", signature(object = "polr"),
-    function(object, digits=2)
+    function(object, ...)
     {
-    display.polr (object, digits=2)
+    display.polr (object, ...)
     }
 )
 
 # sim methods
 
 setMethod("sim", signature(object = "lm"),
-    function(object, n.sims=100)
+    function(object, ...)
     {
-    sim.lm (object, n.sims=100)
+    sim.lm (object, ...)
     }
 )
 
 setMethod("sim", signature(object = "glm"),
-    function(object, n.sims=100)
+    function(object, ...)
     {
-    sim.glm (object, n.sims=100)
+    sim.glm (object, ...)
     }
 )
 
 setMethod("sim", signature(object = "mer"),
-    function(object, n.sims=100)
+    function(object, ...)
     {
-    sim.mer (object, n.sims=100)
+    sim.mer (object, ...)
     }
 )
 

@@ -4,13 +4,16 @@ export(
        "balanceplot",
        "bayesglm",
        "bayesglm.fit",
-       "bayespolr", 
-       "coefplot", 
-       "corrplot",
+       "bayespolr",
+       "binned.plot",
+       "coefplot.default",
+       "coefplot.bugs",
+       "corrplot",  
        "display.lm", 
        "display.glm",
        "display.mer",
        "display.polr",
+       "G",
        "go",
        "invlogit",
        "matching", 
@@ -32,8 +35,11 @@ export(
 
 
 exportMethods(
+              "coefplot",
               "display",
               "se.coef",
               "sim",
               "sigma.hat"
               )
+
+S3method(print, GO)

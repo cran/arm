@@ -21,6 +21,7 @@ se.coef (object)
 se.fixef (object)
 se.ranef (object)
 
+# methods for se.coef()
 se.coef.lm (object)
 se.coef.glm (object)
 se.coef.mer (object)
@@ -30,8 +31,8 @@ se.coef.mer (object)
 }
 \value{
   \code{se.coef} gives lists of standard errors for \code{coef},
-  \code{se.fixef} gives a vector of standard errors for \code{coef} and
-  \code{se.ranef} gives a list of standard errors for \code{coef}.
+  \code{se.fixef} gives a vector of standard errors for \code{fixef} and
+  \code{se.ranef} gives a list of standard errors for \code{ranef}.
 }
 \details{
   \code{se.coef} extracts standard errors from objects 

@@ -3,7 +3,11 @@
   ver <- packageDescription("arm", lib = mylib)$Version
   builddate <- packageDescription("arm", lib = mylib)$Date
   cat(paste("\narm (Version ", ver, ", built: ", builddate, ")\n", sep = ""))
-  #cat ("Working directory is", getwd(), "\n")
+  cat ("Working directory is", getwd(), "\n")
+  if(!any(search()=="package:car"))
+    require(car)
+  if(!any(search()=="package:foreign"))
+    require(foreign) 
   if(!any(search()=="package:MASS"))
     require(MASS) 
   if(!any(search()=="package:Matrix"))
@@ -12,7 +16,7 @@
     require(lme4) 
   if(!any(search()=="package:R2WinBUGS"))
     require(R2WinBUGS)
-  if(!any(search()=="package:BRugs"))
-    require(BRugs) 
-  options(digits = 2)
+  #if(!any(search()=="package:BRugs"))
+  #  require(BRugs)
+  options(digits = 2, papersize="letter")
 }
