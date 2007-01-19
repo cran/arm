@@ -7,7 +7,7 @@
 \alias{coefplot,polr-method}
 \alias{coefplot.default}
 \alias{coefplot.bugs}
-
+\alias{coefplot.polr}
 
 \title{Generic Function for Making Coefficient Plot}
 \description{
@@ -22,6 +22,11 @@ coefplot.default (object, longnames=NULL,
             xlab="", ylab="", main="", 
             intercept=FALSE, varnames=TRUE, 
             cex.var=0.8, cex.pts=0.9, col.pts=1)
+
+coefplot.polr (object, longnames=NULL, 
+               xlim=NULL, ylim=NULL, 
+               xlab="", ylab="", main="",   
+               varnames=TRUE, cex.var=0.8, cex.pts=0.9, col.pts=1)
 
 coefplot.bugs (object, longnames=NULL,
             xlim=NULL, ylim=NULL, 
@@ -41,7 +46,7 @@ coefplot.bugs (object, longnames=NULL,
   \item{xlab}{a label for the x axis, default is "".}
   \item{ylab}{a label for the y axis, default is "".}
   \item{main}{a main title for the plot, default is "". See also \code{title}.}
-  \item{intercept}{If TRUE will plot intercept, default=FALSE.}
+  \item{intercept}{If TRUE will plot intercept, default=FALSE to get better presentation.}
   \item{varnames}{ If FALSE will not plot variable names, default=TRUE.}
   \item{cex.var}{The fontsize of the varible names, default=0.8.}
   \item{cex.pts}{The size of data points, default=0.9.}

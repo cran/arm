@@ -9,7 +9,7 @@ coefplot.default <- function (object,
     coefs <- summary(object)$coef[,1]
     n.x <- length(coefs)
     sd <- summary(object)$coef[,2][1:(n.x)]
-    if (intercept){
+    if (terms(object)@intercept==0|intercept==TRUE){
         idx <- seq(1, n.x)
         if (is.null(longnames)){
             longnames <- names(coefs)
@@ -32,18 +32,13 @@ coefplot.default <- function (object,
     
 
     # create x.aixs.scale and y.axis.scale
-    if (is.null(xlim)){
-        min.x <- round(range(coefs-2*sd)[1], 1)-0.1                               
-        max.x <- round(range(coefs+2*sd)[2], 1)+0.1                                 
-        xlim <- c(min.x, max.x)                                                                                    
-    }
+    if (!is.null(xlim)) xlim <- xlim 
     
-    if (is.null(ylim)){
-        ylim <- c((n.x+0.5), 0.5)  
-    }
+    if (!is.null(ylim)) ylim <- ylim
     
-    plot(coefs, idx, type="n",                                     
-        xlim=xlim, ylim=ylim, 
+    plot(c(coefs+2*sd, coefs-2*sd), c(idx,idx), type="n",                                     
+        xlim=xlim, 
+        ylim=ylim, 
         xlab=xlab, ylab=ylab,                   
         main=main, axes=F)                                                   
     axis(1)                                
@@ -56,7 +51,7 @@ coefplot.default <- function (object,
     # plot variable names or not
     if (varnames){
         axis(2, 1:n.x, longnames[1:n.x], las=2, tck=FALSE, 
-            lty=0, hadj=1, cex.axis=cex.var)  
+            lty=0, cex.axis=cex.var)  
     }
 }                                                                         
 
@@ -79,17 +74,12 @@ coefplot.bugs <- function (object,
     }
                                                         
     # create x.aixs.scale and y.axis.scale
-    if (is.null(xlim)){
-        min.x <- round(range(CI95[,1])[1], 1)-0.1                               
-        max.x <- round(range(CI95[,2])[2], 1)+0.1                                 
-        xlim <- c(min.x, max.x)                                                                                    
-    }
+    if (!is.null(xlim)) xlim <- xlim 
     
-    if (is.null(ylim)){
-        ylim <- c((n.x-1+0.5), 0.5)  
-    }
+    if (!is.null(ylim)) ylim <- ylim
     
-    plot(coefs, idx, type="n",                                     
+    
+    plot(c(CI95[,1],CI95[,2]), c(idx,idx), type="n",                                     
         xlim=xlim, ylim=ylim, 
         xlab=xlab, ylab=ylab,                   
         main=main, axes=F)                                                   
@@ -106,3 +96,40 @@ coefplot.bugs <- function (object,
             lty=0, hadj=1, cex.axis=cex.var)  
     }
 }
+
+coefplot.polr <- function (object,
+                longnames=NULL, 
+                xlim=NULL, ylim=NULL, 
+                xlab="", ylab="", main="",   
+                varnames=TRUE, cex.var=0.8, cex.pts=0.9, col.pts=1)
+{
+    # collect informations
+    coefs <- summary(object)$coef[,1]
+    n.x <- length(coefs)
+    sd <- summary(object)$coef[,2][1:(n.x)]
+    idx <- seq(1, n.x)
+    ifelse (is.null(longnames), longnames <- names(coefs), 
+        longnames <- longnames)
+
+    # create x.aixs.scale and y.axis.scale
+    if (!is.null(xlim)) xlim <- xlim 
+    
+    if (!is.null(ylim)) ylim <- ylim
+    
+    plot(c(coefs+2*sd, coefs-2*sd), c(idx,idx), type="n",                                     
+        xlim=xlim, ylim=ylim, 
+        xlab=xlab, ylab=ylab,                   
+        main=main, axes=F)                                                   
+    axis(1)                                
+    axis(3)
+    abline(v=0, lty=2)                                                 
+    points(coefs, idx, pch=19, cex=cex.pts, col=col.pts)
+    segments (coefs+sd, idx, coefs-sd, idx, lwd=2, col=col.pts)     
+    segments (coefs+2*sd, idx, coefs-2*sd, idx, lwd=1, col=col.pts)
+    
+    # plot variable names or not
+    if (varnames){
+        axis(2, 1:n.x, longnames[1:n.x], las=2, tck=FALSE, 
+            lty=0, cex.axis=cex.var)  
+    }
+}                                                                         

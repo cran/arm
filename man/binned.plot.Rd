@@ -10,7 +10,7 @@
  binned.plot(x ,y, nclass=floor(sqrt(length(x))), 
     xlab="Expected Values", ylab="Average residual", 
     main="Binned residual plot", 
-    cex.pts=0.8, col.pts=1)
+    cex.pts=0.8, col.pts=1, col.int="gray")
 }
 
 \arguments{
@@ -23,8 +23,9 @@
   \item{ylab}{a label for the y axis, default is "Average residual".}       
   \item{main}{a main title for the plot, default is "Binned residual plot". 
     See also \code{title}.}
-  \item{cex.pts}{The size of data points, default=0.8.}
-  \item{col.pts}{color of points and segments, default is black}
+  \item{cex.pts}{The size of points, default=0.8.}
+  \item{col.pts}{color of points, default is black}
+  \item{col.int}{color of intervals, default is gray}
 }
 
 \details{
@@ -42,10 +43,9 @@ if the model were actually true.
 }
 \references{ Andrew Gelman and Jennifer Hill, 
              Data Analysis Using Regression and Multilevel/Hierarchical Models, 
-             Cambridge University Press, 2006. Chapter 5.}
+             Cambridge University Press, 2006.}
 
-\author{Andrew Gelman \email{gelman@stat.columbia.edu};
-        M.Grazia Pittau \email{grazia@stat.columbia.edu};
+\author{M. Grazia Pittau \email{grazia@stat.columbia.edu};
         Yu-Sung Su \email{ys463@columbia.edu}
 }
         

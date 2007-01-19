@@ -8,6 +8,7 @@ export(
        "binned.plot",
        "coefplot.default",
        "coefplot.bugs",
+       "coefplot.polr",
        "corrplot",  
        "display.lm", 
        "display.glm",

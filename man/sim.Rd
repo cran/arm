@@ -19,7 +19,7 @@ simulations of beta from a mer object
 \usage{
 sim(object, ...)
 
-# methods for sims()
+# methods for sim()
 sim.lm (object, n.sims = 100)
 sim.glm (object, n.sims = 100)
 sim.mer (object, n.sims = 100)
@@ -98,6 +98,13 @@ sim.mer (object, n.sims = 100)
  E2 <- lmer (y ~ x + u.full + (1 | group))
  display(E2)
  E2.sim <- sim (E2)
+
+# Example 3 
+ y <- rbinom (n, 1, invlogit (a[group] + b*x))
+ E3 <- lmer (y ~ x + (1 | group), family=binomial(link="logit"),
+    control=list(usePQL=TRUE))
+ display(E3)
+ E3.sim <- sim (E3)
 }
 
 \keyword{models}

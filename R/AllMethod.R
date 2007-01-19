@@ -24,7 +24,7 @@ setMethod("coefplot", signature(object = "bugs"),
 setMethod("coefplot", signature(object = "polr"),
     function(object, ...)
     {
-    coefplot.default (object, ...)
+    coefplot.polr (object, ...)
     }
 )
 

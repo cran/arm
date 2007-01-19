@@ -5,7 +5,7 @@
 binned.plot <- function(x, y, nclass=floor(sqrt(length(x))), 
     xlab="Expected Values", ylab="Average residual", 
     main="Binned residual plot", 
-    cex.pts=0.8, col.pts=1)
+    cex.pts=0.8, col.pts=1, col.int="gray")
 {
 
          
@@ -18,9 +18,9 @@ binned.plot <- function(x, y, nclass=floor(sqrt(length(x))),
     plot(range(aa$xbar), range(aa$ybar, aa$X2se, -aa$X2se), 
         xlab=xlab, ylab=ylab, type="n", main=main)
     abline (0,0, lty=2)
-    lines (aa$xbar, aa$X2se, col="gray")
-    lines (aa$xbar, -aa$X2se, col="gray")
-    points (aa$xbar, aa$ybar, pch=20, cex=cex.pts, col=col.pts)
+    lines (aa$xbar, aa$X2se, col=col.int)
+    lines (aa$xbar, -aa$X2se, col=col.int)
+    points (aa$xbar, aa$ybar, pch=19, cex=cex.pts, col=col.pts)
 }
 
 binned.resids <- function (x, y, nclass=floor(sqrt(length(x)))){

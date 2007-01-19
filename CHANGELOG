@@ -1,3 +1,10 @@
+2006-1-18  Yu-Sung Su     <ys463@columbia.edu>
+           M. Grazia Pittau <grazia@stat.columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-7
+    * R/coefplot.R: fit when -1 is used in formula, change scaling in x-axis,
+        drop unused hadj, add coefplot.polr().
+    * R/sim.R: fix a bug when try to sim glmer.
+
 2006-1-17  Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-6; Remove Brugs dependency.
     * NAMESPACE: register bugs class.
