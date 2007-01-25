@@ -16,9 +16,5 @@
     require(lme4) 
   if(!any(search()=="package:R2WinBUGS"))
     require(R2WinBUGS)
-  #if (.Platform$OS.type == "windows"){
-  #  if(!any(search()=="package:BRugs"))
-  #   require(BRugs)
-  #}
   options(digits = 2, papersize="letter")
 }

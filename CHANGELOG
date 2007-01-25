@@ -1,3 +1,16 @@
+2006-1-25  Yu-Sung Su     <ys463@columbia.edu>
+           M. Grazia Pittau <grazia@stat.columbia.edu>
+    * R/sigma.hat.R: sigma.mer.R identifies gaussian glm 
+            as lm and returns residual
+
+2006-1-24  Andrew Gelman     <gelman@stat.columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-9
+    * R/bayesglm.R: now works for gaussian.
+
+2006-1-19  Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-8
+    * R/load.first.R: remove .platform condition to make pacakge universal.
+
 2006-1-18  Yu-Sung Su     <ys463@columbia.edu>
            M. Grazia Pittau <grazia@stat.columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-7

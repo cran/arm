@@ -206,17 +206,18 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
             z <- (eta - offset)[good] + (y - mu)[good]/mu.eta.val[good]
             w <- sqrt((weights[good] * mu.eta.val[good]^2)/variance(mu)[good])
             ngoodobs <- as.integer(nobs - sum(!good))
+            coefs.hat <- rep (0, ncol(x))                 #####
         dispersion <- if (family$family %in% c("poisson", ##### code taken
             "binomial"))                                 ##### from summary.glm
             1                                            #####
         else {                                           #####
-            sum((w*(y-mu)[good]^2)/(ngoodobs-ncol(x)))   #####
+            mean((w*(z-x%*%coefs.hat))^2)                ##### This is a kludge
         }                                                #####
             z.star <- c(z, prior.mean)
             x.star <- rbind(x, diag(NCOL(x)))
             if (intercept) 
                 x.star[NROW(x) + 1, ] <- colMeans(x)
-            w.star <- c(w/sqrt(dispersion), 1/prior.sd)  #####
+            w.star <- c(w, sqrt(dispersion)/prior.sd)    #### This is a kludge
             good.star <- c(good, rep(TRUE, NCOL(x)))
             ngoodobs.star <- ngoodobs + NCOL(x)
             fit <- .Fortran("dqrls", qr = x.star[good.star, ] * 
@@ -346,6 +347,7 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
         0
     else fit$rank
     resdf <- n.ok - rank
+    resdf <- n.ok    # This is a kludge; we'd prefer a better kludge from Hal
     aic.model <- aic(y, n, mu, weights, dev) + 2 * rank
     list(coefficients = coef, residuals = residuals, fitted.values = mu, 
         effects = if (!EMPTY) fit$effects, R = if (!EMPTY) Rmat, 
@@ -356,5 +358,5 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
         df.residual = resdf, df.null = nulldf, y = y, converged = conv, 
         boundary = boundary,                                             #####
         prior.mean=prior.mean, prior.scale=prior.scale,                  #####
-         prior.df=prior.df, prior.sd=prior.sd)                           #####
+        prior.df=prior.df, prior.sd=prior.sd)                           #####
 }

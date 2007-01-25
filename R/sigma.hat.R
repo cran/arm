@@ -9,7 +9,12 @@ sigma.hat.lm <- function(object){
 
 sigma.hat.glm <- function(object){
     object.class <- class(object)[[1]]
-    sigma <- summary(object, correlation=TRUE)$sigma
+    if(object$family$family=="gaussian"){
+        sigma <- summary.lm(object)$sigma
+    }
+    else {
+        sigma <- summary(object, correlation=TRUE)$sigma
+    }
     return (sigma)
 }
 
