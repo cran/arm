@@ -1,4 +1,4 @@
-bayesglm <-
+bayesglm <- 
 function (formula, family = gaussian, data, weights, subset, 
     na.action, start = NULL, etastart, mustart, offset, control = glm.control(...), 
     model = TRUE, method = "glm.fit", x = FALSE, y = TRUE, contrasts = NULL, 
@@ -83,38 +83,44 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
     scaled = TRUE) 
 {
     J <- NCOL(x)
-    if (length(prior.mean) == 1) 
-        prior.mean <- rep(prior.mean, J)
-    if (length(prior.scale) == 1) {
-        prior.scale <- rep(prior.scale, J)
-        y.scale <- 1
-        if (scaled == TRUE){
-          if (family$family=="gaussian") {            #####
-            y.obs <- y[!is.na(y)]                     #####
-            num.categories <- length(unique(y))       #####
-            if (num.categories==2)                    #####
-              y.scale <- max(y.obs) - min(y.obs)      #####
-            else                                      #####
-              y.scale <- 2*sd(y.obs)                  #####
-          }                                           #####
-            for (j in 1:J) {
-                x.obs <- x[, j]
-                x.obs <- x.obs[!is.na(x.obs)]
-                num.categories <- length(unique(x.obs))
-                if (num.categories == 2) {
-                  prior.scale[j] <- prior.scale[j]*y.scale/(max(x.obs) - #####
-                    min(x.obs))
-                }
-                else if (num.categories > 2) {
-                  prior.scale[j] <- prior.scale[j]*y.scale/(2*sd(x.obs)) #####
-                }
-            }
-        }
+    if (length(prior.mean) == 1) {
+      prior.mean <- rep(prior.mean, J)
     }
-    if (is.numeric(prior.scale.for.intercept) & intercept) 
-        prior.scale[1] <- prior.scale.for.intercept
-    if (length(prior.df) == 1) 
-        prior.df <- rep(prior.df, J)
+    if (length(prior.scale) == 1) {
+      prior.scale <- rep(prior.scale, J)
+    }
+    if (scaled == TRUE) {
+      y.scale <- 1
+      if (family$family == "gaussian") {
+        y.obs <- y[!is.na(y)]
+        num.categories <- length(unique(y.obs))
+        if (num.categories == 2) {
+          y.scale <- max(y.obs) - min(y.obs)
+        }
+        else if (num.categories > 2) {
+          y.scale <- 2 * sd(y.obs)
+        }
+      }
+      for (j in 1:J) {
+        x.obs <- x[, j]
+        x.obs <- x.obs[!is.na(x.obs)]
+        num.categories <- length(unique(x.obs))
+        x.scale <- 1
+        if (num.categories == 2) {
+          x.scale <- max(x.obs) - min(x.obs)
+        }
+        else if (num.categories > 2) {
+          x.scale <- 2*sd(x.obs)
+        }
+        prior.scale[j] <- prior.scale[j]*y.scale/x.scale
+      }
+    }
+    if (is.numeric(prior.scale.for.intercept) & intercept) {
+      prior.scale[1] <- prior.scale.for.intercept*y.scale
+    }
+    if (length(prior.df) == 1) {
+      prior.df <- rep(prior.df, J)
+    }
     x <- as.matrix(x)
     xnames <- dimnames(x)[[2]]
     ynames <- if (is.matrix(y)) 
@@ -186,6 +192,8 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
         devold <- sum(dev.resids(y, mu, weights))
         boundary <- conv <- FALSE
         prior.sd <- prior.scale
+        dispersion <- 1
+        dispersionold <- dispersion
         for (iter in 1:control$maxit) {
             good <- weights > 0
             varmu <- variance(mu)[good]
@@ -206,18 +214,12 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
             z <- (eta - offset)[good] + (y - mu)[good]/mu.eta.val[good]
             w <- sqrt((weights[good] * mu.eta.val[good]^2)/variance(mu)[good])
             ngoodobs <- as.integer(nobs - sum(!good))
-            coefs.hat <- rep (0, ncol(x))                 #####
-        dispersion <- if (family$family %in% c("poisson", ##### code taken
-            "binomial"))                                 ##### from summary.glm
-            1                                            #####
-        else {                                           #####
-            mean((w*(z-x%*%coefs.hat))^2)                ##### This is a kludge
-        }                                                #####
+            coefs.hat <- rep(0, ncol(x))
             z.star <- c(z, prior.mean)
             x.star <- rbind(x, diag(NCOL(x)))
             if (intercept) 
                 x.star[NROW(x) + 1, ] <- colMeans(x)
-            w.star <- c(w, sqrt(dispersion)/prior.sd)    #### This is a kludge
+            w.star <- c(w, sqrt(dispersion)/prior.sd)
             good.star <- c(good, rep(TRUE, NCOL(x)))
             ngoodobs.star <- ngoodobs + NCOL(x)
             fit <- .Fortran("dqrls", qr = x.star[good.star, ] * 
@@ -243,6 +245,12 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
             eta <- drop(x %*% start)
             mu <- linkinv(eta <- eta + offset)
             dev <- sum(dev.resids(y, mu, weights))
+            if (!(family$family %in% c("poisson", "binomial"))) {
+              mse.resid <- mean((w * (z - x %*% coefs.hat))^2)
+              mse.uncertainty <- mean (diag (x %*% V.coefs %*% t(x))) *
+                dispersion
+              dispersion <- mse.resid + mse.uncertainty 
+            }
             if (control$trace) 
                 cat("Deviance =", dev, "Iterations -", iter, 
                   "\n")
@@ -287,15 +295,16 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
                 if (control$trace) 
                   cat("Step halved: new deviance =", dev, "\n")
             }
-            if (iter > 1 & abs(dev - devold)/(0.1 + abs(dev)) < 
-                control$epsilon) {
-                conv <- TRUE
-                coef <- start
-                break
+            if (iter>1 & abs(dev-devold)/(0.1+abs(dev))<control$epsilon &
+                abs(dispersion-dispersionold)/(0.1+abs(dispersion))<control$epsilon) {
+              conv <- TRUE
+              coef <- start
+              break
             }
             else {
-                devold <- dev
-                coef <- coefold <- start
+              devold <- dev
+              dispersionold <- dispersion
+              coef <- coefold <- start
             }
         }
         if (!conv) 
@@ -347,7 +356,7 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
         0
     else fit$rank
     resdf <- n.ok - rank
-    resdf <- n.ok    # This is a kludge; we'd prefer a better kludge from Hal
+    resdf <- n.ok
     aic.model <- aic(y, n, mu, weights, dev) + 2 * rank
     list(coefficients = coef, residuals = residuals, fitted.values = mu, 
         effects = if (!EMPTY) fit$effects, R = if (!EMPTY) Rmat, 
@@ -356,7 +365,6 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
         linear.predictors = eta, deviance = dev, aic = aic.model, 
         null.deviance = nulldev, iter = iter, weights = wt, prior.weights = weights, 
         df.residual = resdf, df.null = nulldf, y = y, converged = conv, 
-        boundary = boundary,                                             #####
-        prior.mean=prior.mean, prior.scale=prior.scale,                  #####
-        prior.df=prior.df, prior.sd=prior.sd)                           #####
+        boundary = boundary, prior.mean = prior.mean, prior.scale = prior.scale, 
+        prior.df = prior.df, prior.sd = prior.sd, dispersion = dispersion)
 }

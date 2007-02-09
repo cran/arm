@@ -8,7 +8,7 @@
 \alias{sim.glm}
 \alias{sim.mer}
 
-\title{Functions to Get Posterios Distributions}
+\title{Functions to Get Posterior Distributions}
 
 \description{
 This generic function gets posterior simulations of sigma and beta from a lm object, or

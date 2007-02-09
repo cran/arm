@@ -1,56 +1,66 @@
 \name{coefplot}
 \docType{genericFunction}
 \alias{coefplot}
+\alias{coefplot,numeric-method}
 \alias{coefplot,lm-method}
 \alias{coefplot,glm-method}
 \alias{coefplot,bugs-method}
 \alias{coefplot,polr-method}
 \alias{coefplot.default}
+\alias{coefplot.lm}
+\alias{coefplot.glm}
 \alias{coefplot.bugs}
 \alias{coefplot.polr}
 
 \title{Generic Function for Making Coefficient Plot}
 \description{
- Functions that plot the coefficients from a lm, glm, bugs, and polr fits.
+ Functions that plot the coefficients $\pm$ 1 and 2 sd 
+ from a lm, glm, bugs, and polr fits.
 }
 \usage{
 coefplot(object, ...)
 
-# methods for coefplot()
-coefplot.default (object, longnames=NULL,
-            xlim=NULL, ylim=NULL, 
-            xlab="", ylab="", main="", 
-            intercept=FALSE, varnames=TRUE, 
-            cex.var=0.8, cex.pts=0.9, col.pts=1)
+coefplot.default(coefs, sds, 
+                varnames=NULL, CI=2, vertical=TRUE, 
+                xlim=NULL, ylim=NULL, 
+                xlab="", ylab="", main="",   
+                cex.var=0.8, cex.pts=0.9, col.pts=1,
+                var.las=2)
 
-coefplot.polr (object, longnames=NULL, 
+# methods for coefplot()           
+coefplot.lm (object, varnames=NULL, intercept=FALSE, ...)
+coefplot.glm (object, varnames=NULL, intercept=FALSE, ...)
+coefplot.polr (object, varnames=NULL, ...)
+coefplot.bugs (object, varnames=NULL, CI=2,
                xlim=NULL, ylim=NULL, 
                xlab="", ylab="", main="",   
-               varnames=TRUE, cex.var=0.8, cex.pts=0.9, col.pts=1)
-
-coefplot.bugs (object, longnames=NULL,
-            xlim=NULL, ylim=NULL, 
-            xlab="", ylab="", main="", 
-            varnames=TRUE, cex.var=0.8, cex.pts=0.9, col.pts=1)
-            
+               cex.var=0.8, cex.pts=0.9, col.pts=1)
 }
 
 \arguments{
-  \item{object}{fitted objects-lm, glm, bugs and polr.}
+  \item{object}{fitted objects-lm, glm, bugs and polr, or a vector of coefficients.}
   \item{...}{further arguments passed to or from other methods.}
-  \item{longnames}{long variable names (vector). 
-                    If not provided, use default variable names.}
+  \item{coefs}{a vector of coefficients.}
+  \item{sds}{a vector of sds of coefficients.}
+  \item{varnames}{a vector of variable names, default is NULL, which will use
+    the names of variables.}
+  \item{CI}{confidence interval, default is 2, which will plot $\pm 2$ sds or
+    95\% CI. If CI=1, plot $\pm 1$ sds or 50\% CI instead.}
+  \item{vertical}{orientation of the plot, default is TRUE which will plot
+    variable names in the 2nd axis. If FALSE, plot variable names in the first
+    axis instead.}
   \item{xlim}{the x limits (x1, x2) of the plot.  Note that 'x1 > x2' is
           allowed and leads to a "reversed axis".}
-  \item{ylim}{the y limits of the plot}
+  \item{ylim}{the y limits of the plot.}
   \item{xlab}{a label for the x axis, default is "".}
   \item{ylab}{a label for the y axis, default is "".}
-  \item{main}{a main title for the plot, default is "". See also \code{title}.}
-  \item{intercept}{If TRUE will plot intercept, default=FALSE to get better presentation.}
-  \item{varnames}{ If FALSE will not plot variable names, default=TRUE.}
+  \item{main}{a main title for the plot, default is "". See also \code{title}.} 
   \item{cex.var}{The fontsize of the varible names, default=0.8.}
   \item{cex.pts}{The size of data points, default=0.9.}
-  \item{col.pts}{color of points and segments, default is black}
+  \item{col.pts}{color of points and segments, default is black.}
+  \item{var.las}{the orientation of variable names against the axis, default is 2. 
+    see the usage of \code{las} in \code{\link{par}}.}
+  \item{intercept}{If TRUE will plot intercept, default=FALSE to get better presentation.}
 }
 \details{
   This function plots coefficients from lm, glm and polr
@@ -97,11 +107,11 @@ coefplot.bugs (object, longnames=NULL,
  
  # plot 2
  par (mar=c(2,8,2,0.5))
- coefplot(fit1, longnames=longnames, intercept=TRUE)
+ coefplot(fit1, longnames, intercept=TRUE, CI=1)
  
  # plot 3
  par (mar=c(2,2,2,2))
- coefplot(fit2, longnames=longnames, varnames=FALSE)
+ coefplot(fit2, vertical=FALSE, var.las=1)
  
  # plot 4: comparison to show bayesglm works better than glm
  n <- 100
@@ -151,7 +161,14 @@ coefplot.bugs (object, longnames=NULL,
 # plot 6: plot bugs 
  M5 <- lmer(Reaction ~ Days + (1|Subject), sleepstudy)
  M5.sim <- mcsamp(M5)
- coefplot(M5.sim)   
+ coefplot(M5.sim)
+ 
+# plot 7: plot coefficients & sds vectors
+ coef.vect <- c(0.2, 1.4, 2.3, 0.5)
+ sd.vect <- c(0.12, 0.24, 0.23, 0.15)
+ longnames <- c("var1", "var2", "var3", "var4")
+ coefplot (coef.vect, sd.vect, longnames)
+ coefplot (coef.vect, sd.vect, longnames, vertical=FALSE, var.las=1)
 }
 
 \keyword{dplot}

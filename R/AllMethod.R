@@ -1,16 +1,22 @@
 # coefplot methods
+setMethod("coefplot", signature(object = "numeric"), 
+    function(object, ...)
+    {
+    coefplot.default (coefs=object, ...)
+    }
+)
 
 setMethod("coefplot", signature(object = "lm"), 
     function(object, ...)
     {
-    coefplot.default (object, ...)
+    coefplot.lm (object, ...)
     }
 )
 
 setMethod("coefplot", signature(object = "glm"),
     function(object, ...)
     {
-    coefplot.default (object, ...)
+    coefplot.glm (object, ...)
     }
 )
 

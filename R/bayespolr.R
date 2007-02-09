@@ -1,35 +1,33 @@
 bayespolr <-
-function (formula, data, weights, start, ..., subset, na.action,
-    contrasts = NULL, Hess = TRUE, model = TRUE, 
-    method = c("logistic", "probit", "cloglog", "cauchit"), 
-    prior.mean = 0, prior.scale = 2.5,
-    prior.df = 1, scaled = TRUE, prior.mean.for.cutpoints = 0,
+function (formula, data, weights, start, ..., subset, na.action, 
+    contrasts = NULL, Hess = TRUE, model = TRUE, method = c("logistic", 
+        "probit", "cloglog", "cauchit"), drop.unused.levels=TRUE, prior.mean = 0, prior.scale = 2.5, 
+    prior.df = 1, scaled = TRUE, prior.mean.for.cutpoints = 0, 
     prior.scale.for.cutpoints = 10, prior.df.for.cutpoints = 1, 
-    n.iter = 100)
+    n.iter = 100) 
 {
     logit <- function(p) log(p/(1 - p))
     dt.deriv <- function(x, mean, scale, df, log = TRUE, delta = 0.001) {
-        (dt((x + delta - mean)/scale, df, log = log) - 
-            dt((x - delta - mean)/scale, df, log = log))/(2 * delta)
+        (dt((x + delta - mean)/scale, df, log = log) - dt((x - 
+            delta - mean)/scale, df, log = log))/(2 * delta)
     }
     fmin <- function(beta) {
         theta <- beta[pc + 1:q]
-        gamm <- c(-100, cumsum(c(theta[1], exp(theta[-1]))),
+        gamm <- c(-100, cumsum(c(theta[1], exp(theta[-1]))), 
             100)
         eta <- offset
-        if (pc > 0)
+        if (pc > 0) 
             eta <- eta + drop(x %*% beta[1:pc])
         pr <- pfun(gamm[y + 1] - eta) - pfun(gamm[y] - eta)
-        if (all(pr > 0))
+        if (all(pr > 0)) 
             f <- -sum(wt * log(pr))
         else f <- Inf
         zeta <- cumsum(c(theta[1], exp(theta[-1])))
         zeta.centered <- zeta - sum(beta[1:pc] * colMeans(x))
-        f <- f - sum(dt((zeta.centered - 
-            prior.mean.for.cutpoints)/prior.scale.for.cutpoints,
+        f <- f - sum(dt((zeta.centered - prior.mean.for.cutpoints)/prior.scale.for.cutpoints, 
             prior.df.for.cutpoints, log = TRUE))
-        if (pc > 0)
-            f <- f - sum(dt((beta[1:pc] - prior.mean)/prior.scale,
+        if (pc > 0) 
+            f <- f - sum(dt((beta[1:pc] - prior.mean)/prior.scale, 
                 prior.df, log = TRUE))
         return(f)
     }
@@ -43,15 +41,15 @@ function (formula, data, weights, start, ..., subset, na.action,
             mat
         }
         theta <- beta[pc + 1:q]
-        gamm <- c(-100, cumsum(c(theta[1], exp(theta[-1]))),
+        gamm <- c(-100, cumsum(c(theta[1], exp(theta[-1]))), 
             100)
         eta <- offset
-        if (pc > 0)
+        if (pc > 0) 
             eta <- eta + drop(x %*% beta[1:pc])
         pr <- pfun(gamm[y + 1] - eta) - pfun(gamm[y] - eta)
         p1 <- dfun(gamm[y + 1] - eta)
         p2 <- dfun(gamm[y] - eta)
-        g1 <- if (pc > 0)
+        g1 <- if (pc > 0) 
             t(x) %*% (wt * (p1 - p2)/pr)
         else numeric(0)
         xx <- .polrY1 * p1 - .polrY2 * p2
@@ -59,27 +57,27 @@ function (formula, data, weights, start, ..., subset, na.action,
         g2 <- t(g2) %*% jacobian(theta)
         zeta <- cumsum(c(theta[1], exp(theta[-1])))
         zeta.centered <- zeta - sum(beta[1:pc] * colMeans(x))
-        g2 <- g2 - dt.deriv(zeta.centered, prior.mean.for.cutpoints,
-            prior.scale.for.cutpoints, prior.df.for.cutpoints,
+        g2 <- g2 - dt.deriv(zeta.centered, prior.mean.for.cutpoints, 
+            prior.scale.for.cutpoints, prior.df.for.cutpoints, 
             log = TRUE)
-        if (pc > 0)
-            g1 <- g1 - dt.deriv(beta[1:pc], prior.mean, prior.scale,
+        if (pc > 0) 
+            g1 <- g1 - dt.deriv(beta[1:pc], prior.mean, prior.scale, 
                 prior.df, log = TRUE)
-        if (all(pr) > 0)
+        if (all(pr) > 0) 
             c(g1, g2)
         else rep(NA, pc + q)
     }
     m <- match.call(expand.dots = FALSE)
-    mf <- match(c("formula", "data", "subset", "weights", "na.action", #####
-        "etastart", "mustart", "offset"), names(m), 0)                 #####
-    m <- m[c(1, mf)]                                                   #####
-    m$drop.unused.levels <- TRUE                                       #####
+    mf <- match(c("formula", "data", "subset", "weights", "na.action", 
+        "etastart", "mustart", "offset"), names(m), 0)
+    m <- m[c(1, mf)]
+    m$drop.unused.levels <- drop.unused.levels
     method <- match.arg(method)
-    pfun <- switch(method, logistic = plogis, probit = pnorm,
+    pfun <- switch(method, logistic = plogis, probit = pnorm, 
         cloglog = pgumbel, cauchit = pcauchy)
-    dfun <- switch(method, logistic = dlogis, probit = dnorm,
+    dfun <- switch(method, logistic = dlogis, probit = dnorm, 
         cloglog = dgumbel, cauchit = dcauchy)
-    if (is.matrix(eval.parent(m$data)))
+    if (is.matrix(eval.parent(m$data))) 
         m$data <- as.data.frame(data)
     m$start <- m$Hess <- m$method <- m$... <- NULL
     m[[1]] <- as.name("model.frame")
@@ -96,16 +94,16 @@ function (formula, data, weights, start, ..., subset, na.action,
     }
     else warning("an intercept is needed and assumed")
     wt <- model.weights(m)
-    if (!length(wt))
+    if (!length(wt)) 
         wt <- rep(1, n)
     offset <- model.offset(m)
-    if (length(offset) <= 1)
+    if (length(offset) <= 1) 
         offset <- rep(0, n)
     y <- model.response(m)
-    if (!is.factor(y))
+    if (!is.factor(y)) 
         stop("response must be a factor")
     lev <- levels(y)
-    if (length(lev) <= 2)
+    if (length(lev) <= 2) 
         stop("response must have 3 or more levels")
     y <- unclass(y)
     q <- length(lev) - 1
@@ -113,30 +111,27 @@ function (formula, data, weights, start, ..., subset, na.action,
     .polrY1 <- col(Y) == y
     .polrY2 <- col(Y) == y - 1
     if (missing(start)) {
-        q1 <- length(lev)%/%2
+        q1 <- length(lev)%/%2 
         y1 <- (y > q1)
         X <- cbind(Intercept = rep(1, n), x)
-        fit <- switch(method, logistic = bayesglm.fit(X, y1,
-            wt, family = binomial(), offset = offset, intercept = TRUE,
-            prior.mean = prior.mean, prior.scale = prior.scale,
-            prior.scale.for.intercept = 10, prior.df = prior.df,
-            scaled = scaled, control = glm.control(maxit = n.iter)), #####
-          probit = bayesglm.fit(X, y1, wt,
-            family = binomial("probit"), offset = offset, intercept = TRUE,
-            prior.mean = prior.mean, prior.scale = prior.scale,
-            prior.scale.for.intercept = 10, prior.df = prior.df,
-            scaled = scaled, control = glm.control(maxit = n.iter)), #####
-          cloglog = bayesglm.fit(X, y1, wt,
-            family = binomial("probit"), offset = offset, intercept = TRUE,
-            prior.mean = prior.mean, prior.scale = prior.scale,
-            prior.scale.for.intercept = 10, prior.df = prior.df,
-            scaled = scaled, control = glm.control(maxit = n.iter)), #####
-          cauchit = bayesglm.fit(X, y1, wt,
-            family = binomial("cauchit"), offset = offset, intercept = TRUE,
-            prior.mean = prior.mean, prior.scale = prior.scale,
-            prior.scale.for.intercept = 10, prior.df = prior.df,
-            scaled = scaled, control = glm.control(maxit = n.iter))) #####
-        if (!fit$converged)
+        fit <- switch(method, logistic = bayesglm.fit(X, y1, 
+            wt, family = binomial(), offset = offset, intercept = TRUE, 
+            prior.mean = prior.mean, prior.scale = prior.scale, 
+            prior.scale.for.intercept = 10, prior.df = prior.df, 
+            scaled = scaled, control = glm.control(maxit = n.iter)), 
+            probit = bayesglm.fit(X, y1, wt, family = binomial("probit"), 
+                offset = offset, intercept = TRUE, prior.mean = prior.mean, 
+                prior.scale = prior.scale, prior.scale.for.intercept = 10, 
+                prior.df = prior.df, scaled = scaled, control = glm.control(maxit = n.iter)), 
+            cloglog = bayesglm.fit(X, y1, wt, family = binomial("probit"), 
+                offset = offset, intercept = TRUE, prior.mean = prior.mean, 
+                prior.scale = prior.scale, prior.scale.for.intercept = 10, 
+                prior.df = prior.df, scaled = scaled, control = glm.control(maxit = n.iter)), 
+            cauchit = bayesglm.fit(X, y1, wt, family = binomial("cauchit"), 
+                offset = offset, intercept = TRUE, prior.mean = prior.mean, 
+                prior.scale = prior.scale, prior.scale.for.intercept = 10, 
+                prior.df = prior.df, scaled = scaled, control = glm.control(maxit = n.iter)))
+        if (!fit$converged) 
             stop("attempt for find suitable starting values failed")
         coefs <- fit$coefficients
         if (any(is.na(coefs))) {
@@ -147,16 +142,16 @@ function (formula, data, weights, start, ..., subset, na.action,
             pc <- ncol(x)
         }
         spacing <- logit((1:q)/(q + 1))
-        if (method != "logit")
+        if (method != "logit") 
             spacing <- spacing/1.7
         gammas <- -coefs[1] + spacing - spacing[q1]
         thetas <- c(gammas[1], log(diff(gammas)))
         start <- c(coefs[-1], thetas)
     }
-    else if (length(start) != pc + q)
+    else if (length(start) != pc + q) 
         stop("'start' is not of the correct length")
     J <- NCOL(x)
-    if (length(prior.mean) == 1)
+    if (length(prior.mean) == 1) 
         prior.mean <- rep(prior.mean, J)
     if (length(prior.scale) == 1) {
         prior.scale <- rep(prior.scale, J)
@@ -166,7 +161,7 @@ function (formula, data, weights, start, ..., subset, na.action,
                 x.obs <- x.obs[!is.na(x.obs)]
                 num.categories <- length(unique(x.obs))
                 if (num.categories == 2) {
-                  prior.scale[j] <- prior.scale[j]/(max(x.obs) -
+                  prior.scale[j] <- prior.scale[j]/(max(x.obs) - 
                     min(x.obs))
                 }
                 else if (num.categories > 2) {
@@ -175,15 +170,19 @@ function (formula, data, weights, start, ..., subset, na.action,
             }
         }
     }
-    if (length(prior.df) == 1)
+    if (length(prior.df) == 1) 
         prior.df <- rep(prior.df, J)
-    if (length(prior.mean.for.cutpoints) == 1)
-        prior.mean.for.cutpoints <- rep(prior.mean.for.cutpoints, q)
-    if (length(prior.scale.for.cutpoints) == 1)
-        prior.scale.for.cutpoints <- rep(prior.scale.for.cutpoints, q)
-    if (length(prior.df.for.cutpoints) == 1)
-        prior.df.for.cutpoints <- rep(prior.df.for.cutpoints, q)
-    res <- optim(start, fmin, gmin, method = "BFGS", hessian = Hess,...)
+    if (length(prior.mean.for.cutpoints) == 1) 
+        prior.mean.for.cutpoints <- rep(prior.mean.for.cutpoints, 
+            q)
+    if (length(prior.scale.for.cutpoints) == 1) 
+        prior.scale.for.cutpoints <- rep(prior.scale.for.cutpoints, 
+            q)
+    if (length(prior.df.for.cutpoints) == 1) 
+        prior.df.for.cutpoints <- rep(prior.df.for.cutpoints, 
+            q)
+    res <- optim(start, fmin, gmin, method = "BFGS", hessian = Hess, 
+        ...)
     beta <- res$par[seq_len(pc)]
     theta <- res$par[pc + 1:q]
     zeta <- cumsum(c(theta[1], exp(theta[-1])))
@@ -197,15 +196,14 @@ function (formula, data, weights, start, ..., subset, na.action,
     else {
         eta <- rep(0, n)
     }
-    cumpr <- matrix(pfun(matrix(zeta, n, q, byrow = TRUE) - eta), , q)
+    cumpr <- matrix(pfun(matrix(zeta, n, q, byrow = TRUE) - eta), 
+        , q)
     fitted <- t(apply(cumpr, 1, function(x) diff(c(0, x, 1))))
     dimnames(fitted) <- list(row.names(m), lev)
-    fit <- list(coefficients = beta, zeta = zeta, deviance = deviance,
-        fitted.values = fitted, lev = lev, terms = Terms, 
-            df.residual = sum(wt) - pc - q, 
-            edf = pc + q, n = sum(wt), 
-            nobs = sum(wt),
-        call = match.call(), method = method, convergence = res$convergence,
+    fit <- list(coefficients = beta, zeta = zeta, deviance = deviance, 
+        fitted.values = fitted, lev = lev, terms = Terms, df.residual = sum(wt) - 
+            pc - q, edf = pc + q, n = sum(wt), nobs = sum(wt), 
+        call = match.call(), method = method, convergence = res$convergence, 
         niter = niter)
     if (Hess) {
         dn <- c(names(beta), names(zeta))
@@ -213,7 +211,7 @@ function (formula, data, weights, start, ..., subset, na.action,
         dimnames(H) <- list(dn, dn)
         fit$Hessian <- H
     }
-    if (model)
+    if (model) 
         fit$model <- m
     fit$na.action <- attr(m, "na.action")
     fit$contrasts <- cons

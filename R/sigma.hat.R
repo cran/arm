@@ -1,5 +1,3 @@
-
-
 sigma.hat.lm <- function(object){
     object.class <- class(object)[[1]]
     sigma <- summary(object)$sigma
@@ -10,7 +8,7 @@ sigma.hat.lm <- function(object){
 sigma.hat.glm <- function(object){
     object.class <- class(object)[[1]]
     if(object$family$family=="gaussian"){
-        sigma <- summary.lm(object)$sigma
+        sigma <- sqrt(summary(object)$dispersion)
     }
     else {
         sigma <- summary(object, correlation=TRUE)$sigma

@@ -2,7 +2,7 @@
 # Functions for plotting the binned residuals
 # ====================================================================
 
-binned.plot <- function(x, y, nclass=floor(sqrt(length(x))), 
+binnedplot <- function(x, y, nclass=floor(sqrt(length(x))), 
     xlab="Expected Values", ylab="Average residual", 
     main="Binned residual plot", 
     cex.pts=0.8, col.pts=1, col.int="gray")

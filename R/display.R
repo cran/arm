@@ -12,23 +12,31 @@ display.lm <- function(object, digits=2){
     ", R-Squared = ", fround (summ$r.squared, 2), "\n", sep=""))
 }
 
-display.glm <- function(object, digits=2){
+display.glm <- function (object, digits = 2){
     call <- object$call
-    summ <- summary (object)
-    coef <- summ$coef[,1:2,drop=FALSE]
-    dimnames(coef)[[2]] <- c("coef.est","coef.se")
+    summ <- summary(object)
+    coef <- summ$coef[, 1:2, drop = FALSE]
+    dimnames(coef)[[2]] <- c("coef.est", "coef.se")
     n <- summ$df[1] + summ$df[2]
     k <- summ$df[1]
-    print (call)
-    pfround (coef, digits)
-    cat (paste ("  n = ", n, ", k = ", k,
-        "\n  residual deviance = ", fround (summ$deviance, 1),
-        ", null deviance = ", fround (summ$null.deviance, 1),
-        " (difference = ", fround (summ$null.deviance - summ$deviance, 1), ")",
-        "\n", sep=""))
-      if (summ$dispersion!=1) 
-        cat (paste ("  overdispersion parameter = ",
-          fround (summ$dispersion, 1), "\n", sep=""))
+    print(call)
+    pfround(coef, digits)
+    cat(paste("  n = ", n, ", k = ", k, "\n  residual deviance = ", 
+        fround(summ$deviance, 1), ", null deviance = ", fround(summ$null.deviance, 
+            1), " (difference = ", fround(summ$null.deviance - 
+            summ$deviance, 1), ")", "\n", sep = ""))
+    dispersion <- if (is.null(object$dispersion))
+      summ$dispersion
+    else
+      object$dispersion
+    if (dispersion != 1) {
+      cat(paste("  overdispersion parameter = ",
+                fround(dispersion, 1), "\n", sep = ""))
+      if (family(object)$family=="gaussian") {
+        cat(paste("  residual sd is sqrt(overdispersion) = ",
+                  fround(sqrt(dispersion), digits), "\n", sep = ""))
+      }
+    }
 }
 
 display.mer <- function(object, digits=2){

@@ -57,15 +57,18 @@ sigma.hat.mer (object)
    
    M1 <- lm (y1 ~ x) 
    sigma.hat(M1)
-
-   M2 <- glm (y2 ~ x, family=binomial(link="logit"))
-   sigma.hat(M2)
-
-   M3 <- lmer (y1 ~ (1+x|group))
-   sigma.hat(M3) 
    
-   M4 <- lmer (y2 ~ (1+x|group), family=binomial(link="logit"))
-   sigma.hat(M4)  
+   M2 <- bayesglm (y1 ~ x, prior.scale=Inf, prior.df=Inf)
+   sigma.hat(M2) # should be same to sigma.hat(M1)
+
+   M3 <- glm (y2 ~ x, family=binomial(link="logit"))
+   sigma.hat(M3)
+
+   M4 <- lmer (y1 ~ (1+x|group))
+   sigma.hat(M4) 
+   
+   M5 <- lmer (y2 ~ (1+x|group), family=binomial(link="logit"))
+   sigma.hat(M5)
 }
 
 \keyword{methods}

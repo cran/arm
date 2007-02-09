@@ -1,13 +1,13 @@
-\name{binned.plot}
-\alias{binned.plot}
+\name{binnedplot}
+\alias{binnedplot}
 
-\title{ Binned Residual Plot}
+\title{Binned Residual Plot}
 \description{
   A function that plots averages of y versus averages of x and can be 
   useful to plot residuals for logistic regression.
 }
 \usage{
- binned.plot(x ,y, nclass=floor(sqrt(length(x))), 
+ binnedplot(x ,y, nclass=floor(sqrt(length(x))), 
     xlab="Expected Values", ylab="Average residual", 
     main="Binned residual plot", 
     cex.pts=0.8, col.pts=1, col.int="gray")
@@ -63,6 +63,6 @@ if the model were actually true.
                + nodegr + u74 + u75, family=binomial(link="logit"))
  x <- predict(fit)
  y <- resid(fit)
- binned.plot(x,y)
+ binnedplot(x,y)
 }
 \keyword{dplot}

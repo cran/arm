@@ -12,7 +12,8 @@
 bayespolr(formula, data, weights, start, ..., 
     subset, na.action, contrasts = NULL, 
     Hess = TRUE, model = TRUE, 
-    method = c("logistic", "probit", "cloglog", "cauchit"), 
+    method = c("logistic", "probit", "cloglog", "cauchit"),
+    drop.unused.levels=TRUE, 
     prior.mean = 0, prior.scale = 2.5, prior.df = 1, 
     scaled = TRUE, prior.mean.for.cutpoints = 0, 
     prior.scale.for.cutpoints = 10, prior.df.for.cutpoints = 1,
@@ -58,6 +59,9 @@ bayespolr(formula, data, weights, start, ...,
           (corresponding to a Cauchy latent variable and only available
           in R >= 2.1.0).}
   
+  \item{drop.unused.levels}{default TRUE, if FALSE, it interpolates the
+        intermediate values if the data have integer levels.}
+  
   \item{prior.mean}{prior mean for the coefficients: default is 0. 
     Can be a vector of length equal to the number of predictors 
     (not counting the intercepts). If it is a scalar, it is 
@@ -97,7 +101,8 @@ bayespolr(formula, data, weights, start, ...,
   \item{n.iter}{default is 100.}
 }
 \details{
-The program is a simple alteration of \code{polr()} that augments the 
+The program is a simple alteration of \code{\link[MASS]{polr}} in
+\code{VR} version 7.2-31 that augments the 
 loglikelihood with the log of the t prior distributions for the 
 coefficients.
 

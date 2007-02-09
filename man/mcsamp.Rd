@@ -4,8 +4,8 @@
 \title{Quick Function to Run mcmcsamp() in lme4}
 
 \description{
-    The function for MCMC sampling for
-    lmer and glmer objects and convert to Bugs objects for easy display
+    The quick function for MCMC sampling for
+    lmer and glmer objects and convert to Bugs objects for easy display. 
 }
 \usage{
 mcsamp (object, n.chains=3, n.iter=1000, 
@@ -25,25 +25,33 @@ mcsamp (object, n.chains=3, n.iter=1000,
 }
 
 \details{
-     This generic generates a sample from the posterior
+     This function generates a sample from the posterior
      distribution of the parameters of a fitted model using Markov
-     Chain Monte Carlo methods.
+     Chain Monte Carlo methods. It automatically simulates multiple 
+     sequences and allows convergence to be monitored. The function relies on
+     \code{\link[lme4]{mcmcsamp}} in \code{lme4}.
 }
 
 \value{
-An object of (S3) class '"mcmc"' suitable for use with the
-functions in the "coda" package.
+An object of (S3) class '"bugs"' suitable for use with the
+functions in the "R2WinBUGS" package. 
 }
 
 \references{Andrew Gelman and Jennifer Hill, 
             Data Analysis Using Regression and Multilevel/Hierarchical Models, 
-            Cambridge University Press, 2006.}
+            Cambridge University Press, 2006.
+            
+            Douglas Bates and Deepayan Sarkar,
+            lme4: Linear mixed-effects models using S4 classes.
+            }
 
 \author{Andrew Gelman \email{gelman@stat.columbia.edu}; 
         Yu-Sung Su \email{ys463@columbia.edu}
         }
 
 \seealso{\code{\link{display}},
+        \code{\link[lme4]{lmer}},
+        \code{\link[lme4]{mcmcsamp}},
         \code{\link{sim}}
         }
 

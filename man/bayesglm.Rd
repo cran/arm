@@ -221,6 +221,12 @@ unpublished paper available at \url{http://www.stat.columbia.edu/~gelman/standar
   M6 <- bayesglm (y ~ x1 + x2, family=binomial(link="logit"), 
     prior.scale=2.5, prior.df=Inf)
   display (M6)
+ 
+  # bayesglm with gaussian family (bayes lm)
+  sigma <- 5
+  y2 <- rnorm (n, b0+b1*x1+b2*x2, sigma)
+  M7 <- bayesglm (y2 ~ x1 + x2, prior.scale=Inf, prior.df=Inf)
+  display (M7)
 }
 
 \keyword{models}

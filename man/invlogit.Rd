@@ -1,7 +1,7 @@
 \name{invlogit}
 \alias{invlogit}
 
-\title{Logistic function}
+\title{Inverse logistic function}
 
 \description{
   Inverse-logit function, transforms continuous values to the range (0, 1)

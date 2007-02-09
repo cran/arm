@@ -1,3 +1,23 @@
+2006-2-7  Yu-Sung Su     <ys463@columbia.edu>
+    * R/coefplot.R: lm and glm now use coefplot.fit method. Add a new method 
+        coef.default that can plot coef and sd vectors. Add option veritcal to
+        decide the orientation of the plot.
+    * R/coefplot.Rd: Add an example that plot coef and sd vectors.
+
+2006-2-7  Andrew Gelman     <gelman@stat.columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-11
+    * R/bayespolr.R: add the option of drop.unused.levels.
+
+2006-2-6  Andrew Gelman     <gelman@stat.columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-10
+    * R/bayesglm.R: return residual sd = sqrt(overdispersion)
+        for glm gaussian family.
+    * R/binnedplot.R: change binned.plot() to binnedplot()   
+    * R/display.R: display.glm() displays residual sd for glm gaussian family.
+    * R/sigma.hat.R: sigma.hat.glm() returns residual sd = sqrt(overdispersion) 
+        for glm gaussian family.
+    * fixed typos in sim.Rd and mcsamp.Rd
+    
 2006-1-25  Yu-Sung Su     <ys463@columbia.edu>
            M. Grazia Pittau <grazia@stat.columbia.edu>
     * R/sigma.hat.R: sigma.mer.R identifies gaussian glm 
