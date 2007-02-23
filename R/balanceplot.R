@@ -1,28 +1,36 @@
-balanceplot <- function (rawdata, matched, pscore.fit, 
+balanceplot <- function (matched, pscore.fit, 
                 longcovnames=NULL, 
                 main="Standardized Difference in Means",
                 cex.main=1, cex.vars=0.8, cex.pts=0.8,
-                mar=c(0, 15, 4, 2), mgp=c(2, 0.25, 0), 
+                mar=c(0, 5, 4, 2), mgp=c(2, 0.25, 0), 
                 oma=c(0,0,0,0), tcl=-0.2,
                 ...)
 {
-                
-    treat <- deparse(pscore.fit$formula[-1][[1]])
-    covnames <- dimnames(summary(pscore.fit)$coef)[[1]]
-    covnames <- covnames[-1]
+    
+    vars <- pscore.fit$terms@variables
+    covnames <- gsub("factor(", "", vars, fixed=TRUE)[-1]
+    covnames <- gsub(")", "", covnames, fixed=TRUE)[-1]
+    vars <- eval(vars)
+    n <- length(pscore.fit$y)
+    K <- length(vars)
+    rawdata <- matrix(NA, n, K)
+    for (i in 1:K){
+        rawdata[,i] <- vars[[i]]
+    }
+    colnames(rawdata) <- c("treat", covnames)
 
     # diff.mean.rawdata
     
     cat("\n=========diff.mean.rawdata==========\n")
     diff.means=matrix(0,length(covnames),6)
     for(i in 1:length(covnames)){
-        diff.means[i,1:2] <- c(mean(rawdata[(rawdata[,treat]==1),covnames[i]]),
-            mean(rawdata[(rawdata[,treat]==0),covnames[i]]))
+        diff.means[i,1:2] <- c(mean(rawdata[(rawdata[,"treat"]==1),covnames[i]]),
+            mean(rawdata[(rawdata[,"treat"]==0),covnames[i]]))
         diff.means[i,3] <- diff.means[i,1]-diff.means[i,2]
-        diff.means[i,5] <- sqrt(var(rawdata[(rawdata[,treat]==1),covnames[i]])/
-            sum((rawdata[,treat]==1)) + var(rawdata[(rawdata[,treat]==0),covnames[i]])/sum((rawdata[,treat]==0)))
-        diff.means[i,6] <- sqrt((var(rawdata[(rawdata[,treat]==1),covnames[i]])+
-            var(rawdata[(rawdata[,treat]==0),covnames[i]]))/2)
+        diff.means[i,5] <- sqrt(var(rawdata[(rawdata[,"treat"]==1),covnames[i]])/
+            sum((rawdata[,"treat"]==1)) + var(rawdata[(rawdata[,"treat"]==0),covnames[i]])/sum((rawdata[,"treat"]==0)))
+        diff.means[i,6] <- sqrt((var(rawdata[(rawdata[,"treat"]==1),covnames[i]])+
+            var(rawdata[(rawdata[,"treat"]==0),covnames[i]]))/2)
         diff.means[i,4] <- diff.means[i,3]/diff.means[i,6]
     }
     dimnames(diff.means) <- list(covnames,
@@ -33,13 +41,13 @@ balanceplot <- function (rawdata, matched, pscore.fit,
     cat("\n=========diff.mean.matched.data==========\n")
     diff.means.matched=matrix(0,length(covnames),6)
     for(i in 1:length(covnames)){
-        diff.means.matched[i,1:2] <- c(mean(matched[(matched[,treat]==1),
-            covnames[i]]),mean(matched[(matched[,treat]==0),covnames[i]]))
+        diff.means.matched[i,1:2] <- c(mean(matched[(matched[,"treat"]==1),
+            covnames[i]]),mean(matched[(matched[,"treat"]==0),covnames[i]]))
         diff.means.matched[i,3] <- diff.means.matched[i,1]-diff.means.matched[i,2]
-        diff.means.matched[i,5] <- sqrt(var(matched[(matched[,treat]==1),covnames[i]])/
-            sum((rawdata[,treat]==1)) + var(rawdata[(rawdata[,treat]==0),covnames[i]])/sum((rawdata[,treat]==0)))
-        diff.means.matched[i,6] <- sqrt((var(rawdata[(rawdata[,treat]==1),covnames[i]])+
-            var(rawdata[(rawdata[,treat]==0),covnames[i]]))/2)
+        diff.means.matched[i,5] <- sqrt(var(matched[(matched[,"treat"]==1),covnames[i]])/
+            sum((rawdata[,"treat"]==1)) + var(rawdata[(rawdata[,"treat"]==0),covnames[i]])/sum((rawdata[,"treat"]==0)))
+        diff.means.matched[i,6] <- sqrt((var(rawdata[(rawdata[,"treat"]==1),covnames[i]])+
+            var(rawdata[(rawdata[,"treat"]==0),covnames[i]]))/2)
         diff.means.matched[i,4] <- diff.means.matched[i,3]/diff.means.matched[i,6]
     }
 
@@ -74,7 +82,7 @@ balanceplot <- function (rawdata, matched, pscore.fit,
     bty="n", xlab="", ylab="",
     xaxt="n", yaxt="n", xaxs="i", 
     yaxs="i", type="n",
-    ylim=c(0,length(covnames)+0.5),
+    ylim=c(length(covnames)+.5,0),
     xlim=x.range,
     main=main, cex.main=cex.main)
     abline(v=0, lty=2)

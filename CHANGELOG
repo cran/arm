@@ -1,4 +1,12 @@
-2006-2-7  Yu-Sung Su     <ys463@columbia.edu>
+2006-2-23  Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-13
+    * R/balanceplot.R: Drop the rawdata parameter, fixed the bug of variable name 
+        ordering in y-axis. Fixed the bug when pscore.fit uses factors.
+    * R/balanceplot.Rd: Revise the example, add factor(educ) in.
+    * R/matching.Rd: Revise the example, add factor(educ) in.
+
+2006-2-7  Yu-Sung Su        <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-12
     * R/coefplot.R: lm and glm now use coefplot.fit method. Add a new method 
         coef.default that can plot coef and sd vectors. Add option veritcal to
         decide the orientation of the plot.

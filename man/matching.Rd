@@ -38,12 +38,13 @@ Regression and Multilevel/Hierarchical Models, Cambridge University Press, 2006.
 \examples{
 data(lalonde)
 attach(lalonde)
-fit <- glm(treat ~ re74 + re75 + educ + black + hisp + married 
-               + nodegr + u74 + u75, family=binomial(link="logit"))
+fit <- glm(treat ~ re74 + re75 + age + factor(educ) + 
+            black + hisp + married + nodegr + u74 + u75, 
+            family=binomial(link="logit"))
 pscores <- predict(fit, type="link")
 matches <- matching(z=lalonde$treat, score=pscores)
 matched <- lalonde[matches$matched,]  
-balanceplot(lalonde, matched, fit)
+balanceplot(matched, fit)
 }
 
 \keyword{models}

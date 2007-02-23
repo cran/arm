@@ -6,18 +6,17 @@
   This function plots the balance statistics before and after matching.
 }
 \usage{
-balanceplot(rawdata, matched, pscore.fit, 
+balanceplot(matched, pscore.fit, 
     longcovnames = NULL, 
     main = "Standardized Difference in Means", 
     cex.main = 1, cex.vars = 0.8, cex.pts = 0.8, 
-    mar = c(0, 15, 4, 2), mgp = c(2, 0.25, 0), 
+    mar = c(0, 5, 4, 2), mgp = c(2, 0.25, 0), 
     oma = c(0, 0, 0, 0), tcl = -0.2, ...)
 }
 
 \arguments{
-  \item{rawdata}{unmatched rawdata}
-  \item{matched}{matched data using "matching" function}
-  \item{pscore.fit}{glm.fit object to get pscore}
+  \item{matched}{matched data using \code{matching} function, see the example below.}
+  \item{pscore.fit}{glm.fit object to get propensity scores.}
   \item{longcovnames}{long covariate names.  If not provided, plot will 
             use covariate variable name by default}
   \item{main}{title of the plot}
@@ -55,12 +54,13 @@ Regression and Multilevel/Hierarchical Models, Cambridge University Press, 2006.
 \examples{
 data(lalonde)
 attach(lalonde)
-fit <- glm(treat ~ re74 + re75 + educ + black + hisp + married +
-            nodegr + u74 + u75, family=binomial(link="logit"))
+fit <- glm(treat ~ re74 + re75 + age + factor(educ) + 
+            black + hisp + married + nodegr + u74 + u75, 
+            family=binomial(link="logit"))
 pscores <- predict(fit, type="link")
 matches <- matching(z=lalonde$treat, score=pscores)
 matched <- lalonde[matches$matched,]  
-balanceplot(lalonde, matched, fit)
+balanceplot(matched, fit)
 }
 
 

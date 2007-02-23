@@ -49,6 +49,7 @@ mcsamp <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.iter/2), n
       sims[,,j] <- tanh (sims[,,j])
     }
     else if (substr(par.names[j],1,4)=="eta."){
+      #par.names[j] <- paste ("", substr(par.names[j], 5, nchar(par.names[j])), sep="")
     }
     else if (par.names[j]=="deviance"){          # Su: keep par.names for "deviance"
      sims <- sims[,,-j]                          # Su: delete deviance value from sims
