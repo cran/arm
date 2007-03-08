@@ -1,3 +1,9 @@
+2006-3-8  Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-14
+    * R/bayesglm.R: fix a bug with y.scale and use prior.scale.intercept.default
+        in bayesglm.fit.
+    * R/sigma.hat.R: new way of getting sigma in sigma.hat.glm.
+    
 2006-2-23  Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-13
     * R/balanceplot.R: Drop the rawdata parameter, fixed the bug of variable name 

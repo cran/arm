@@ -49,7 +49,7 @@ function (formula, family = gaussian, data, weights, subset,
         etastart = etastart, mustart = mustart, offset = offset, 
         family = family, control = glm.control(maxit = n.iter), 
         intercept = attr(mt, "intercept") > 0, prior.mean = prior.mean, 
-        prior.scale = prior.scale, prior.scale.for.intercept = prior.scale.for.intercept, 
+        prior.scale = prior.scale, prior.scale.for.intercept.default = prior.scale.for.intercept, 
         prior.df = prior.df, scaled = scaled)
     if (any(offset) && attr(mt, "intercept") > 0) {
         cat("bayesglm not yet set up to do deviance comparion here\n")
@@ -57,7 +57,7 @@ function (formula, family = gaussian, data, weights, subset,
             drop = FALSE], y = Y, weights = weights, offset = offset, 
             family = family, control = control, intercept = TRUE, 
             prior.mean = prior.mean, prior.scale = prior.scale, 
-            prior.scale.for.intercept = prior.scale.for.intercept, 
+            prior.scale.for.intercept.default = prior.scale.for.intercept, 
             prior.df = prior.df, scaled = scaled)$deviance
     }
     if (model) 
@@ -75,51 +75,57 @@ function (formula, family = gaussian, data, weights, subset,
     fit
 }
 
-bayesglm.fit <-
-function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL, 
+bayesglm.fit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL, 
     mustart = NULL, offset = rep(0, nobs), family = gaussian(), 
     control = glm.control(), intercept = TRUE, prior.mean = 0, 
-    prior.scale = 2.5, prior.scale.for.intercept = 10, prior.df = 1, 
+    prior.scale = 2.5, prior.scale.for.intercept.default = 10, prior.df = 1, 
     scaled = TRUE) 
 {
     J <- NCOL(x)
     if (length(prior.mean) == 1) {
-      prior.mean <- rep(prior.mean, J)
+        prior.mean <- rep(prior.mean, J)
     }
     if (length(prior.scale) == 1) {
-      prior.scale <- rep(prior.scale, J)
+        prior.scale <- rep(prior.scale, J)
+        prior.scale.for.intercept <- prior.scale.for.intercept.default
     }
+    else{ 
+        if (length(prior.scale) != J) { 
+            stop ( message = paste ("Prior.scale should be length 1 or ", J ) )
+        }
+        prior.scale.for.intercept <- NULL
+    }
+    y.scale <- 1
     if (scaled == TRUE) {
-      y.scale <- 1
-      if (family$family == "gaussian") {
-        y.obs <- y[!is.na(y)]
-        num.categories <- length(unique(y.obs))
-        if (num.categories == 2) {
-          y.scale <- max(y.obs) - min(y.obs)
+        if (family$family == "gaussian") {
+            y.obs <- y[!is.na(y)]
+            num.categories <- length(unique(y.obs))
+            if (num.categories == 2) {
+                y.scale <- max(y.obs) - min(y.obs)
+            }
+            else if (num.categories > 2) {
+                y.scale <- 2 * sd(y.obs)
+            }
         }
-        else if (num.categories > 2) {
-          y.scale <- 2 * sd(y.obs)
+        for (j in 1:J) {
+            x.obs <- x[, j]
+            x.obs <- x.obs[!is.na(x.obs)]
+            num.categories <- length(unique(x.obs))
+            x.scale <- 1
+            if (num.categories == 2) {
+                x.scale <- max(x.obs) - min(x.obs)
+            }
+            else if (num.categories > 2) {
+                x.scale <- 2 * sd(x.obs)
+            }
+            prior.scale[j] <- prior.scale[j] * y.scale/x.scale
         }
-      }
-      for (j in 1:J) {
-        x.obs <- x[, j]
-        x.obs <- x.obs[!is.na(x.obs)]
-        num.categories <- length(unique(x.obs))
-        x.scale <- 1
-        if (num.categories == 2) {
-          x.scale <- max(x.obs) - min(x.obs)
-        }
-        else if (num.categories > 2) {
-          x.scale <- 2*sd(x.obs)
-        }
-        prior.scale[j] <- prior.scale[j]*y.scale/x.scale
-      }
     }
     if (is.numeric(prior.scale.for.intercept) & intercept) {
-      prior.scale[1] <- prior.scale.for.intercept*y.scale
+        prior.scale[1] <- prior.scale.for.intercept * y.scale
     }
     if (length(prior.df) == 1) {
-      prior.df <- rep(prior.df, J)
+        prior.df <- rep(prior.df, J)
     }
     x <- as.matrix(x)
     xnames <- dimnames(x)[[2]]
@@ -246,10 +252,10 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
             mu <- linkinv(eta <- eta + offset)
             dev <- sum(dev.resids(y, mu, weights))
             if (!(family$family %in% c("poisson", "binomial"))) {
-              mse.resid <- mean((w * (z - x %*% coefs.hat))^2)
-              mse.uncertainty <- mean (diag (x %*% V.coefs %*% t(x))) *
-                dispersion
-              dispersion <- mse.resid + mse.uncertainty 
+                mse.resid <- mean((w * (z - x %*% coefs.hat))^2)
+                mse.uncertainty <- mean(diag(x %*% V.coefs %*% 
+                  t(x))) * dispersion
+                dispersion <- mse.resid + mse.uncertainty
             }
             if (control$trace) 
                 cat("Deviance =", dev, "Iterations -", iter, 
@@ -295,16 +301,17 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
                 if (control$trace) 
                   cat("Step halved: new deviance =", dev, "\n")
             }
-            if (iter>1 & abs(dev-devold)/(0.1+abs(dev))<control$epsilon &
-                abs(dispersion-dispersionold)/(0.1+abs(dispersion))<control$epsilon) {
-              conv <- TRUE
-              coef <- start
-              break
+            if (iter > 1 & abs(dev - devold)/(0.1 + abs(dev)) < 
+                control$epsilon & abs(dispersion - dispersionold)/(0.1 + 
+                abs(dispersion)) < control$epsilon) {
+                conv <- TRUE
+                coef <- start
+                break
             }
             else {
-              devold <- dev
-              dispersionold <- dispersion
-              coef <- coefold <- start
+                devold <- dev
+                dispersionold <- dispersion
+                coef <- coefold <- start
             }
         }
         if (!conv) 

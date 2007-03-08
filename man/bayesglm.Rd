@@ -24,7 +24,7 @@ bayesglm.fit (x, y, weights = rep(1, nobs),
     start = NULL, etastart = NULL, 
     mustart = NULL, offset = rep(0, nobs), family = gaussian(), 
     control = glm.control(), intercept = TRUE,
-    prior.mean=0, prior.scale=2.5, prior.scale.for.intercept=10,
+    prior.mean=0, prior.scale=2.5, prior.scale.for.intercept.default=10,
     prior.df=1, scaled=TRUE)
 }
 
@@ -119,6 +119,8 @@ bayesglm.fit (x, y, weights = rep(1, nobs),
     default is TRUE}
   
   \item{n.iter}{default is 100.}
+  
+  \item{prior.scale.for.intercept.default}{prior scale for the intercept: default is 10.}
   
   \item{\dots}{further arguments passed to or from other methods.}
 }
