@@ -1,3 +1,9 @@
+2006-3-17  Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-15
+    * man/triangleplot.Rd: documentation.
+    * R/triangleplot.R: new function.
+    * R/corrplot.R: now make correlation plot through traingeplot.
+
 2006-3-8  Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-14
     * R/bayesglm.R: fix a bug with y.scale and use prior.scale.intercept.default

@@ -1,31 +1,30 @@
 \name{corrplot}
 \alias{corrplot}
 
-\title{Function for Making Correlation Plot}
+\title{Correlation Plot}
 \description{
 Function for making a correlation plot starting from a data matrix
 }
 
 \usage{
-corrplot (data, var.names=NULL, details=TRUE, n.col.legend=5, cex.col=0.7, 
-    cex.var=0.9, digits=1, color=FALSE, abs=FALSE,...)
+corrplot (data, varnames=NULL, 
+    abs=FALSE, details=TRUE, 
+    n.col.legend=5, cex.col=0.7, 
+    cex.var=0.9, digits=1, color=FALSE)
 }
 
 \arguments{
   \item{data}{a data matrix}
-  \item{var.names}{variable names of the data matrix, if not provided
+  \item{varnames}{variable names of the data matrix, if not provided
                    use default variable names}
-  \item{details}{show more than one digits correlaton values. Default 
-              is true.  FALSE is suggested to get readable output.}
-  \item{n.col.legend}{number of legend for the color thermometer}
-  \item{cex.col}{font size of the color thermometer}
-  \item{cex.var}{font size of the variable names}
-  \item{digits}{number of digits shown in the text of the color theromoeter}
-  \item{color}{color of the plot, default is FALSE, which uses gray scale}
   \item{abs}{if TRUE, transform all correlation values into positive values.}
-  \item{...}{other plot options may be passed to this function, see 
-    \code{\link{plot.default}} and \code{\link{par}}.}
-  
+  \item{details}{show more than one digits correlaton values. Default 
+              is TRUE.  FALSE is suggested to get readable output.}
+  \item{n.col.legend}{number of legend for the color thermometer.}
+  \item{cex.col}{font size of the color thermometer.}
+  \item{cex.var}{font size of the variable names.}
+  \item{digits}{number of digits shown in the text of the color theromoeter.}
+  \item{color}{color of the plot, default is FALSE, which uses gray scale.}
 }
 \details{
 The function adapts the R function for 
@@ -71,7 +70,8 @@ Journal of the American Statistical Association, Vol.101, N0. 474: p.409-23}
  corrplot(test.data)
  
  # example 2
- corrplot(test.data,test.names,n.col.legend=7)
+ corrplot(test.data,test.names, abs=FALSE, n.col.legend=7)
+ corrplot(test.data,test.names, abs=TRUE, n.col.legend=7)
  
  # example 3
  data(lalonde)

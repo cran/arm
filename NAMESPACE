@@ -33,7 +33,8 @@ export(
        "sim.lm",
        "sim.glm",
        "sim.mer",
-       "standardize"
+       "standardize",
+       "triangleplot"
 )
 
 
