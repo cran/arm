@@ -1,5 +1,5 @@
 
-corrplot <- function(data, varnames=NULL, abs=FALSE, details=TRUE, 
+corrplot <- function(data, varnames=NULL, abs=TRUE, details=TRUE, 
                      n.col.legend=5, cex.col=0.7, cex.var=0.9, digits=1, 
                      color=FALSE)
 {

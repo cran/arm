@@ -8,7 +8,7 @@ Function for making a correlation plot starting from a data matrix
 
 \usage{
 corrplot (data, varnames=NULL, 
-    abs=FALSE, details=TRUE, 
+    abs=TRUE, details=TRUE, 
     n.col.legend=5, cex.col=0.7, 
     cex.var=0.9, digits=1, color=FALSE)
 }
@@ -17,7 +17,8 @@ corrplot (data, varnames=NULL,
   \item{data}{a data matrix}
   \item{varnames}{variable names of the data matrix, if not provided
                    use default variable names}
-  \item{abs}{if TRUE, transform all correlation values into positive values.}
+  \item{abs}{if TRUE, transform all correlation values into positive values, 
+        default=TRUE.}
   \item{details}{show more than one digits correlaton values. Default 
               is TRUE.  FALSE is suggested to get readable output.}
   \item{n.col.legend}{number of legend for the color thermometer.}

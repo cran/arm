@@ -36,23 +36,24 @@ mcsamp <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.iter/2), n
     sims[,k,] <- mcmcsamp (object, n.iter, saveb=saveb, trans=TRUE)[(n.burnin+1):n.iter,]
   }
   for (j in 1:n.parameters){
-    if (par.names[j]=="log(sigma^2)"){
+    if (pmatch("log(sigma^2)", par.names[j], nomatch=0)){#=="log(sigma^2)"){
       par.names[j] <- "sigma.y"
       sims[,,j] <- exp (sims[,,j]/2)
     }
-    else if (substr(par.names[j],1,4)=="log("){
+    else if (pmatch("log(", par.names[j], nomatch=0)){#(substr(par.names[j],1,4)=="log("){
       par.names[j] <- paste ("sigma.", substr(par.names[j], 5, nchar(par.names[j])-1), sep="")
       sims[,,j] <- exp (sims[,,j]/2)
     }
-    else if (substr(par.names[j],1,6)=="atanh("){
+    else if (pmatch("atanh(", par.names[j], nomatch=0)){#(substr(par.names[j],1,6)=="atanh("){
       par.names[j] <- paste ("rho.", substr(par.names[j], 7, nchar(par.names[j])-1), sep="")
       sims[,,j] <- tanh (sims[,,j])
     }
-    else if (substr(par.names[j],1,4)=="eta."){
+    else if (pmatch("eta.", par.names[j], nomatch=0)){#(substr(par.names[j],1,4)=="eta."){
       #par.names[j] <- paste ("", substr(par.names[j], 5, nchar(par.names[j])), sep="")
+      par.names[j] <- par.names[j]
     }
-    else if (par.names[j]=="deviance"){          # Su: keep par.names for "deviance"
-     sims <- sims[,,-j]                          # Su: delete deviance value from sims
+    else if (pmatch("deviance", par.names[j], nomatch=0)){#(par.names[j]=="deviance"){          # Su: keep par.names for "deviance"
+        sims <- sims[,,-j]                          # Su: delete deviance value from sims
     } 
     else {
       par.names[j] <- paste ("beta.", par.names[j], sep="")

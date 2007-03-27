@@ -21,6 +21,7 @@ function (formula, family = gaussian, data, weights, subset,
         "etastart", "mustart", "offset"), names(mf), 0)
     mf <- mf[c(1, m)]
     mf$drop.unused.levels <- TRUE
+    mf$na.action <- NULL
     mf[[1]] <- as.name("model.frame")
     mf <- eval(mf, parent.frame())
     switch(method, model.frame = return(mf), glm.fit = 1, stop("invalid 'method': ", 

@@ -37,6 +37,11 @@ balanceplot(matched, pscore.fit,
   balanced after matching.
 }
 
+\note{ 
+ The function does not work with predictors that contain factor(x), log(x) or all
+ other data transformation. Create new objects for these variables.  Attach
+ them into the original dataset before doing the matching procedure.
+}
 
 \references{Andrew Gelman and Jennifer Hill, Data Analysis Using 
 Regression and Multilevel/Hierarchical Models, Cambridge University Press, 2006. 

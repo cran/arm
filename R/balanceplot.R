@@ -7,10 +7,15 @@ balanceplot <- function (matched, pscore.fit,
                 ...)
 {
     
+    response <- as.character(pscore.fit$formula[[2]])
     vars <- pscore.fit$terms@variables
-    covnames <- gsub("factor(", "", vars, fixed=TRUE)[-1]
-    covnames <- gsub(")", "", covnames, fixed=TRUE)[-1]
     vars <- eval(vars)
+    covnames <- pscore.fit$terms@term.labels
+    check1 <- sum(pmatch("factor", covnames, nomatch=0)>0)
+    if (check1>0){
+        covnames <- gsub("factor(", "", covnames, fixed=TRUE)
+        covnames <- gsub(")", "", covnames, fixed=TRUE)
+    }
     n <- length(pscore.fit$y)
     K <- length(vars)
     rawdata <- matrix(NA, n, K)
@@ -41,10 +46,10 @@ balanceplot <- function (matched, pscore.fit,
     cat("\n=========diff.mean.matched.data==========\n")
     diff.means.matched=matrix(0,length(covnames),6)
     for(i in 1:length(covnames)){
-        diff.means.matched[i,1:2] <- c(mean(matched[(matched[,"treat"]==1),
-            covnames[i]]),mean(matched[(matched[,"treat"]==0),covnames[i]]))
+        diff.means.matched[i,1:2] <- c(mean(matched[(matched[,response]==1),
+            covnames[i]]),mean(matched[(matched[,response]==0),covnames[i]]))
         diff.means.matched[i,3] <- diff.means.matched[i,1]-diff.means.matched[i,2]
-        diff.means.matched[i,5] <- sqrt(var(matched[(matched[,"treat"]==1),covnames[i]])/
+        diff.means.matched[i,5] <- sqrt(var(matched[(matched[,response]==1),covnames[i]])/
             sum((rawdata[,"treat"]==1)) + var(rawdata[(rawdata[,"treat"]==0),covnames[i]])/sum((rawdata[,"treat"]==0)))
         diff.means.matched[i,6] <- sqrt((var(rawdata[(rawdata[,"treat"]==1),covnames[i]])+
             var(rawdata[(rawdata[,"treat"]==0),covnames[i]]))/2)
@@ -71,7 +76,7 @@ balanceplot <- function (matched, pscore.fit,
     
     pts <-  est/sd                      # before matched
     pts2 <- est2/sd2                    # after macthed
-    x.range <- c( min(c(pts, pts2))-.2, max(c(pts,pts2)+.2) )
+    x.range <- c( min(c(pts, pts2))-.25, max(c(pts,pts2)+.25) )
     idx <- 1:length(covnames)
     
     # tune the graphic console
@@ -82,7 +87,7 @@ balanceplot <- function (matched, pscore.fit,
     bty="n", xlab="", ylab="",
     xaxt="n", yaxt="n", xaxs="i", 
     yaxs="i", type="n",
-    ylim=c(length(covnames)+.5,0),
+    ylim=c(0,length(covnames)+.5),
     xlim=x.range,
     main=main, cex.main=cex.main)
     abline(v=0, lty=2)
