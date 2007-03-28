@@ -303,12 +303,12 @@ bayesglm.fit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart =
                   cat("Step halved: new deviance =", dev, "\n")
             }
             if (iter > 1 & abs(dev - devold)/(0.1 + abs(dev)) < 
-                control$epsilon & abs(dispersion - dispersionold)/(0.1 + 
-                abs(dispersion)) < control$epsilon) {
+                100*control$epsilon & abs(dispersion - dispersionold)/
+                (control$epsilon + abs(dispersion)) < 100*control$epsilon) {
                 conv <- TRUE
                 coef <- start
                 break
-            }
+             }
             else {
                 devold <- dev
                 dispersionold <- dispersion

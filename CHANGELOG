@@ -1,3 +1,7 @@
+2006-3-28  Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-17
+    * R/bayesglm.R: change the convergence control for dispersion. 
+
 2006-3-27  Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-16
     * man/balanceplot.Rd: add note about factor(x) and log(x).
