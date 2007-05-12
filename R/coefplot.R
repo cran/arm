@@ -73,7 +73,7 @@ coefplot.bugs <- function (object,
         main=main, axes=F)                                                   
     axis(1)                                
     axis(3)
-    axis(2, 1:n.x, varnames[1:n.x], las=2, tck=FALSE, 
+    axis(2, n.x:1, varnames[n.x:1], las=2, tck=FALSE, 
         lty=0, cex.axis=cex.var)  
     abline(v=0, lty=2)                                                 
     points(coefs, idx, pch=19, cex=cex.pts, col=col.pts)
@@ -109,6 +109,9 @@ coefplot.default <- function (coefs, sds,
                 var.las=2)
 {
     # collect informations
+    if (is.list(coefs)){
+        coefs <- unlist(coefs)
+    }
     n.x <- length(coefs)
     idx <- seq(1, n.x)                                                                
 
@@ -124,7 +127,7 @@ coefplot.default <- function (coefs, sds,
             main=main, axes=F)                                                   
         axis(1)                                
         axis(3)
-        axis(2, 1:n.x, varnames[1:n.x], las=var.las, tck=FALSE, 
+        axis(2, n.x:1, varnames[n.x:1], las=var.las, tck=FALSE, 
             lty=0, cex.axis=cex.var) 
         abline(v=0, lty=2)                                                 
         points(coefs, idx, pch=19, cex=cex.pts, col=col.pts)

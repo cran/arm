@@ -17,15 +17,17 @@ bayesglm (formula, family = gaussian, data,
     model = TRUE, method = "glm.fit", 
     x = FALSE, y = TRUE, contrasts = NULL, 
     prior.mean = 0, prior.scale = 2.5, 
-    prior.scale.for.intercept = 10, prior.df = 1, 
+    prior.scale.for.intercept = 10, 
+    prior.df = 1, min.prior.scale=1e-12,
     scaled = TRUE, n.iter = 100, ...)
     
 bayesglm.fit (x, y, weights = rep(1, nobs), 
     start = NULL, etastart = NULL, 
     mustart = NULL, offset = rep(0, nobs), family = gaussian(), 
     control = glm.control(), intercept = TRUE,
-    prior.mean=0, prior.scale=2.5, prior.scale.for.intercept.default=10,
-    prior.df=1, scaled=TRUE)
+    prior.mean = 0, prior.scale = 2.5, 
+    prior.scale.for.intercept = 10,
+    prior.df = 1, min.prior.scale=1e-12, scaled = TRUE)
 }
 
 \arguments{
@@ -98,7 +100,7 @@ bayesglm.fit (x, y, weights = rep(1, nobs),
   \item{intercept}{logical. Should an intercept be included in the
     \emph{null} model?}
      
-  \item{prior.mean}{prior mean for the coefficients:default is 0. Can be a vector 
+  \item{prior.mean}{prior mean for the coefficients: default is 0. Can be a vector 
     of length equal to the number of predictors 
     (including the intercept, if any). If it is a scalar, it is 
     expanded to the length of this vector.}
@@ -115,12 +117,12 @@ bayesglm.fit (x, y, weights = rep(1, nobs),
     the number of predictors (including the intercept, if any). 
     If it is a scalar, it is expanded to the length of this vector.}
   
+  \item{min.prior.scale}{Minimum prior scale for the coefficients: default is 1e-12.}  
+  
   \item{scaled}{if scaled = TRUE, then the prior distribution is rescaled: 
     default is TRUE}
   
   \item{n.iter}{default is 100.}
-  
-  \item{prior.scale.for.intercept.default}{prior scale for the intercept: default is 10.}
   
   \item{\dots}{further arguments passed to or from other methods.}
 }
@@ -174,7 +176,7 @@ unpublished paper available at \url{http://www.stat.columbia.edu/~gelman/standar
   y <- rbinom (n, 1, invlogit(b0+b1*x1+b2*x2))
 
   M1 <- glm (y ~ x1 + x2, family=binomial(link="logit"))
-  display (M1)  # (using the display() function from regression.R)
+  display (M1)  
 
   M2 <- bayesglm (y ~ x1 + x2, family=binomial(link="logit"), 
     prior.scale=Inf, prior.df=Inf)

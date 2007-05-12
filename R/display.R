@@ -14,7 +14,7 @@ display.lm <- function(object, digits=2){
 
 display.glm <- function (object, digits = 2){
     call <- object$call
-    summ <- summary(object)
+    summ <- summary(object, dispersion=object$dispersion)
     coef <- summ$coef[, 1:2, drop = FALSE]
     dimnames(coef)[[2]] <- c("coef.est", "coef.se")
     n <- summ$df[1] + summ$df[2]
@@ -25,19 +25,19 @@ display.glm <- function (object, digits = 2){
         fround(summ$deviance, 1), ", null deviance = ", fround(summ$null.deviance, 
             1), " (difference = ", fround(summ$null.deviance - 
             summ$deviance, 1), ")", "\n", sep = ""))
-    dispersion <- if (is.null(object$dispersion))
-      summ$dispersion
-    else
-      object$dispersion
+    dispersion <- if (is.null(object$dispersion)) 
+        summ$dispersion
+    else object$dispersion
     if (dispersion != 1) {
-      cat(paste("  overdispersion parameter = ",
-                fround(dispersion, 1), "\n", sep = ""))
-      if (family(object)$family=="gaussian") {
-        cat(paste("  residual sd is sqrt(overdispersion) = ",
-                  fround(sqrt(dispersion), digits), "\n", sep = ""))
-      }
+        cat(paste("overdispersion parameter = ", fround(dispersion, 
+            1), "\n", sep = ""))
+        if (family(object)$family == "gaussian") {
+            cat(paste("  residual sd is sqrt(overdispersion) = ", 
+                fround(sqrt(dispersion), digits), "\n", sep = ""))
+        }
     }
 }
+
 
 display.mer <- function(object, digits=2){
     object <- summary(object)
@@ -55,13 +55,18 @@ display.mer <- function(object, digits=2){
     vc <- as.matrix.VarCorr (VarCorr (object), useScale=useScale, digits)
     print (vc[,c(1:2,4:ncol(vc))], quote=FALSE)
     ngrps <- lapply(object@flist, function(x) length(levels(x)))
-    dev <- object@deviance
+    dev <- object@deviance[1]     # Dbar
     devc <- object@devComp
+    Dhat <- -2*(object@logLik[1]) # Dhat
+    pD <- dev - Dhat              # pD
+    DIC <- dev + pD               # DIC=Dbar+pD=Dhat+2pD
     cat(sprintf("number of obs: %d, groups: ", devc[1]))
     cat(paste(paste(names(ngrps), ngrps, sep = ", "), collapse = "; "))
-    cat("\ndeviance =", fround (dev[1], 1), "\n")
+    cat(sprintf("\nAIC = %g, DIC = ", fround(object@AICtab[[1]],1)))
+    cat(fround(DIC, 1))
+    cat("\ndeviance =", fround (dev, 1), "\n")
     if (useScale < 0){
-      cat("  overdispersion parameter =", fround (.Call("mer_sigma", 
+      cat("overdispersion parameter =", fround (.Call("mer_sigma", 
         object, FALSE, PACKAGE = "lme4"), 1), "\n")
     }
 }

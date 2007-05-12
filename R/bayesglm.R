@@ -1,9 +1,8 @@
-bayesglm <- 
-function (formula, family = gaussian, data, weights, subset, 
+bayesglm <- function (formula, family = gaussian, data, weights, subset, 
     na.action, start = NULL, etastart, mustart, offset, control = glm.control(...), 
     model = TRUE, method = "glm.fit", x = FALSE, y = TRUE, contrasts = NULL, 
     prior.mean = 0, prior.scale = 2.5, prior.scale.for.intercept = 10, 
-    prior.df = 1, scaled = TRUE, n.iter = 100, ...) 
+    prior.df = 1, min.prior.scale=1e-12, scaled = TRUE, n.iter = 100, ...) 
 {
     call <- match.call()
     if (is.character(family)) 
@@ -50,16 +49,16 @@ function (formula, family = gaussian, data, weights, subset,
         etastart = etastart, mustart = mustart, offset = offset, 
         family = family, control = glm.control(maxit = n.iter), 
         intercept = attr(mt, "intercept") > 0, prior.mean = prior.mean, 
-        prior.scale = prior.scale, prior.scale.for.intercept.default = prior.scale.for.intercept, 
-        prior.df = prior.df, scaled = scaled)
+        prior.scale = prior.scale, prior.scale.for.intercept = prior.scale.for.intercept, 
+        prior.df = prior.df, min.prior.scale = min.prior.scale, scaled = scaled)
     if (any(offset) && attr(mt, "intercept") > 0) {
         cat("bayesglm not yet set up to do deviance comparion here\n")
         fit$null.deviance <- bayesglm.fit(x = X[, "(Intercept)", 
             drop = FALSE], y = Y, weights = weights, offset = offset, 
             family = family, control = control, intercept = TRUE, 
             prior.mean = prior.mean, prior.scale = prior.scale, 
-            prior.scale.for.intercept.default = prior.scale.for.intercept, 
-            prior.df = prior.df, scaled = scaled)$deviance
+            prior.scale.for.intercept = prior.scale.for.intercept, 
+            prior.df = prior.df, min.prior.scale=min.prior.scale, scaled = scaled)$deviance
     }
     if (model) 
         fit$model <- mf
@@ -76,10 +75,13 @@ function (formula, family = gaussian, data, weights, subset,
     fit
 }
 
-bayesglm.fit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL, 
+bayesglm.fit <- function (x, y, 
+    weights = rep(1, nobs), start = NULL, etastart = NULL, 
     mustart = NULL, offset = rep(0, nobs), family = gaussian(), 
     control = glm.control(), intercept = TRUE, prior.mean = 0, 
-    prior.scale = 2.5, prior.scale.for.intercept.default = 10, prior.df = 1, 
+    prior.scale = 2.5, 
+    prior.scale.for.intercept = 10, 
+    prior.df = 1, min.prior.scale=1e-12,
     scaled = TRUE) 
 {
     J <- NCOL(x)
@@ -88,26 +90,11 @@ bayesglm.fit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart =
     }
     if (length(prior.scale) == 1) {
         prior.scale <- rep(prior.scale, J)
-        prior.scale.for.intercept <- prior.scale.for.intercept.default
     }
-    else{ 
-        if (length(prior.scale) != J) { 
-            stop ( message = paste ("Prior.scale should be length 1 or ", J ) )
-        }
-        prior.scale.for.intercept <- NULL
-    }
-    y.scale <- 1
-    if (scaled == TRUE) {
-        if (family$family == "gaussian") {
-            y.obs <- y[!is.na(y)]
-            num.categories <- length(unique(y.obs))
-            if (num.categories == 2) {
-                y.scale <- max(y.obs) - min(y.obs)
-            }
-            else if (num.categories > 2) {
-                y.scale <- 2 * sd(y.obs)
-            }
-        }
+    if (is.numeric(prior.scale.for.intercept) & intercept) {
+        prior.scale[1] <- prior.scale.for.intercept
+    }    
+    if (scaled) {
         for (j in 1:J) {
             x.obs <- x[, j]
             x.obs <- x.obs[!is.na(x.obs)]
@@ -119,11 +106,14 @@ bayesglm.fit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart =
             else if (num.categories > 2) {
                 x.scale <- 2 * sd(x.obs)
             }
-            prior.scale[j] <- prior.scale[j] * y.scale/x.scale
+            prior.scale[j] <- prior.scale[j]/x.scale
+            if (prior.scale[j] < min.prior.scale){
+                prior.scale[j] <- min.prior.scale
+                cat ("prior scale for variable", j, 
+                    "set to min.prior.scale =", min.prior.scale,"\n")
+            }
         }
-    }
-    if (is.numeric(prior.scale.for.intercept) & intercept) {
-        prior.scale[1] <- prior.scale.for.intercept * y.scale
+        if (family$family == "gaussian") prior.scale.0 <- prior.scale
     }
     if (length(prior.df) == 1) {
         prior.df <- rep(prior.df, J)
@@ -243,10 +233,13 @@ bayesglm.fit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart =
                 break
             }
             coefs.hat <- fit$coefficients
+            fit$qr <- as.matrix (fit$qr)
             V.coefs <- chol2inv(fit$qr[1:ncol(x.star), 1:ncol(x.star), 
                 drop = FALSE])
+            V.beta <- chol2inv (t(x.star) %*% diag(w.star^2) %*% x.star)
+            if (family$family == "gaussian" & scaled) prior.scale <- sqrt(dispersion)*prior.scale.0
             prior.sd <- ifelse(prior.df == Inf, prior.scale, 
-                sqrt(((coefs.hat - prior.mean)^2 + diag(V.coefs) + 
+                sqrt(((coefs.hat - prior.mean)^2 + diag(V.coefs)*dispersion + 
                   prior.df * prior.scale^2)/(1 + prior.df)))
             start[fit$pivot] <- fit$coefficients
             eta <- drop(x %*% start)
@@ -303,12 +296,12 @@ bayesglm.fit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart =
                   cat("Step halved: new deviance =", dev, "\n")
             }
             if (iter > 1 & abs(dev - devold)/(0.1 + abs(dev)) < 
-                100*control$epsilon & abs(dispersion - dispersionold)/
-                (control$epsilon + abs(dispersion)) < 100*control$epsilon) {
+                control$epsilon & abs(dispersion - dispersionold)/(0.1 + 
+                abs(dispersion)) < control$epsilon) {
                 conv <- TRUE
                 coef <- start
                 break
-             }
+            }
             else {
                 devold <- dev
                 dispersionold <- dispersion

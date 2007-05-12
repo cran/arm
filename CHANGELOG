@@ -1,3 +1,10 @@
+2006-5-12  Andrew Gelman <gelman@stat.columbia.edu>
+           Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-18
+    * R/coefplot.R: reorder yxaxes.
+    * R/display.R: return AIC and DIC in display.mer
+    * R/bayesglm.R: fix bugs in bayesglm.fit, add min.prior.scale option.
+
 2006-3-28  Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-17
     * R/bayesglm.R: change the convergence control for dispersion. 
