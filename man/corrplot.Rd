@@ -7,7 +7,7 @@ Function for making a correlation plot starting from a data matrix
 }
 
 \usage{
-corrplot (data, varnames=NULL, 
+corrplot (data, varnames=NULL, cutpts=NULL,
     abs=TRUE, details=TRUE, 
     n.col.legend=5, cex.col=0.7, 
     cex.var=0.9, digits=1, color=FALSE)
@@ -19,6 +19,8 @@ corrplot (data, varnames=NULL,
                    use default variable names}
   \item{abs}{if TRUE, transform all correlation values into positive values, 
         default=TRUE.}
+  \item{cutpts}{a vector of cutting points for color legend, default is NULL. 
+        The function will decide the cutting points if cutpts is not assigned.}
   \item{details}{show more than one digits correlaton values. Default 
               is TRUE.  FALSE is suggested to get readable output.}
   \item{n.col.legend}{number of legend for the color thermometer.}
@@ -77,6 +79,7 @@ Journal of the American Statistical Association, Vol.101, N0. 474: p.409-23}
  # example 3
  data(lalonde)
  corrplot(lalonde, details=FALSE, color=TRUE)
+ corrplot(lalonde, cutpts=c(0,0.25,0.5,0.75), color=TRUE, digits=2)
 }
 
 \keyword{dplot}

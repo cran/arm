@@ -1,5 +1,5 @@
 
-corrplot <- function(data, varnames=NULL, abs=TRUE, details=TRUE, 
+corrplot <- function(data, varnames=NULL, cutpts=NULL, abs=TRUE, details=TRUE, 
                      n.col.legend=5, cex.col=0.7, cex.var=0.9, digits=1, 
                      color=FALSE)
 {
@@ -32,7 +32,7 @@ corrplot <- function(data, varnames=NULL, abs=TRUE, details=TRUE,
         z.names <- varnames
     }
 
-    triangleplot(x=z.plot, y=z.names, details=details, 
+    triangleplot(x=z.plot, y=z.names, cutpts=cutpts, details=details, 
                 n.col.legend=n.col.legend, 
                 cex.col=cex.col, cex.var=cex.var, 
                 digits=digits, color=color)
