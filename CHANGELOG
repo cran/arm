@@ -1,3 +1,30 @@
+2006-6-6    Yu-Sung Su     <ys463@columbia.edu>       
+    * DESCRIPTION (Version, Date): 1.0-20
+    * R/AllMethods.R: adjusts changes of lme4-0.99875-1; "mer" class have to 
+        explicitly and separately identify "lmer" and "glmer" class; create new
+        methods for "lmer2" class; changes apply to "display", "se.coef", 
+        "sigma.hat", "sim" methods. 
+    * R/display.R: 
+        1. display.glm() displays NA for coefficients of colinear variables;
+        2. display.mer() adjusts changes of lme4-0.99875-1.
+        3. display.mer2() new functions for "lmer2" class.
+    * R/se.coef.R:
+        1. se.coef.mer() adjusts changes of lme4-0.99875-1.
+        2. se.coef.mer2() new functions for "lmer2" class (not working!)
+    * R/sigma.hat.R:
+        1. sigma.mer() adjusts changes of lme4-0.99875-1.
+        2. sigma.mer2() new functions for "lmer2" class.
+    * R/sim.R:
+        1. sim.mer() adjusts changes of lme4-0.99875-1.
+        2. sim.mer2() new functions for "lmer2" class (not working!)
+
+2006-5-30  Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-19
+    * R/triangleplot.R: now the function can deal with missing values in the square matrix;
+            Add new parameter--cutpts--that manual decide the cutting points of the color
+            legend; this changes applies to corrplot.R & corrplot.Rd.
+    * R/triangleplot.Rd: add new description for cutpts.
+
 2006-5-12  Andrew Gelman <gelman@stat.columbia.edu>
            Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-18

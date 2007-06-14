@@ -3,10 +3,14 @@
 \alias{sim}
 \alias{sim,lm-method}
 \alias{sim,glm-method}
-\alias{sim,mer-method}
+\alias{sim,lmer-method}
+\alias{sim,glmer-method}
+\alias{sim,lmer2-method}
+\alias{sim,glmer2-method}
 \alias{sim.lm}
 \alias{sim.glm}
 \alias{sim.mer}
+\alias{sim.mer2}
 
 \title{Functions to Get Posterior Distributions}
 

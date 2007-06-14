@@ -3,11 +3,15 @@
 \alias{display}
 \alias{display,lm-method}
 \alias{display,glm-method}
-\alias{display,mer-method}
+\alias{display,lmer-method}
+\alias{display,glmer-method}
+\alias{display,lmer2-method}
+\alias{display,glmer2-method}
 \alias{display,polr-method}
 \alias{display.lm}
 \alias{display.glm}
 \alias{display.mer}
+\alias{display.mer2}
 \alias{display.polr}
 
 \title{Functions for Processing lm, glm, mer and polr Output}
@@ -22,6 +26,7 @@
     display.lm (object, digits=2)
     display.glm (object, digits=2)
     display.mer (object, digits=2)
+    display.mer2 (object, digits=2)
     display.polr (object, digits=2)
 }
 

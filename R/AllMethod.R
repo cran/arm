@@ -50,10 +50,31 @@ setMethod("display", signature(object = "glm"),
     }
 )
 
-setMethod("display", signature(object = "mer"),
+setMethod("display", signature(object = "lmer"),
     function(object, ...)
     {
     display.mer (object, ...)
+    }
+)
+
+setMethod("display", signature(object = "glmer"),
+    function(object, ...)
+    {
+    display.mer (object, ...)
+    }
+)
+
+setMethod("display", signature(object = "lmer2"),
+    function(object, ...)
+    {
+    display.mer2 (object, ...)
+    }
+)
+
+setMethod("display", signature(object = "glmer2"),
+    function(object, ...)
+    {
+    display.mer2 (object, ...)
     }
 )
 
@@ -80,13 +101,33 @@ setMethod("sim", signature(object = "glm"),
     }
 )
 
-setMethod("sim", signature(object = "mer"),
+setMethod("sim", signature(object = "lmer"),
     function(object, ...)
     {
     sim.mer (object, ...)
     }
 )
 
+setMethod("sim", signature(object = "glmer"),
+    function(object, ...)
+    {
+    sim.mer (object, ...)
+    }
+)
+
+setMethod("sim", signature(object = "lmer2"),
+    function(object, ...)
+    {
+    sim.mer2 (object, ...)
+    }
+)
+
+setMethod("sim", signature(object = "glmer2"),
+    function(object, ...)
+    {
+    sim.mer2 (object, ...)
+    }
+)
 
 # sigma.hat methods
 
@@ -106,12 +147,33 @@ setMethod("sigma.hat", signature(object = "glm"),
 )
 
 
-setMethod("sigma.hat", signature(object = "mer"),
+setMethod("sigma.hat", signature(object = "lmer"),
+    function(object)
+    {
+    sigma.hat.mer (object)
+    }
+) 
+
+setMethod("sigma.hat", signature(object = "glmer"),
     function(object)
     {
     sigma.hat.mer (object)
     }
 )  
+
+setMethod("sigma.hat", signature(object = "lmer2"),
+    function(object)
+    {
+    sigma.hat.mer2 (object)
+    }
+) 
+
+setMethod("sigma.hat", signature(object = "glmer2"),
+    function(object)
+    {
+    sigma.hat.mer2 (object)
+    }
+) 
 
 # se.coef methods
 
@@ -130,7 +192,14 @@ setMethod("se.coef", signature(object = "glm"),
     }
 )
 
-setMethod("se.coef", signature(object = "mer"),
+setMethod("se.coef", signature(object = "lmer"),
+    function(object)
+    {
+    se.coef.mer (object)
+    }
+)
+
+setMethod("se.coef", signature(object = "glmer"),
     function(object)
     {
     se.coef.mer (object)

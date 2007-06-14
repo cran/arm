@@ -3,7 +3,8 @@
 mcsamp <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.iter/2), n.thin=1, saveb=TRUE, make.bugs.object=TRUE){
   # Quick function to run mcmcsamp() [the function for MCMC sampling for
   # lmer objects) and convert to Bugs objects for easy display
-
+  
+  if (class(object)=="lmer2") saveb=FALSE
   require ("R2WinBUGS")
   if (n.chains<2) stop ("n.chains must be at least 2")
   n.keep <- n.iter - n.burnin

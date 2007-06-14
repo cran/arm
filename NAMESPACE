@@ -15,6 +15,7 @@ export(
        "display.lm", 
        "display.glm",
        "display.mer",
+       "display.mer2",
        "display.polr",
        "G",
        "go",
@@ -30,9 +31,11 @@ export(
        "sigma.hat.lm",
        "sigma.hat.glm",
        "sigma.hat.mer",
+       "sigma.hat.mer2",
        "sim.lm",
        "sim.glm",
        "sim.mer",
+       "sim.mer2",
        "standardize",
        "triangleplot"
 )
@@ -47,3 +50,4 @@ exportMethods(
               )
 
 S3method(print, GO)
+S3method(sigma.hat, mer)

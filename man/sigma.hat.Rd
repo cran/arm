@@ -3,10 +3,14 @@
 \alias{sigma.hat}
 \alias{sigma.hat,lm-method}
 \alias{sigma.hat,glm-method}
-\alias{sigma.hat,mer-method}
+\alias{sigma.hat,lmer-method}
+\alias{sigma.hat,glmer-method}
+\alias{sigma.hat,lmer2-method}
+\alias{sigma.hat,glmer2-method}
 \alias{sigma.hat.lm}
 \alias{sigma.hat.glm}
 \alias{sigma.hat.mer}
+\alias{sigma.hat.mer2}
 
 \title{Extract Residual Errors}
 

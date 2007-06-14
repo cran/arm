@@ -3,7 +3,8 @@
 \alias{se.coef}
 \alias{se.coef,lm-method}
 \alias{se.coef,glm-method}
-\alias{se.coef,mer-method}
+\alias{se.coef,lmer-method}
+\alias{se.coef,glmer-method}
 \alias{se.coef.lm}
 \alias{se.coef.glm}
 \alias{se.coef.mer}
