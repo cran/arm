@@ -5,9 +5,12 @@
 \alias{se.coef,glm-method}
 \alias{se.coef,lmer-method}
 \alias{se.coef,glmer-method}
+\alias{se.coef,lmer2-method}
+\alias{se.coef,glmer2-method}
 \alias{se.coef.lm}
 \alias{se.coef.glm}
 \alias{se.coef.mer}
+\alias{se.coef.mer2}
 \alias{se.fixef}
 \alias{se.ranef}
 

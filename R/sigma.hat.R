@@ -22,7 +22,7 @@ sigma.hat.glm <- function (object){
 
 sigma.hat.mer <- function(object){
     #object <- summary (object)
-    fcoef <- .Call("mer_fixef", object, PACKAGE = "lme4")
+    fcoef <- fixef(object)
     useScale <- object@devComp[8]
     ngrps <- lapply(object@flist, function(x) length(levels(x)))
     n.groupings <- length (ngrps)

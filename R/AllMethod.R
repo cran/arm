@@ -205,3 +205,17 @@ setMethod("se.coef", signature(object = "glmer"),
     se.coef.mer (object)
     }
 )
+
+setMethod("se.coef", signature(object = "lmer2"),
+    function(object)
+    {
+    se.coef.mer2 (object)
+    }
+)
+
+setMethod("se.coef", signature(object = "glmer2"),
+    function(object)
+    {
+    se.coef.mer2 (object)
+    }
+)

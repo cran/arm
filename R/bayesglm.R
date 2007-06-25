@@ -236,7 +236,7 @@ bayesglm.fit <- function (x, y,
             fit$qr <- as.matrix (fit$qr)
             V.coefs <- chol2inv(fit$qr[1:ncol(x.star), 1:ncol(x.star), 
                 drop = FALSE])
-            V.beta <- chol2inv (t(x.star) %*% diag(w.star^2) %*% x.star)
+            #V.beta <- chol2inv (t(x.star) %*% diag(w.star^2) %*% x.star)
             if (family$family == "gaussian" & scaled) prior.scale <- sqrt(dispersion)*prior.scale.0
             prior.sd <- ifelse(prior.df == Inf, prior.scale, 
                 sqrt(((coefs.hat - prior.mean)^2 + diag(V.coefs)*dispersion + 
@@ -247,8 +247,8 @@ bayesglm.fit <- function (x, y,
             dev <- sum(dev.resids(y, mu, weights))
             if (!(family$family %in% c("poisson", "binomial"))) {
                 mse.resid <- mean((w * (z - x %*% coefs.hat))^2)
-                mse.uncertainty <- mean(diag(x %*% V.coefs %*% 
-                  t(x))) * dispersion
+                #mse.uncertainty <- mean(diag(x %*% V.coefs %*% t(x))) * dispersion
+                mse.uncertainty <- mean(rowSums(( x %*% V.coefs ) * x)) * dispersion # faster
                 dispersion <- mse.resid + mse.uncertainty
             }
             if (control$trace) 

@@ -3,8 +3,6 @@
   sd.scalar <- function (x, ...) {sqrt(var(as.vector(x), ...))}
   wmean <- function (x, w, ...) {mean(x*w, ...)/mean(w, ...)}
   logit <- function (x) {log(x/(1-x))}
-  fround <- function (x, digits) {format (round (x, digits), nsmall=digits)}
-  pfround <- function (x, digits) {print (fround (x, digits), quote=FALSE)}
   untriangle <- function (x) {x + t(x) - x*diag(nrow(as.matrix(x)))}
 
 # new functions!

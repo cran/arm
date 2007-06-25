@@ -17,15 +17,18 @@ export(
        "display.mer",
        "display.mer2",
        "display.polr",
+       "fround",
        "G",
        "go",
        "invlogit",
        "matching", 
        "mcsamp",
+       "pfround",
        "rescale",
        "se.coef.lm",
        "se.coef.glm",
        "se.coef.mer",
+       "se.coef.mer2",
        "se.fixef",
        "se.ranef",
        "sigma.hat.lm",
@@ -50,4 +53,3 @@ exportMethods(
               )
 
 S3method(print, GO)
-S3method(sigma.hat, mer)

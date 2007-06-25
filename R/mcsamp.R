@@ -4,7 +4,7 @@ mcsamp <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.iter/2), n
   # Quick function to run mcmcsamp() [the function for MCMC sampling for
   # lmer objects) and convert to Bugs objects for easy display
   
-  if (class(object)=="lmer2") saveb=FALSE
+  if (class(object)=="lmer2") 
   require ("R2WinBUGS")
   if (n.chains<2) stop ("n.chains must be at least 2")
   n.keep <- n.iter - n.burnin
@@ -16,9 +16,12 @@ mcsamp <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.iter/2), n
   }
   sims <- array (NA, c(n.keep, n.chains, n.parameters))
   par.names <- dimnames(first.chain)[[2]]
-  par.names <- gsub("b.*", "", par.names, ignore.case = FALSE, # Su: rename "b.*" to ""
+  par.names <- gsub("b.", "b@", par.names, ignore.case = FALSE, # Su: rename "b.*" to ""
                     extended = TRUE, perl = FALSE,
-                    fixed = FALSE, useBytes = FALSE)      
+                    fixed = TRUE, useBytes = FALSE)   
+  par.names <- gsub("b@.*", "", par.names, ignore.case = FALSE, 
+                    extended = TRUE, perl = FALSE,
+                    fixed = FALSE, useBytes = TRUE)    
   par.names <- par.names[is.na(match(par.names,""))] 
   if (saveb){
     b.hat <- se.coef (object)                   # Su: use se.coef() 
@@ -50,7 +53,7 @@ mcsamp <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.iter/2), n
       sims[,,j] <- tanh (sims[,,j])
     }
     else if (pmatch("eta.", par.names[j], nomatch=0)){#(substr(par.names[j],1,4)=="eta."){
-      #par.names[j] <- paste ("", substr(par.names[j], 5, nchar(par.names[j])), sep="")
+      par.names[j] <- paste ("", substr(par.names[j], 5, nchar(par.names[j])), sep="")
       par.names[j] <- par.names[j]
     }
     else if (pmatch("deviance", par.names[j], nomatch=0)){#(par.names[j]=="deviance"){          # Su: keep par.names for "deviance"
