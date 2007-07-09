@@ -23,6 +23,16 @@ display.glm <- function (object, digits = 2){
     n <- summ$df[1] + summ$df[2]
     k <- summ$df[1]
     print(call)
+    if (!is.null(object$batch)){
+        if(max(object$batch)>0){
+            nn <- strsplit( rownames( coef )[seq( from= length( object$batch ) + 1 ,to = nrow( coef ))], "." , fixed=TRUE)
+            bb <- c( object$batch,unlist( lapply (nn , function( lst ) { lst[[3]] } ) ) ) 
+        }
+        else {bb <- c( object$batch)}
+        cc <- cbind(fround(coef, digits), bb)
+        dimnames(cc)[[2]][3]<- "batch"
+    print(cc, digits, quote=FALSE)
+    }
     pfround(coef, digits)
     cat("---\n")
     cat(paste("n = ", n, ", k = ", k, "\nresidual deviance = ", 

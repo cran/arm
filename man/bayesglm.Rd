@@ -19,7 +19,7 @@ bayesglm (formula, family = gaussian, data,
     prior.mean = 0, prior.scale = 2.5, 
     prior.scale.for.intercept = 10, 
     prior.df = 1, min.prior.scale=1e-12,
-    scaled = TRUE, n.iter = 100, ...)
+    scaled = TRUE, drop.baseline=TRUE, n.iter = 100, ...)
     
 bayesglm.fit (x, y, weights = rep(1, nobs), 
     start = NULL, etastart = NULL, 
@@ -121,6 +121,8 @@ bayesglm.fit (x, y, weights = rep(1, nobs),
   
   \item{scaled}{if scaled = TRUE, then the prior distribution is rescaled: 
     default is TRUE}
+    
+  \item{drop.baseline}{Drop the base level of categorical x's, default is TRUE.}
   
   \item{n.iter}{default is 100.}
   
@@ -231,6 +233,30 @@ unpublished paper available at \url{http://www.stat.columbia.edu/~gelman/standar
   y2 <- rnorm (n, b0+b1*x1+b2*x2, sigma)
   M7 <- bayesglm (y2 ~ x1 + x2, prior.scale=Inf, prior.df=Inf)
   display (M7)
+  
+  
+  # bayesglm with categorical variables
+  z1 <- trunc(runif(n, 4, 9))
+  levels(factor(z1))
+  z2 <- trunc(runif(n, 15, 19))
+  levels(factor(z2))
+  
+  ## drop the base level (R default)
+  M8 <- bayesglm (y ~ x1 + factor(z1) + factor(z2), 
+    family=binomial(link="logit"), prior.scale=2.5, prior.df=Inf)
+  display (M8)
+  
+  ## keep all levels
+  M9 <- bayesglm (y ~ x1 + factor(z1) + factor(z2), 
+    family=binomial(link="logit"), prior.scale=2.5, prior.df=Inf,
+    drop.baseline=FALSE)
+  display (M9)
+  
+  M10 <- bayesglm (y ~ x1 + factor(z1) + factor(z2)-1, 
+    family=binomial(link="logit"), prior.scale=2.5, prior.df=Inf,
+    drop.baseline=FALSE)
+  display (M10)
+  
 }
 
 \keyword{models}

@@ -9,33 +9,34 @@ se.coef.glm <- function(object){
 }
 
 se.coef.mer <- function(object){
-    if (sum(unlist(lapply(object@bVar, is.na)))>0){
-        object@call$control <- list(usePQL=TRUE)
-        object <- lmer(object@call$formula)
-    }
+#    if (sum(unlist(lapply(object@bVar, is.na)))>0){
+#        object@call$control <- list(usePQL=TRUE)
+#        object <- lmer(object@call$formula)
+#    }
     fcoef <- fixef(object)
-    useScale <- object@devComp[8]
+    sc <- attr (VarCorr (object), "sc")
     corF <- vcov(object)@factors$correlation
     se.unmodeled <- NULL
     se.unmodeled[[1]] <- corF@sd
     names (se.unmodeled) <- "unmodeled"
 
-    sc <- attr (VarCorr (object, useScale=useScale), "sc")
-    vars <- object@bVar
-    se.bygroup <- vars
-    n.groupings <- length (vars)
+    coef <- ranef (object)
+    estimate <- ranef(object, postVar=TRUE)
+    se.bygroup <- NULL
+    n.groupings <- length (coef)
+    
     for (m in 1:n.groupings){
-      vars.m <- vars[[m]]
+      vars.m <- attr (estimate[[m]], "postVar")
       K <- dim(vars.m)[1]
       J <- dim(vars.m)[3]
       se.bygroup[[m]] <- array (NA, c(J,K))
       for (j in 1:J){
         se.bygroup[[m]][j,] <- sqrt(diag(as.matrix(vars.m[,,j])))
       }
-      se.bygroup[[m]] <- se.bygroup[[m]]*sc
+#      se.bygroup[[m]] <- se.bygroup[[m]]*sc
       names.full <- dimnames (ranef(object)[[m]])
       dimnames (se.bygroup[[m]]) <- list (names.full[[1]],
-        names.full[[2]])
+                            names.full[[2]])
     }
     ses <- c (se.unmodeled, se.bygroup)
     return (ses)
@@ -63,7 +64,7 @@ se.coef.mer2 <- function(object){
       for (j in 1:J){
         se.bygroup[[m]][j,] <- sqrt(diag(as.matrix(vars.m[,,j])))
       }
-      se.bygroup[[m]] <- se.bygroup[[m]]*sc
+#      se.bygroup[[m]] <- se.bygroup[[m]]*sc
       names.full <- dimnames (ranef(object)[[m]])
       dimnames (se.bygroup[[m]]) <- list (names.full[[1]],
                             names.full[[2]])
@@ -81,22 +82,19 @@ se.fixef <- function (object){
 }
 
 se.ranef <- function (object){
-  sc <- attr (VarCorr (object), "sc")
-  vars <- object@bVar
-  se.bygroup <- vars
-  n.groupings <- length (vars)
-  for (m in 1:n.groupings){
-    vars.m <- vars[[m]]
-    K <- dim(vars.m)[1]
-    J <- dim(vars.m)[3]
-    se.bygroup[[m]] <- array (NA, c(J,K))
-    for (j in 1:J){
-      se.bygroup[[m]][j,] <- sqrt(diag(as.matrix(vars.m[,,j])))
+    se.bygroup <- ranef( object, postVar = TRUE )
+    n.groupings<- length( se.bygroup )
+    for( m in 1:n.groupings ) {
+        vars.m <- attr( se.bygroup[[m]], "postVar" )
+        K <- dim(vars.m)[1]
+        J <- dim(vars.m)[3]
+        se.bygroup[[m]] <- array(NA, c(J, K))
+        for (j in 1:J) {
+            se.bygroup[[m]][j, ] <- sqrt(diag(as.matrix(vars.m[, , j])))
+        }
+#        se.bygroup[[m]] <- se.bygroup[[m]] * sc
+        names.full <- dimnames(se.bygroup)
+        dimnames(se.bygroup[[m]]) <- list(names.full[[1]], names.full[[2]])
     }
-    se.bygroup[[m]] <- se.bygroup[[m]]*sc
-    names.full <- dimnames (ranef(object)[[m]])
-    dimnames (se.bygroup[[m]]) <- list (names.full[[1]],
-      names.full[[2]])
-  }
-  return (se.bygroup)
+    return(se.bygroup)
 }

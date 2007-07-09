@@ -1,8 +1,13 @@
-2006-6-25    Yu-Sung Su     <ys463@columbia.edu>       
-             Masano Yajima  <my2167@columbia.edu
+2006-7-9    Yu-Sung Su     <ys463@columbia.edu>       
+            Masano Yajima  <my2167@columbia.edu
     * DESCRIPTION (Version, Date): 1.0-21
-    * R/bayesglm.R: delete redundant code V.beta; more efficient coding for
-        mse.uncertainty.
+    * R/AllInternal.R: new functions: model.matrix.bayes; contr.unorder.bayes;
+        contr.order.bayes; terms.bayes.
+    * R/bayesglm.R: 
+        1. delete redundant code V.beta; more efficient coding for
+           mse.uncertainty.
+        2. add an new parameter: drop.baseline=TRUE
+        3. embede display bayesglm.hierachical fit (test).
     * R/display.R: rewrite code to extract values like scale, corF, etc.
     * R/fround.Rd: Document fround() and pfround().
     * R/fround.R: move fround() and pfround from AllMethods.R.

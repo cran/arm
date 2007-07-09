@@ -2,7 +2,7 @@ bayesglm <- function (formula, family = gaussian, data, weights, subset,
     na.action, start = NULL, etastart, mustart, offset, control = glm.control(...), 
     model = TRUE, method = "glm.fit", x = FALSE, y = TRUE, contrasts = NULL, 
     prior.mean = 0, prior.scale = 2.5, prior.scale.for.intercept = 10, 
-    prior.df = 1, min.prior.scale=1e-12, scaled = TRUE, n.iter = 100, ...) 
+    prior.df = 1, min.prior.scale=1e-12, scaled = TRUE, drop.baseline = TRUE, n.iter = 100, ...) 
 {
     call <- match.call()
     if (is.character(family)) 
@@ -33,9 +33,18 @@ bayesglm <- function (formula, family = gaussian, data, weights, subset,
         if (!is.null(nm)) 
             names(Y) <- nm
     }
-    X <- if (!is.empty.model(mt)) 
+    
+    if (!drop.baseline){
+        X <- if (!is.empty.model(mt)) 
+          model.matrix.bayes(mt, mf, contrasts, keep.order=FALSE) 
+        else matrix(, NROW(Y), 0)
+    }
+    else {
+      X <- if (!is.empty.model(mt)) 
         model.matrix(mt, mf, contrasts)
-    else matrix(, NROW(Y), 0)
+      else matrix(, NROW(Y), 0)
+    }
+    
     weights <- model.weights(mf)
     offset <- model.offset(mf)
     if (!is.null(weights) && any(weights < 0)) 

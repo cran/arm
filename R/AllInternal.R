@@ -104,3 +104,168 @@ dwish <- function (W, v, S) {
     num <- detS^(-v/2) * detW^((v - k - 1)/2) * exp(-1/2 * tracehold)
     return(num/denom)
 }
+
+model.matrix.bayes <- function( object, data = environment( object ),
+                                contrasts.arg = NULL, xlev = NULL, keep.order=keep.order, ...)
+{
+    t <- if( missing( data ) ) { terms.object( object ) } else { terms.bayes( object, data=data, keep.order=keep.order ) }
+    attr(t, "intercept") <- attr(object, "intercept")
+    if ( is.null( attr( data, "terms" ) ) ){ data <- model.frame( object, data, xlev=xlev ) }
+    else {
+        reorder <- match(sapply(attr(t,"variables"),deparse, width.cutoff=500)[-1], names(data))
+        if ( any( is.na( reorder ) ) ) {
+            stop( "model frame and formula mismatch in model.matrix()" ) 
+        }
+        if( !identical( reorder, seq_len( ncol( data ) ) ) ) {
+            data <- data[,reorder, drop=FALSE] 
+        }
+    }
+    int <- attr( t, "response")
+    if( length( data ) ) {      # otherwise no rhs terms, so skip all this
+        contr.funs <- as.character(list("contr.bayes.unordered", "contr.bayes.ordered"))
+        namD <- names(data)
+        ## turn any character columns into factors
+        for(i in namD)
+            if(is.character( data[[i]] ) ) {
+                data[[i]] <- factor(data[[i]])
+                warning( gettextf( "variable '%s' converted to a factor", i ), domain = NA)
+            }
+        isF <- sapply( data, function( x ) is.factor( x ) || is.logical( x ) )
+        isF[int] <- FALSE
+        isOF <- sapply( data, is.ordered )
+        for( nn in namD[isF] )            # drop response
+            if( is.null( attr( data[[nn]], "contrasts" ) ) ) {
+                contrasts( data[[nn]] ) <- contr.funs 
+            }
+        ## it might be safer to have numerical contrasts:
+        ##    get(contr.funs[1 + isOF[nn]])(nlevels(data[[nn]]))
+        if ( !is.null( contrasts.arg ) && is.list( contrasts.arg ) ) {
+            if ( is.null( namC <- names( contrasts.arg ) ) ) {
+                stop( "invalid 'contrasts.arg' argument" )
+            }
+            for (nn in namC) {
+                if ( is.na( ni <- match( nn, namD ) ) ) {
+                    warning( gettextf( "variable '%s' is absent, its contrast will be ignored", nn ), domain = NA )
+                }
+                else {
+                    ca <- contrasts.arg[[nn]]
+                    if( is.matrix( ca ) ) {
+                        contrasts( data[[ni]], ncol( ca ) ) <- ca
+                    }
+                    else { 
+                        contrasts( data[[ni]] ) <- contrasts.arg[[nn]]
+                    }
+                }
+            }
+        }
+    } else {               # internal model.matrix needs some variable
+        isF  <-  FALSE
+        data <- list( x=rep( 0, nrow( data ) ) )
+    }
+    ans  <- .Internal( model.matrix( t, data ) )
+    cons <- if(any(isF)){
+    lapply( data[isF], function( x ) attr( x,  "contrasts") ) }
+    else { NULL }
+    attr( ans, "contrasts" ) <- cons
+    ans
+}
+
+contr.bayes.ordered <- function ( n, scores = 1:n, contrasts = TRUE )
+{
+    make.poly <- function( n, scores ) {
+        y   <- scores - mean( scores )
+        X   <- outer( y, seq_len( n ) - 1, "^" )
+        QR  <- qr( X )
+        z   <- QR$qr
+        z   <- z *( row( z ) == col( z ) )
+        raw <- qr.qy( QR, z )
+        Z   <- sweep( raw, 2, apply( raw, 2, function( x ) sqrt( sum( x^2 ) ) ), "/" )
+        colnames( Z ) <- paste( "^", 1:n - 1, sep="" )
+        Z
+    }
+    if ( is.numeric( n ) && length( n ) == 1 ) { levs <- 1:n }
+    else {
+        levs <- n
+        n <- length( levs )
+    }
+    if ( n < 2 ) {
+        stop( gettextf( "contrasts not defined for %d degrees of freedom", n - 1 ), domain = NA ) 
+    }
+    if ( n > 95 ) {
+        stop( gettextf( "orthogonal polynomials cannot be represented accurately enough for %d degrees of freedom", n-1 ), domain = NA ) 
+    }
+    if ( length( scores ) != n ) {
+        stop( "'scores' argument is of the wrong length" )
+    }
+    if ( !is.numeric( scores ) || any( duplicated( scores ) ) ) {
+        stop("'scores' must all be different numbers")
+    }
+    contr <- make.poly( n, scores )
+    if ( contrasts ) {
+        dn <- colnames( contr )
+        dn[2:min( 4, n )] <- c( ".L", ".Q", ".C" )[1:min( 3, n-1 )]
+        colnames( contr ) <- dn
+        contr[, , drop = FALSE]
+    }
+    else {
+        contr[, 1] <- 1
+        contr
+    }
+}
+
+contr.bayes.unordered <- function(n, base = 1, contrasts = TRUE) {
+    if( is.numeric( n ) && length( n ) == 1) {
+        if( n > 1 ) { levs <- 1:n }
+        else stop( "not enough degrees of freedom to define contrasts" )
+    } 
+    else {
+        levs <- n
+        n <- length( n )
+    }
+    contr <- array( 0, c(n, n), list( levs, levs ) )
+    diag( contr ) <- 1
+    if( contrasts ) {
+        if( n < 2 ) { stop( gettextf( "contrasts not defined for %d degrees of freedom", n - 1 ), domain = NA ) }
+        if( base < 1 | base > n ){ stop( "baseline group number out of range" ) }
+        contr <- contr[, , drop = FALSE]
+    }
+    contr
+}
+
+terms.bayes <- function( x, specials = NULL, abb = NULL, data = NULL, neg.out = TRUE, 
+                         keep.order = FALSE, simplify = FALSE, allowDotAsName = FALSE, ... )
+{
+    fixFormulaObject <- function(object, keep.order) {
+        Terms <- terms( object, keep.order )
+        tmp   <- attr( Terms, "term.labels" )
+        ## fix up terms involving | : PR#8462
+        ind <- grep( "|", tmp, fixed = TRUE )
+        if( length( ind ) ) tmp[ind] <- paste( "(", tmp[ind], ")" )
+        ## need to add back any offsets
+        if( length( ind <- attr( Terms, "offset" ) ) ) {
+            ## can't look at rownames of factors, as not there y ~ offset(x)
+            tmp2 <- as.character(attr(Terms, "variables"))[-1]
+            tmp <- c(tmp, tmp2[ind])
+        }
+        form <- formula( object )
+        lhs  <- if( length( form ) == 2 ) { NULL } else { paste( deparse( form[[2]] ), collapse="" ) }
+        rhs  <- if( length( tmp ) ) { paste( tmp, collapse = " + ") } else { "1" }
+        if( !attr( terms( object ), "intercept" ) ) rhs <- paste(rhs, "- 1")
+            formula( paste( lhs, "~", rhs ) )
+    }
+    
+    if(!is.null( data ) && !is.environment( data ) && !is.data.frame( data ) ) { 
+        data <- as.data.frame( data, optional=TRUE )
+    }
+
+    terms <- .Internal( terms.formula( x, specials, data, keep.order, allowDotAsName ) )
+    
+    if( simplify ) {
+        a     <- attributes( terms )
+        terms <- fixFormulaObject( terms )
+        attributes( terms ) <- a
+    }
+    environment( terms ) <- environment( x )
+    if( !inherits( terms, "formula" ) ) { class( terms ) <- c( oldClass( terms ), "formula" ) }
+    terms
+}
