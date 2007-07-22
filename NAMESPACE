@@ -1,5 +1,3 @@
-import("lme4")
-
 export(
        "balanceplot",
        "bayesglm",
@@ -11,6 +9,8 @@ export(
        "coefplot.glm",
        "coefplot.bugs",
        "coefplot.polr",
+       "contr.bayes.ordered",
+       "contr.bayes.unordered",
        "corrplot",  
        "display.lm", 
        "display.glm",
@@ -23,6 +23,7 @@ export(
        "invlogit",
        "matching", 
        "mcsamp",
+       "model.matrix.bayes",
        "pfround",
        "rescale",
        "se.coef.lm",
@@ -40,6 +41,7 @@ export(
        "sim.mer",
        "sim.mer2",
        "standardize",
+       "terms.bayes",
        "triangleplot"
 )
 

@@ -261,3 +261,4 @@ unpublished paper available at \url{http://www.stat.columbia.edu/~gelman/standar
 
 \keyword{models}
 \keyword{methods}
+\keyword{regression}

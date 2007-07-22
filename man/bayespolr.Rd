@@ -153,3 +153,4 @@ For a predictor with more than two values, we use prior.scale/(2*sd(x)).
 
 \keyword{models}
 \keyword{methods}
+\keyword{regression}
