@@ -1,4 +1,9 @@
 2006-7-22    Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-24.
+    * R/mcsamp: fix a bug in mcsamp.
+
+
+2006-7-22    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-23.
     * Export and document contr.bayes.ordered, contr.bayes.unordered, 
         model.matrix.bayes, and terms.bayes.

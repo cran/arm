@@ -16,8 +16,9 @@ model.matrix.bayes <- function( object, data = environment( object ),
     int <- attr( t, "response")
     if( length( data ) ) {      # otherwise no rhs terms, so skip all this
         contr.funs <- as.character(getOption("contrasts"))
-        contr.funs.bayes <- as.character(list("contr.bayes.unordered", "contr.bayes.ordered"))
+        contr.bayes.funs <- as.character(list("contr.bayes.unordered", "contr.bayes.ordered"))
         namD <- names(data)
+        
         ## turn any character columns into factors
         for(i in namD)
             if(is.character( data[[i]] ) ) {
@@ -38,7 +39,7 @@ model.matrix.bayes <- function( object, data = environment( object ),
             if( is.null( attr( data[[nn]], "contrasts" ) ) ) {
                 if(ba[[iin]] > 0){
                    # contrasts( data[[nn]] ) <- contr.funs 
-                    contrasts( data[[nn]] ) <- contr.funs.bayes
+                    contrasts( data[[nn]] ) <- contr.bayes.funs
                 }
                 else{
                     contrasts( data[[nn]] ) <- contr.funs
