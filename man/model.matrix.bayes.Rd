@@ -1,5 +1,6 @@
 \name{model.matrix.bayes}
 \alias{model.matrix.bayes}
+\alias{model.matrix.bayes2}
 
 \title{Construct Design Matrices}
 
@@ -8,7 +9,12 @@
 }
 
 \usage{
+# bayesglm
 model.matrix.bayes(object, data = environment(object), 
+    contrasts.arg = NULL, xlev = NULL, keep.order = FALSE, ...)
+    
+# bayesglm.hiearchical (not implement yet!)
+model.matrix.bayes2(object, data = environment(object), 
     contrasts.arg = NULL, xlev = NULL, keep.order = FALSE, batch = NULL, ...)
 }
 
@@ -57,6 +63,7 @@ unpublished paper available at \url{http://www.stat.columbia.edu/~gelman/standar
 ff <- log(Volume) ~ log(Height) + log(Girth)
 str(m <- model.frame(ff, trees))
 (model.matrix.bayes(ff, m))
+(model.matrix.bayes2(ff, m))
 (model.matrix(ff, m))
 }
 \keyword{models}

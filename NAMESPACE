@@ -24,6 +24,7 @@ export(
        "matching", 
        "mcsamp",
        "model.matrix.bayes",
+       "model.matrix.bayes2",
        "pfround",
        "rescale",
        "se.coef.lm",

@@ -1,3 +1,9 @@
+2006-8-1    Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-25.
+    * man/arm-package.Rd: add new documentation for arm package       
+    * R/.load.first.R: shows the current option for digit
+    * R/model.matrix.bayes.R: add model.matrix.bayes2 for bayesglm.H.
+    
 2006-7-22    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-24.
     * R/mcsamp: fix a bug in mcsamp.

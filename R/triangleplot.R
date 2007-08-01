@@ -99,7 +99,10 @@ triangleplot <- function(x, y=NULL, cutpts=NULL, details=TRUE,
     
     # color option    
     if (color){
+        #require(RColorBrewer)
         z.colors <- heat.colors(n.col.legend)[n.col.legend:1]
+        #z.colors <- hsv(.6-seq(.3, 0, length=n.col.legend), s=seq(0, 1, length=n.col.legend))#, alpha=seq(0,1, length=n.col.legend))
+        
     }
     else {
         z.colors <- gray(n.col.legend:1/n.col.legend)
