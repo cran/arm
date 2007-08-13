@@ -1,7 +1,7 @@
 model.matrix.bayes <- function( object, data = environment( object ),
                                 contrasts.arg = NULL, xlev = NULL, keep.order=FALSE, ...)
 {
-    t <- if( missing( data ) ) { terms.object( object ) } else { terms.bayes( object, data=data, keep.order=keep.order ) }
+    t <- if( missing( data ) ) { terms.object( object ) } else { terms( object, data=data, keep.order=keep.order ) }
     attr(t, "intercept") <- attr(object, "intercept")
     if ( is.null( attr( data, "terms" ) ) ){ data <- model.frame( object, data, xlev=xlev ) }
     else {
@@ -69,7 +69,7 @@ model.matrix.bayes <- function( object, data = environment( object ),
 model.matrix.bayes2 <- function( object, data = environment( object ),
                                 contrasts.arg = NULL, xlev = NULL, keep.order=FALSE, batch=NULL, ...)
 {
-    t <- if( missing( data ) ) { terms.object( object ) } else { terms.bayes( object, data=data, keep.order=keep.order ) }
+    t <- if( missing( data ) ) { terms.object( object ) } else { terms( object, data=data, keep.order=keep.order ) }
     attr(t, "intercept") <- attr(object, "intercept")
     if ( is.null( attr( data, "terms" ) ) ){ data <- model.frame( object, data, xlev=xlev ) }
     else {

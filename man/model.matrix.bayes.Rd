@@ -9,11 +9,11 @@
 }
 
 \usage{
-# bayesglm
+# for the use of bayesglm 
 model.matrix.bayes(object, data = environment(object), 
     contrasts.arg = NULL, xlev = NULL, keep.order = FALSE, ...)
     
-# bayesglm.hiearchical (not implement yet!)
+# for the use of bayesglm.hiearchical (not implement yet!)
 model.matrix.bayes2(object, data = environment(object), 
     contrasts.arg = NULL, xlev = NULL, keep.order = FALSE, batch = NULL, ...)
 }
@@ -54,7 +54,7 @@ unpublished paper available at \url{http://www.stat.columbia.edu/~gelman/standar
 
 \seealso{
   \code{\link{model.frame}}, \code{\link{model.extract}},
-  \code{\link{terms}}, \code{\link{terms.bayes}}, \code{\link{bayesglm}}. 
+  \code{\link{terms}}, \code{\link{terms.formula}}, \code{\link{bayesglm}}. 
 }
 
 \author{Yu-Sung Su \email{ys463@columbia.edu}}

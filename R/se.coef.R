@@ -1,15 +1,24 @@
-se.coef.lm <- function(object){
+setMethod("se.coef", signature(object = "lm"),
+    function(object)
+    {
     object.class <- class(object)[[1]]
     sqrt (diag(vcov(object)))
-}
+    }
+)
 
-se.coef.glm <- function(object){
+
+setMethod("se.coef", signature(object = "glm"),
+    function(object)
+    {
     object.class <- class(object)[[1]]
     sqrt (diag(vcov(object)))
-}
+    }
+)
 
-se.coef.mer <- function(object){
-#    if (sum(unlist(lapply(object@bVar, is.na)))>0){
+setMethod("se.coef", signature(object = "mer"),
+    function(object)
+    {
+    #    if (sum(unlist(lapply(object@bVar, is.na)))>0){
 #        object@call$control <- list(usePQL=TRUE)
 #        object <- lmer(object@call$formula)
 #    }
@@ -40,10 +49,12 @@ se.coef.mer <- function(object){
     }
     ses <- c (se.unmodeled, se.bygroup)
     return (ses)
-}
+    }
+)
 
-se.coef.mer2 <- function(object){
-    
+setMethod("se.coef", signature(object = "lmer2"),
+    function(object)
+    {
     fcoef <- fixef(object)
     sc <- attr (VarCorr (object), "sc")
     corF <- vcov(object)@factors$correlation
@@ -71,7 +82,9 @@ se.coef.mer2 <- function(object){
     }
     ses <- c (se.unmodeled, se.bygroup)
     return (ses)
-}
+    }
+)
+
 
 
 se.fixef <- function (object){

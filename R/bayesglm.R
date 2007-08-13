@@ -36,7 +36,7 @@ bayesglm <- function (formula, family = gaussian, data, weights, subset,
     
     if (!drop.baseline){
         X <- if (!is.empty.model(mt)) 
-          model.matrix.bayes(mt, mf, contrasts, keep.order=FALSE) 
+          model.matrix(mt, mf, contrasts) 
         else matrix(, NROW(Y), 0)
     }
     else {

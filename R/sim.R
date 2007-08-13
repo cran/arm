@@ -1,4 +1,6 @@
-sim.lm <- function(object, n.sims=100){
+setMethod("sim", signature(object = "lm"),
+    function(object, n.sims=100)
+    {
     object.class <- class(object)[[1]]
     summ <- summary (object)
     coef <- summ$coef[,1:2,drop=FALSE]
@@ -16,10 +18,12 @@ sim.lm <- function(object, n.sims=100){
       beta[s,] <- mvrnorm (1, beta.hat, V.beta*sigma[s]^2)
     }
     return (list (beta=beta, sigma=sigma))
-}
+    }
+)
 
-
-sim.glm <- function(object, n.sims=100){
+setMethod("sim", signature(object = "glm"),
+    function(object, n.sims=100)
+    {
     object.class <- class(object)[[1]]
     summ <- summary (object, correlation=TRUE)
     coef <- summ$coef[,1:2,drop=FALSE]
@@ -37,12 +41,13 @@ sim.glm <- function(object, n.sims=100){
     }
     sigma <- rep (sqrt(summ$dispersion), n.sims)
     return (list(beta=beta, sigma=sigma))
-}
+    }
+)
 
 
-
-
-sim.mer <- function(object, n.sims=100){
+setMethod("sim", signature(object = "mer"),
+    function(object, n.sims=100)
+    {
     #object <- summary(object)
     if (lapply(object@bVar,sum)<=0|sum(unlist(lapply(object@bVar, is.na)))>0){
         object@call$control <- list(usePQL=TRUE)
@@ -79,10 +84,12 @@ sim.mer <- function(object, n.sims=100){
     }
     betas <- c (beta.unmodeled, beta.bygroup)
     return (betas)
-}
+    }
+)
 
-sim.mer2 <- function(object, n.sims=100){
-
+setMethod("sim", signature(object = "lmer2"),
+    function(object, n.sims=100)
+    {
     # simulate unmodeled coefficients
     fcoef <- fixef(object)
     corF <- vcov(object)@factors$correlation
@@ -113,4 +120,5 @@ sim.mer2 <- function(object, n.sims=100){
     }
     betas <- c (beta.unmodeled, beta.bygroup)
     return (betas)
-}
+    }
+)

@@ -1,8 +1,9 @@
-terms.bayes <- function( x, specials = NULL, abb = NULL, data = NULL, neg.out = TRUE, 
-                         keep.order = FALSE, simplify = FALSE, allowDotAsName = FALSE, ... )
-{
-    fixFormulaObject <- function(object, keep.order) {
-        Terms <- terms( object, keep.order )
+setMethod("terms", signature(x = "formula"),
+    function(x, specials = NULL, abb = NULL, data = NULL, neg.out = TRUE, 
+    keep.order = FALSE, simplify = FALSE, ..., allowDotAsName = FALSE) 
+    {
+    fixFormulaObject <- function(object, keep.order, ...) {
+        Terms <- terms( object, keep.order, ...)
         tmp   <- attr( Terms, "term.labels" )
         ## fix up terms involving | : PR#8462
         ind <- grep( "|", tmp, fixed = TRUE )
@@ -34,4 +35,5 @@ terms.bayes <- function( x, specials = NULL, abb = NULL, data = NULL, neg.out = 
     environment( terms ) <- environment( x )
     if( !inherits( terms, "formula" ) ) { class( terms ) <- c( oldClass( terms ), "formula" ) }
     terms
-}
+    }
+)

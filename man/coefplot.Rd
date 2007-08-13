@@ -1,16 +1,13 @@
 \name{coefplot}
 \docType{genericFunction}
 \alias{coefplot}
+\alias{coefplot.default}
 \alias{coefplot,numeric-method}
 \alias{coefplot,lm-method}
 \alias{coefplot,glm-method}
 \alias{coefplot,bugs-method}
 \alias{coefplot,polr-method}
-\alias{coefplot.default}
-\alias{coefplot.lm}
-\alias{coefplot.glm}
-\alias{coefplot.bugs}
-\alias{coefplot.polr}
+
 
 \title{Generic Function for Making Coefficient Plot}
 \description{
@@ -18,23 +15,17 @@
  from a lm, glm, bugs, and polr fits.
 }
 \usage{
-coefplot(object, ...)
+coefplot(object,\dots)
 
-coefplot.default(coefs, sds, 
+\method{coefplot}{default}(coefs, sds, 
                 varnames=NULL, CI=2, vertical=TRUE, 
-                xlim=NULL, ylim=NULL, 
-                xlab="", ylab="", main="",   
-                cex.var=0.8, cex.pts=0.9, col.pts=1,
-                var.las=2)
-
-# methods for coefplot()           
-coefplot.lm (object, varnames=NULL, intercept=FALSE, ...)
-coefplot.glm (object, varnames=NULL, intercept=FALSE, ...)
-coefplot.polr (object, varnames=NULL, ...)
-coefplot.bugs (object, varnames=NULL, CI=2,
-               xlim=NULL, ylim=NULL, 
-               xlab="", ylab="", main="",   
-               cex.var=0.8, cex.pts=0.9, col.pts=1)
+                cex.var=0.8, cex.pts=0.9, 
+                col.pts=1, var.las=2,\dots)
+                
+\S4method{coefplot}{lm}(object, varnames=NULL, intercept=FALSE, \dots)
+\S4method{coefplot}{glm}(object, varnames=NULL, intercept=FALSE, \dots)
+\S4method{coefplot}{polr}(object, varnames=NULL, \dots)
+\S4method{coefplot}{bugs}(object, varnames=NULL, CI=2, \dots)
 }
 
 \arguments{
@@ -49,12 +40,6 @@ coefplot.bugs (object, varnames=NULL, CI=2,
   \item{vertical}{orientation of the plot, default is TRUE which will plot
     variable names in the 2nd axis. If FALSE, plot variable names in the first
     axis instead.}
-  \item{xlim}{the x limits (x1, x2) of the plot.  Note that 'x1 > x2' is
-          allowed and leads to a "reversed axis".}
-  \item{ylim}{the y limits of the plot.}
-  \item{xlab}{a label for the x axis, default is "".}
-  \item{ylab}{a label for the y axis, default is "".}
-  \item{main}{a main title for the plot, default is "". See also \code{title}.} 
   \item{cex.var}{The fontsize of the varible names, default=0.8.}
   \item{cex.pts}{The size of data points, default=0.9.}
   \item{col.pts}{color of points and segments, default is black.}
@@ -81,7 +66,8 @@ coefplot.bugs (object, varnames=NULL, CI=2,
          \code{\link{par}},
          \code{\link{lm}},
          \code{\link{glm}},
-         \code{\link{bayesglm}}
+         \code{\link{bayesglm}},
+         \code{\link{plot}}
         }
 \examples{
  y1 <- rnorm(1000,50,23)

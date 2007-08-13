@@ -32,5 +32,10 @@ if (!isGeneric("se.coef")) {
 }
 
 
+if (!isGeneric("terms")) {
+    setGeneric("terms",
+               function(x,...)
+               standardGeneric("terms"))
+}
 
    

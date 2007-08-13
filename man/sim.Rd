@@ -3,14 +3,9 @@
 \alias{sim}
 \alias{sim,lm-method}
 \alias{sim,glm-method}
-\alias{sim,lmer-method}
-\alias{sim,glmer-method}
+\alias{sim,mer-method}
 \alias{sim,lmer2-method}
-\alias{sim,glmer2-method}
-\alias{sim.lm}
-\alias{sim.glm}
-\alias{sim.mer}
-\alias{sim.mer2}
+
 
 \title{Functions to Get Posterior Distributions}
 
@@ -23,10 +18,10 @@ simulations of beta from a mer object
 \usage{
 sim(object, ...)
 
-# methods for sim()
-sim.lm (object, n.sims = 100)
-sim.glm (object, n.sims = 100)
-sim.mer (object, n.sims = 100)
+\S4method{sim}{lm}(object, n.sims = 100)
+\S4method{sim}{glm}(object, n.sims = 100)
+\S4method{sim}{mer}(object, n.sims = 100)
+\S4method{sim}{lmer2}(object, n.sims = 100)
 }
 
 \arguments{
@@ -109,6 +104,11 @@ sim.mer (object, n.sims = 100)
     control=list(usePQL=TRUE))
  display(E3)
  E3.sim <- sim (E3)
+ 
+\testonly{
+ E4 <- lmer2 (y ~ x + u.full + (1 | group))
+ E4.sim <- sim (E4) 
+}
 }
 
 \keyword{models}

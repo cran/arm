@@ -1,12 +1,17 @@
-sigma.hat.lm <- function(object){
+setMethod("sigma.hat", signature(object = "lm"),
+    function(object)
+    {
     object.class <- class(object)[[1]]
     sigma <- summary(object)$sigma
     return (sigma)
-}
+    }
+)
 
 
-sigma.hat.glm <- function (object){
-    dispersion <- if (is.null(object$dispersion))
+setMethod("sigma.hat", signature(object = "glm"),
+    function(object)
+    {
+     dispersion <- if (is.null(object$dispersion))
         summary(object)$dispersion
     else object$dispersion
     object.class <- class(object)[[1]]
@@ -17,10 +22,13 @@ sigma.hat.glm <- function (object){
         sigma <- summary(object, correlation = TRUE)$sigma
     }
     return(sigma)
-}
+    }
+)
 
 
-sigma.hat.mer <- function(object){
+setMethod("sigma.hat", signature(object = "mer"),
+    function(object)
+    {
     #object <- summary (object)
     fcoef <- fixef(object)
     useScale <- object@devComp[8]
@@ -40,10 +48,12 @@ sigma.hat.mer <- function(object){
       if (length (cors[[k+1]]) == 1) cors[[k+1]] <- NA
     }
     return (list (sigma=sigmas, cors=cors))
-}
+    }
+) 
 
-
-sigma.hat.mer2 <- function(object){
+setMethod("sigma.hat", signature(object = "lmer2"),
+    function(object)
+    {
     #object <- summary (object)
     fcoef <- fixef(object)
     useScale <- attr (VarCorr (object), "sc")  # =sc?
@@ -63,4 +73,5 @@ sigma.hat.mer2 <- function(object){
       if (length (cors[[k+1]]) == 1) cors[[k+1]] <- NA
     }
     return (list (sigma=sigmas, cors=cors))
-}
+    }
+)  

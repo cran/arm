@@ -4,19 +4,11 @@ export(
        "bayesglm.fit",
        "bayespolr",
        "binnedplot",
-       "coefplot.default",
-       "coefplot.lm",
-       "coefplot.glm",
-       "coefplot.bugs",
-       "coefplot.polr",
+       "coefplot",
        "contr.bayes.ordered",
        "contr.bayes.unordered",
-       "corrplot",  
-       "display.lm", 
-       "display.glm",
-       "display.mer",
-       "display.mer2",
-       "display.polr",
+       "corrplot",
+       "display",  
        "fround",
        "G",
        "go",
@@ -27,22 +19,12 @@ export(
        "model.matrix.bayes2",
        "pfround",
        "rescale",
-       "se.coef.lm",
-       "se.coef.glm",
-       "se.coef.mer",
-       "se.coef.mer2",
+       "se.coef",
        "se.fixef",
        "se.ranef",
-       "sigma.hat.lm",
-       "sigma.hat.glm",
-       "sigma.hat.mer",
-       "sigma.hat.mer2",
-       "sim.lm",
-       "sim.glm",
-       "sim.mer",
-       "sim.mer2",
+       "sigma.hat",
+       "sim",
        "standardize",
-       "terms.bayes",
        "triangleplot"
 )
 
@@ -52,7 +34,8 @@ exportMethods(
               "display",
               "se.coef",
               "sim",
-              "sigma.hat"
+              "sigma.hat",
+              "terms"
               )
 
 S3method(print, GO)

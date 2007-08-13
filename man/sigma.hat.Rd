@@ -3,14 +3,9 @@
 \alias{sigma.hat}
 \alias{sigma.hat,lm-method}
 \alias{sigma.hat,glm-method}
-\alias{sigma.hat,lmer-method}
-\alias{sigma.hat,glmer-method}
+\alias{sigma.hat,mer-method}
 \alias{sigma.hat,lmer2-method}
-\alias{sigma.hat,glmer2-method}
-\alias{sigma.hat.lm}
-\alias{sigma.hat.glm}
-\alias{sigma.hat.mer}
-\alias{sigma.hat.mer2}
+
 
 \title{Extract Residual Errors}
 
@@ -20,10 +15,10 @@
 \usage{
 sigma.hat(object)
 
-# methods for sigma.hat()
-sigma.hat.lm (object)
-sigma.hat.glm (object)
-sigma.hat.mer (object)
+\S4method{sigma.hat}{lm}(object)
+\S4method{sigma.hat}{glm}(object)
+\S4method{sigma.hat}{mer}(object)
+\S4method{sigma.hat}{lmer2}(object)
 }
 
 \arguments{
@@ -73,6 +68,11 @@ sigma.hat.mer (object)
    
    M5 <- lmer (y2 ~ (1+x|group), family=binomial(link="logit"))
    sigma.hat(M5)
+
+\testonly{
+   M6 <- lmer2 (y1 ~ (1+x|group))
+   sigma.hat(M6) 
+}
 }
 
 \keyword{methods}

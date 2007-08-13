@@ -1,4 +1,6 @@
-display.lm <- function(object, digits=2){
+setMethod("display", signature(object = "lm"),
+    function(object, digits=2)
+    {
     call <- object$call
     summ <- summary (object)
     coef <- summ$coef[,1:2,drop=FALSE]
@@ -11,9 +13,14 @@ display.lm <- function(object, digits=2){
     cat (paste ("n = ", n, ", k = ", k,
     "\nresidual sd = ", fround (summ$sigma, digits),
     ", R-Squared = ", fround (summ$r.squared, 2), "\n", sep=""))
-}
+    }
+)
 
-display.glm <- function (object, digits = 2){
+
+
+setMethod("display", signature(object = "glm"),
+    function(object, digits=2)
+    {
     call <- object$call
     summ <- summary(object, dispersion = object$dispersion)
     coef <- matrix( NA, length( object$coefficients ),2 )
@@ -40,10 +47,13 @@ display.glm <- function (object, digits = 2){
                 fround(sqrt(dispersion), digits), "\n", sep = ""))
         }
     }
-}
+    }
+)
 
 
-display.mer <- function(object, digits=2){
+setMethod("display", signature(object = "mer"),
+    function(object, digits=2)
+    {
     call <- object@call
     print (call)
     #object <- summary(object)
@@ -77,10 +87,13 @@ display.mer <- function(object, digits=2){
       cat("overdispersion parameter =", fround (.Call("mer_sigma", 
         object, FALSE, PACKAGE = "lme4"), 1), "\n")
     }
-}
+    }
+)
 
 
-display.mer2 <- function(object, digits=2){
+setMethod("display", signature(object = "lmer2"),
+    function(object, digits=2)
+    {
     call <- object@call
     print (call)
     #object <- summary(object)
@@ -114,12 +127,13 @@ display.mer2 <- function(object, digits=2){
       cat("overdispersion parameter =", fround (.Call("lmer2_sigma", 
         object, FALSE, PACKAGE = "lme4"), 1), "\n")
     }
-}
+    }
+)
 
 
-
-
-display.polr <- function(object, digits=2){
+setMethod("display", signature(object = "polr"),
+    function(object, digits=2)
+    {
     call <- object$call
     summ <- summary(object)
     coef <- summ$coef[, 1:2, drop = FALSE]
@@ -135,4 +149,5 @@ display.polr <- function(object, digits=2){
         fround(summ$deviance, 1), 
         ", null deviance is not computed by polr",
         "\n", sep = ""))
-}
+    }
+)

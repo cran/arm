@@ -3,31 +3,23 @@
 \alias{display}
 \alias{display,lm-method}
 \alias{display,glm-method}
-\alias{display,lmer-method}
-\alias{display,glmer-method}
+\alias{display,mer-method}
 \alias{display,lmer2-method}
-\alias{display,glmer2-method}
 \alias{display,polr-method}
-\alias{display.lm}
-\alias{display.glm}
-\alias{display.mer}
-\alias{display.mer2}
-\alias{display.polr}
 
 \title{Functions for Processing lm, glm, mer and polr Output}
 
 \description{This generic function gives a
-    clean printout of lm, glm, mer and polr objects.}
+    clean printout of lm, glm, mer, and polr objects.}
 
 \usage{
-    display (object, ...)
+display (object, ...)
 
-# methods for display()    
-    display.lm (object, digits=2)
-    display.glm (object, digits=2)
-    display.mer (object, digits=2)
-    display.mer2 (object, digits=2)
-    display.polr (object, digits=2)
+\S4method{display}{lm}(object, digits=2)
+\S4method{display}{glm}(object, digits=2)
+\S4method{display}{mer}(object, digits=2)
+\S4method{display}{lmer2}(object, digits=2)
+\S4method{display}{polr}(object, digits=2)
 }
 
 \arguments{
@@ -65,9 +57,9 @@
  or the null deviance and residual deviance (for a generalized linear model).
 }
 
-\seealso{\code{\link{summary}},
-         \code{\link{lm}},
-         \code{\link{glm}},
+\seealso{\code{\link[base]{summary}},
+         \code{\link[stats]{lm}},
+         \code{\link[stats]{glm}},
          \code{\link[lme4]{lmer}},
          \code{\link[MASS]{polr}}
          }
@@ -145,7 +137,14 @@
    display(M7)
    
    M8 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
-   display(M8)   
+   display(M8) 
+   
+\testonly{
+    M9 <- lmer2 (y1 ~ x + (1 + x |group))
+    display(M9)
+}  
 }
 
+
+\keyword{models}
 \keyword{methods}

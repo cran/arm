@@ -9,20 +9,22 @@
 \description{R functions for processing lm, glm, mer and polr outputs.}
 
 \details{\tabular{ll}{Package:\tab arm\cr
-Version:\tab 1.0-25\cr
-Date:\tab 2007/08/01\cr
+Version:\tab 1.0-26\cr
+Date:\tab 2007/08/13\cr
 Namespace:\tab arm\cr
-Depends:\tab methods, R (>= 2.4.0), MASS, Matrix (>= 0.9975-1), lme4 (>= 0.9975-1), R2WinBUGS\cr
+Depends:\tab methods, R (>= 2.4.0), MASS, Matrix (>= 0.9975-1),\cr
+        \tab lme4 (>= 0.9975-1), R2WinBUGS\cr
 Suggest:\tab car, foreign, nnet\cr
 License:\tab GPL version 2 or newer\cr}
 }
 
-\author{Andrew Gelman <gelman@stat.columbia.edu>,
-        Yu-Sung Su <ys463@columbia.edu>,
-        Jennifer Hill <jh1030@columbia.edu>,
-        Maria Grazia Pittau <grazia@stat.columbia.edu>,
-        Jouni Kerman <jouni@kerman.com> and
-        Tian Zheng <tzheng@stat.columbia.edu>}
+\author{\tabular{l}{Andrew Gelman <gelman@stat.columbia.edu>,\cr
+        Yu-Sung Su <ys463@columbia.edu>,\cr
+        Jennifer Hill <jh1030@columbia.edu>,\cr
+        Maria Grazia Pittau <grazia@stat.columbia.edu>,\cr
+        Jouni Kerman <jouni@kerman.com> and\cr
+        Tian Zheng <tzheng@stat.columbia.edu>\cr}
+}
 
 \references{Gelman, Andrew and Jennifer Hill. (2007). 
             \emph{Data Analysis Using Regression and Multilevel/Hierarchical Models}. 

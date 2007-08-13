@@ -1,5 +1,6 @@
-\name{terms.bayes}
-\alias{terms.bayes}
+\name{terms}
+\alias{terms}
+\alias{terms,formula-method}
 
 \title{Construct a terms Object from a Formula}
 
@@ -9,9 +10,9 @@
   construct a \code{\link{model.matrix.bayes}}.
 }
 \usage{
-terms.bayes(x, specials = NULL, abb = NULL, data = NULL, 
+\S4method{terms}{formula}(x, specials = NULL, abb = NULL, data = NULL, 
     neg.out = TRUE, keep.order = FALSE, simplify = FALSE, 
-    allowDotAsName = FALSE, ...)
+    allowDotAsName = FALSE, \dots)
 }
 
 \arguments{
@@ -37,16 +38,18 @@ terms.bayes(x, specials = NULL, abb = NULL, data = NULL,
 }
 
 \details{
- This function is adapted from \code{terms.formula} in \code{stats} package and 
- is designed for the use of \code{\link{bayesglm}} and \code{bayesglm.hierachical}.
- Unlike \code{terms.formula}, \code{terms.bayes} keeps all terms unordered.
+ This function is a revised version of \code{\link[stats]{terms.formula}} in 
+ \code{stats} package.  It activates the option \code{keep.order}.  
+ It is designed for the use of \code{\link{bayesglm}} 
+ and \code{bayesglm.hierachical} where terms might need to keep unordered.
 }
 
 \author{Yu-Sung Su \email{ys463@columbia.edu}}
 
 \seealso{
-  \code{\link{terms}}, \code{\link{terms.object}}, 
+  \code{\link[stats]{terms}}, \code{\link[stats]{terms.object}}, 
   \code{\link{model.matrix.bayes}},
   \code{\link{bayesglm}}.
 }
+
 \keyword{models}

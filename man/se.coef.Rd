@@ -3,14 +3,8 @@
 \alias{se.coef}
 \alias{se.coef,lm-method}
 \alias{se.coef,glm-method}
-\alias{se.coef,lmer-method}
-\alias{se.coef,glmer-method}
+\alias{se.coef,mer-method}
 \alias{se.coef,lmer2-method}
-\alias{se.coef,glmer2-method}
-\alias{se.coef.lm}
-\alias{se.coef.glm}
-\alias{se.coef.mer}
-\alias{se.coef.mer2}
 \alias{se.fixef}
 \alias{se.ranef}
 
@@ -25,11 +19,12 @@ se.coef (object)
 se.fixef (object)
 se.ranef (object)
 
-# methods for se.coef()
-se.coef.lm (object)
-se.coef.glm (object)
-se.coef.mer (object)
+\S4method{se.coef}{lm}(object)
+\S4method{se.coef}{glm}(object)
+\S4method{se.coef}{mer}(object)
+\S4method{se.coef}{lmer2}(object)
 }
+
 \arguments{
   \item{object}{object of lm, glm, lmer and glmer fit}
 }
@@ -102,6 +97,13 @@ se.coef.mer (object)
    se.coef (M4)
    se.fixef (M4)
    se.ranef (M4)
+   
+\testonly{
+   M5 <- lmer2 (y1 ~ x + (1 + x |group))
+   se.coef (M5)
+   se.fixef (M5)
+   se.ranef (M5)
+}
 }
 \keyword{methods}
 \keyword{models}

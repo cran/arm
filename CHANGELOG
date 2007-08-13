@@ -1,3 +1,11 @@
+2006-8-13    Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-26.
+    * Clean up codes.  Register S4 methods more explicitly. Methods affected
+        are: coefplot, display, se.coef, sigma.hat, sim.
+    * Prepare to release R.1.1-0.
+
+
+
 2006-8-1    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-25.
     * man/arm-package.Rd: add new documentation for arm package       
