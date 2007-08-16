@@ -246,12 +246,13 @@ unpublished paper available at \url{http://www.stat.columbia.edu/~gelman/standar
     family=binomial(link="logit"), prior.scale=2.5, prior.df=Inf)
   display (M8)
   
-  ## keep all levels
+  ## keep all levels with the intercept
   M9 <- bayesglm (y ~ x1 + factor(z1) + factor(z2), 
     family=binomial(link="logit"), prior.scale=2.5, prior.df=Inf,
     drop.baseline=FALSE)
   display (M9)
-  
+
+  ## keep all levels without the intercept
   M10 <- bayesglm (y ~ x1 + factor(z1) + factor(z2)-1, 
     family=binomial(link="logit"), prior.scale=2.5, prior.df=Inf,
     drop.baseline=FALSE)

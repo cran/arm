@@ -1,10 +1,15 @@
 2006-8-13    Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-27.
+    * R/bayespolr: fix bugs for assigning priors manually.
+    * R/bayesglm: fix a bug for the aforementioned bugs.
+    * man/coefplot: add labels and titles for examples.
+
+
+2006-8-13    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-26.
     * Clean up codes.  Register S4 methods more explicitly. Methods affected
         are: coefplot, display, se.coef, sigma.hat, sim.
     * Prepare to release R.1.1-0.
-
-
 
 2006-8-1    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-25.

@@ -2,7 +2,8 @@ bayesglm <- function (formula, family = gaussian, data, weights, subset,
     na.action, start = NULL, etastart, mustart, offset, control = glm.control(...), 
     model = TRUE, method = "glm.fit", x = FALSE, y = TRUE, contrasts = NULL, 
     prior.mean = 0, prior.scale = 2.5, prior.scale.for.intercept = 10, 
-    prior.df = 1, min.prior.scale=1e-12, scaled = TRUE, drop.baseline = TRUE, n.iter = 100, ...) 
+    prior.df = 1, min.prior.scale=1e-12, scaled = TRUE, 
+    drop.baseline = TRUE, n.iter = 100, ...) 
 {
     call <- match.call()
     if (is.character(family)) 
@@ -97,12 +98,18 @@ bayesglm.fit <- function (x, y,
     if (length(prior.mean) == 1) {
         prior.mean <- rep(prior.mean, J)
     }
+    else {
+        prior.mean <- c(0, prior.mean)
+    }
+    if (is.null(prior.scale.for.intercept) & length(prior.scale) > 1){
+        prior.scale <- c(10, prior.scale)
+    }   
     if (length(prior.scale) == 1) {
         prior.scale <- rep(prior.scale, J)
     }
     if (is.numeric(prior.scale.for.intercept) & intercept) {
         prior.scale[1] <- prior.scale.for.intercept
-    }    
+    }
     if (scaled) {
         for (j in 1:J) {
             x.obs <- x[, j]
@@ -126,6 +133,9 @@ bayesglm.fit <- function (x, y,
     }
     if (length(prior.df) == 1) {
         prior.df <- rep(prior.df, J)
+    }
+    else {
+        prior.df <- c(1, prior.df)
     }
     x <- as.matrix(x)
     xnames <- dimnames(x)[[2]]

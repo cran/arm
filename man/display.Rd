@@ -81,58 +81,58 @@ display (object, ...)
    ab <- mvrnorm (10, c(mu.a,mu.b), Sigma.ab)
    a <- ab[,1]
    b <- ab[,2]
-#   
+
    x <- rnorm (100)
    y1 <- rnorm (100, a[group] + b[group]*x, sigma.y)
    y2 <- rbinom(100, 1, prob=invlogit(a[group] + b*x))
 
-#
+
 # display a simple linear model
-#
+
    M1 <- lm (y1 ~ x)
    display (M1)
   
-#
+
 # display a simple logit model
-#
+
    M2 <- glm (y2 ~ x, family=binomial(link="logit"))
    display (M2)
-#
+
 # Then fit and display a simple varying-intercept model:
-# 
+ 
    M3 <- lmer (y1 ~ x + (1|group))
    display (M3)
    M3.sim <- mcsamp (M3)
    print (M3.sim)
    plot (M3.sim)
-# 
+ 
 # Then the full varying-intercept, varying-slope model:
-# 
+ 
    M4 <- lmer (y1 ~ x + (1 + x |group))
    display (M4)
    M4.sim <- mcsamp (M4)
    print (M4.sim)
    plot (M4.sim)
-# 
+ 
 # Then the full varying-intercept, logit model:
-# 
+ 
    M5 <- lmer (y2 ~ x + (1|group), family=binomial(link="logit"))
    display (M5)
    M5.sim <- mcsamp (M5)
    print (M5.sim)
    plot (M5.sim)
-# 
+ 
 # Then the full varying-intercept, varying-slope logit model:
-# 
+ 
    M6 <- lmer (y2 ~ x + (1 + x |group), family=binomial(link="logit"))
    display (M6)
    M6.sim <- mcsamp (M6)
    print (M6.sim)
    plot (M6.sim)
 
-# 
+ 
 # Then the ordered logit model from polr
-#
+
    M7 <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
    display(M7)
    

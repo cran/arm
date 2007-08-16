@@ -47,14 +47,17 @@ coefplot(object,\dots)
     see the usage of \code{las} in \code{\link{par}}.}
   \item{intercept}{If TRUE will plot intercept, default=FALSE to get better presentation.}
 }
+
 \details{
   This function plots coefficients from lm, glm and polr
   with 1 sd and 2 sd interval bars.
 }
+
 \value{
    Plot of the coefficients from a lm or glm fit. You can add the intercept, 
    the variable names and the display the result of the fitted model. 
 }
+
 \references{Andrew Gelman and Jennifer Hill, 
             Data Analysis Using Regression and Multilevel/Hierarchical Models, 
             Cambridge University Press, 2006.}
@@ -63,11 +66,11 @@ coefplot(object,\dots)
 }
         
 \seealso{\code{\link{display}},
-         \code{\link{par}},
-         \code{\link{lm}},
-         \code{\link{glm}},
+         \code{\link[graphics]{par}},
+         \code{\link[stats]{lm}},
+         \code{\link[stats]{glm}},
          \code{\link{bayesglm}},
-         \code{\link{plot}}
+         \code{\link[graphic]{plot}}
         }
 \examples{
  y1 <- rnorm(1000,50,23)
@@ -86,18 +89,21 @@ coefplot(object,\dots)
             family=binomial(link="logit"))
  
  # plot 1
- par (mfrow=c(2,2))
- coefplot(fit1)
- coefplot(fit2, col.pts="blue")
+ par (mfrow=c(2,2), mar=c(3,3,4,1), mgp=c(2,0.25,0), tcl=-0.2)
+ coefplot(fit1, xlab="", ylab="", main="Regression Estimates")
+ coefplot(fit2, col.pts="blue",
+    xlab="", ylab="", main="Regression Estimates")
  
  
  # plot 2
  par (mar=c(2,8,2,0.5))
- coefplot(fit1, longnames, intercept=TRUE, CI=1)
+ coefplot(fit1, longnames, intercept=TRUE, CI=1,
+     xlab="", ylab="", main="Regression Estimates")
  
  # plot 3
  par (mar=c(2,2,2,2))
- coefplot(fit2, vertical=FALSE, var.las=1)
+ coefplot(fit2, vertical=FALSE, var.las=1,
+     xlab="", ylab="", main="Regression Estimates")
  
  # plot 4: comparison to show bayesglm works better than glm
  n <- 100
@@ -119,7 +125,7 @@ coefplot(object,\dots)
     ## stacked plot
     par(mar=c(2,5,3,1), mgp=c(2,0.25,0), oma=c(0,0,2,0), tcl=-0.2)
  
-    coefplot(M2, xlim=c(-1,5), intercept=TRUE)
+    coefplot(M2, xlim=c(-1,5), intercept=TRUE, xlab="", ylab="")
     points(coef(M1), c(3:1)-0.1, col="red", pch=19)
     segments(coef(M1) + se.coef(M1), c(3:1)-0.1,
         coef(M1) - se.coef(M1), c(3:1)-0.1, lwd=2, col="red")
@@ -132,29 +138,36 @@ coefplot(object,\dots)
     par(mfrow=c(1,2), mar=c(2,5,5,1), mgp=c(2,0.25,0), tcl=-0.2)
     x.scale <- c(0, 7.5) # fix x.scale for comparison
  
-    coefplot(M1, xlim=x.scale, main="glm", intercept=TRUE)
-    coefplot(M2, xlim=x.scale, main="bayesglm", intercept=TRUE)
+    coefplot(M1, xlim=x.scale, main="glm", intercept=TRUE,
+         xlab="", ylab="")
+    coefplot(M2, xlim=x.scale, main="bayesglm", intercept=TRUE,
+         xlab="", ylab="")
 
 # plot 5: the ordered logit model from polr
+ par (mar=c(3,8,4,1), mgp=c(2,0.25,0), tcl=-0.2)
+ 
  M3 <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
- par (mar=c(2,8,2,0.5))
- coefplot(M3)
+ coefplot(M3, xlab="", ylab="", main="polr")
    
  M4 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
- par (mar=c(2,8,2,0.5))
- coefplot(M4)
+ coefplot(M4, xlab="", ylab="", main="bayespolr")
 
 # plot 6: plot bugs 
+ par (mar=c(3,8,4,1), mgp=c(2,0.25,0), tcl=-0.2)
  M5 <- lmer(Reaction ~ Days + (1|Subject), sleepstudy)
  M5.sim <- mcsamp(M5)
- coefplot(M5.sim)
+ coefplot(M5.sim, xlab="", ylab="", main="BUGS model")
  
 # plot 7: plot coefficients & sds vectors
+ par (mar=c(3,4,4,4), mgp=c(2,0.25,0), tcl=-0.2)
  coef.vect <- c(0.2, 1.4, 2.3, 0.5)
  sd.vect <- c(0.12, 0.24, 0.23, 0.15)
  longnames <- c("var1", "var2", "var3", "var4")
- coefplot (coef.vect, sd.vect, longnames)
- coefplot (coef.vect, sd.vect, longnames, vertical=FALSE, var.las=1)
+ coefplot (coef.vect, sd.vect, longnames,
+    xlab="", ylab="", main="Regression Estimates")
+ coefplot (coef.vect, sd.vect, longnames, 
+    vertical=FALSE, var.las=1, las=2,
+    xlab="", ylab="", main="Regression Estimates")
 }
 
 \keyword{dplot}

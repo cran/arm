@@ -149,6 +149,13 @@ For a predictor with more than two values, we use prior.scale/(2*sd(x)).
     M6 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing,
         prior.scale=2.5, prior.df=Inf)
     display (M6)
+    
+    # Assign priors 
+    M7 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing,
+        prior.mean=rep(0,6), prior.scale=rep(2.5,6), prior.df=c(1,1,1,7,7,7),
+        prior.mean.for.cutpoints = rep(0,2), 
+        prior.scale.for.cutpoints = rep(10,2), prior.df.for.cutpoints = c(1,7))
+    display (M7)
 }
 
 \keyword{models}

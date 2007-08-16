@@ -37,7 +37,8 @@ will be marked ``x".
 \author{Yu-Sung Su \email{ys463@columbia.edu}
         }
         
-\seealso{\code{\link{corrplot}}
+\seealso{\code{\link{corrplot}},
+        \code{\link[graphics]{par}}
 }
 
 \examples{

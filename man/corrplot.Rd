@@ -29,15 +29,18 @@ corrplot (data, varnames=NULL, cutpts=NULL,
   \item{digits}{number of digits shown in the text of the color theromoeter.}
   \item{color}{color of the plot, default is FALSE, which uses gray scale.}
 }
+
 \details{
 The function adapts the R function for 
 Figure 8 in Tian Zheng, Matthew Salganik, and Andrew Gelman, 2006, 
 "How many people do you know in prison?: using overdispersion in count data to estimate social structure in networks", 
 Journal of the American Statistical Association, Vol.101, N0. 474: p.409-23.
 }
+
 \value{
   A correlation plot. 
 }
+
 \references{ Tian Zheng, Matthew Salganik, and Andrew Gelman, 2006, 
 "How many people do you know in prison?: using overdispersion in count data to estimate social structure in networks", 
 Journal of the American Statistical Association, Vol.101, N0. 474: p.409-23}
@@ -46,10 +49,10 @@ Journal of the American Statistical Association, Vol.101, N0. 474: p.409-23}
         Yu-Sung Su \email{ys463@columbia.edu}
         }
         
-\note{see also: \url{http://www.stat.columbia.edu/~gelman/research/published/}}
 
-\seealso{\code{\link{cor}},
-         \code{\link{par}}}
+\seealso{\code{\link[stats]{cor}},
+         \code{\link[graphics]{par}}
+}
 
 \examples{
  x1 <- rnorm(1000,50,2) 
