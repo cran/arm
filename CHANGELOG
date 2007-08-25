@@ -1,4 +1,12 @@
-2006-8-13    Yu-Sung Su     <ys463@columbia.edu>
+2006-8-25    Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-28.
+    * R/bayesglm: fix bugs for bayesglm (model.matrix.bayes); 
+        prior.scale scaled to prior.sd
+        instead of data sd. If (scale) prior.scale*sd(y)
+    * R/display.glm: n equlas df.residual.
+    * R/model.matrix.bayes2: drop intercepts with only factor(x) 
+
+2006-8-16    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-27.
     * R/bayespolr: fix bugs for assigning priors manually.
     * R/bayesglm: fix a bug for the aforementioned bugs.

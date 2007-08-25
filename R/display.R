@@ -27,7 +27,8 @@ setMethod("display", signature(object = "glm"),
     rownames(coef) <- names( object$coefficients )          ## M
     dimnames(coef)[[2]] <- c( "coef.est", "coef.se" )
     coef[ rownames( coef ) %in% rownames( summ$coef[, 1:2, drop = FALSE]) , ] <- summ$coef[ , 1:2, drop = FALSE ]  ## M
-    n <- summ$df[1] + summ$df[2]
+    #n <- summ$df[1] + summ$df[2]
+    n <- summ$df.residual
     k <- summ$df[1]
     print(call)
     pfround(coef, digits)

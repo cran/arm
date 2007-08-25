@@ -19,7 +19,8 @@ bayesglm (formula, family = gaussian, data,
     prior.mean = 0, prior.scale = 2.5, 
     prior.scale.for.intercept = 10, 
     prior.df = 1, min.prior.scale=1e-12,
-    scaled = TRUE, drop.baseline=TRUE, n.iter = 100, ...)
+    scaled = TRUE, keep.order=TRUE, 
+    drop.baseline=TRUE, n.iter = 100, ...)
     
 bayesglm.fit (x, y, weights = rep(1, nobs), 
     start = NULL, etastart = NULL, 
@@ -119,8 +120,14 @@ bayesglm.fit (x, y, weights = rep(1, nobs),
   
   \item{min.prior.scale}{Minimum prior scale for the coefficients: default is 1e-12.}  
   
-  \item{scaled}{if scaled = TRUE, then the prior distribution is rescaled: 
-    default is TRUE}
+  \item{scaled}{if scaled = TRUE, then the prior distribution is rescaled where 
+    prior.scale is multiplied by sd(y). Default is TRUE}
+    
+  \item{keep.order}{a logical value indicating whether the terms should
+    keep their positions. If \code{FALSE} the terms are reordered so
+    that main effects come first, followed by the interactions,
+    all second-order, all third-order and so on.  Effects of a given
+    order are kept in the order specified. Default is TRUE.} 
     
   \item{drop.baseline}{Drop the base level of categorical x's, default is TRUE.}
   
@@ -156,7 +163,7 @@ The new arguments here are: \code{prior.mean}, \code{prior.scale},
 
 \references{Andrew Gelman, Aleks Jakulin, Maria Grazia Pittau and Yu-Sung Su, 
             A default prior distribution for logistic and other regression models,  
-unpublished paper available at \url{http://www.stat.columbia.edu/~gelman/standardize/}
+        Working paper available at \url{http://www.stat.columbia.edu/~gelman/standardize/}
 }
 
 \author{Andrew Gelman \email{gelman@stat.columbia.edu};

@@ -9,8 +9,8 @@
 \description{R functions for processing lm, glm, mer and polr outputs.}
 
 \details{\tabular{ll}{Package:\tab arm\cr
-Version:\tab 1.0-26\cr
-Date:\tab 2007/08/13\cr
+Version:\tab 1.0-28\cr
+Date:\tab 2007/08/25\cr
 Namespace:\tab arm\cr
 Depends:\tab methods, R (>= 2.4.0), MASS, Matrix (>= 0.9975-1),\cr
         \tab lme4 (>= 0.9975-1), R2WinBUGS\cr

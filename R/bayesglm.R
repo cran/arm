@@ -2,7 +2,7 @@ bayesglm <- function (formula, family = gaussian, data, weights, subset,
     na.action, start = NULL, etastart, mustart, offset, control = glm.control(...), 
     model = TRUE, method = "glm.fit", x = FALSE, y = TRUE, contrasts = NULL, 
     prior.mean = 0, prior.scale = 2.5, prior.scale.for.intercept = 10, 
-    prior.df = 1, min.prior.scale=1e-12, scaled = TRUE, 
+    prior.df = 1, min.prior.scale=1e-12, scaled = TRUE, keep.order=TRUE,
     drop.baseline = TRUE, n.iter = 100, ...) 
 {
     call <- match.call()
@@ -37,7 +37,7 @@ bayesglm <- function (formula, family = gaussian, data, weights, subset,
     
     if (!drop.baseline){
         X <- if (!is.empty.model(mt)) 
-          model.matrix(mt, mf, contrasts) 
+          model.matrix.bayes(mt, mf, contrasts, keep.order=keep.order) 
         else matrix(, NROW(Y), 0)
     }
     else {
@@ -111,6 +111,7 @@ bayesglm.fit <- function (x, y,
         prior.scale[1] <- prior.scale.for.intercept
     }
     if (scaled) {
+        prior.scale <- prior.scale * sd( y )
         for (j in 1:J) {
             x.obs <- x[, j]
             x.obs <- x.obs[!is.na(x.obs)]
@@ -256,7 +257,7 @@ bayesglm.fit <- function (x, y,
             V.coefs <- chol2inv(fit$qr[1:ncol(x.star), 1:ncol(x.star), 
                 drop = FALSE])
             #V.beta <- chol2inv (t(x.star) %*% diag(w.star^2) %*% x.star)
-            if (family$family == "gaussian" & scaled) prior.scale <- sqrt(dispersion)*prior.scale.0
+            if (family$family == "gaussian" & scaled) prior.scale <- prior.scale.0#*sqrt(dispersion)
             prior.sd <- ifelse(prior.df == Inf, prior.scale, 
                 sqrt(((coefs.hat - prior.mean)^2 + diag(V.coefs)*dispersion + 
                   prior.df * prior.scale^2)/(1 + prior.df)))
