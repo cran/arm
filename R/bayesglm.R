@@ -1,9 +1,14 @@
 bayesglm <- function (formula, family = gaussian, data, weights, subset, 
     na.action, start = NULL, etastart, mustart, offset, control = glm.control(...), 
     model = TRUE, method = "glm.fit", x = FALSE, y = TRUE, contrasts = NULL, 
-    prior.mean = 0, prior.scale = 2.5, prior.scale.for.intercept = 10, 
-    prior.df = 1, min.prior.scale=1e-12, scaled = TRUE, keep.order=TRUE,
-    drop.baseline = TRUE, n.iter = 100, ...) 
+    prior.mean = 0, 
+    prior.scale = 2.5, 
+    prior.df = 1,
+    prior.mean.for.intercept = 0, 
+    prior.scale.for.intercept = 10, 
+    prior.df.for.intercept = 1,
+    min.prior.scale=1e-12, 
+    scaled = TRUE, keep.order=TRUE, drop.baseline = TRUE, n.iter = 100, ...) 
 {
     call <- match.call()
     if (is.character(family)) 
@@ -58,17 +63,26 @@ bayesglm <- function (formula, family = gaussian, data, weights, subset,
     fit <- bayesglm.fit(x = X, y = Y, weights = weights, start = start, 
         etastart = etastart, mustart = mustart, offset = offset, 
         family = family, control = glm.control(maxit = n.iter), 
-        intercept = attr(mt, "intercept") > 0, prior.mean = prior.mean, 
-        prior.scale = prior.scale, prior.scale.for.intercept = prior.scale.for.intercept, 
-        prior.df = prior.df, min.prior.scale = min.prior.scale, scaled = scaled)
+        intercept = attr(mt, "intercept") > 0,
+        prior.mean = prior.mean, 
+        prior.scale = prior.scale, 
+        prior.df = prior.df,
+        prior.mean.for.intercept = prior.mean.for.intercept, 
+        prior.scale.for.intercept = prior.scale.for.intercept, 
+        prior.df.for.intercept = prior.df.for.intercept,
+        min.prior.scale = min.prior.scale, scaled = scaled)
     if (any(offset) && attr(mt, "intercept") > 0) {
         cat("bayesglm not yet set up to do deviance comparion here\n")
         fit$null.deviance <- bayesglm.fit(x = X[, "(Intercept)", 
             drop = FALSE], y = Y, weights = weights, offset = offset, 
             family = family, control = control, intercept = TRUE, 
-            prior.mean = prior.mean, prior.scale = prior.scale, 
+            prior.mean = prior.mean, 
+            prior.scale = prior.scale, 
+            prior.df = prior.df,
+            prior.mean.for.intercept = prior.mean.for.intercept, 
             prior.scale.for.intercept = prior.scale.for.intercept, 
-            prior.df = prior.df, min.prior.scale=min.prior.scale, scaled = scaled)$deviance
+            prior.df.for.intercept = prior.df.for.intercept,
+            min.prior.scale=min.prior.scale, scaled = scaled)$deviance
     }
     if (model) 
         fit$model <- mf
@@ -88,28 +102,53 @@ bayesglm <- function (formula, family = gaussian, data, weights, subset,
 bayesglm.fit <- function (x, y, 
     weights = rep(1, nobs), start = NULL, etastart = NULL, 
     mustart = NULL, offset = rep(0, nobs), family = gaussian(), 
-    control = glm.control(), intercept = TRUE, prior.mean = 0, 
+    control = glm.control(), intercept = TRUE, 
+    prior.mean = 0, 
     prior.scale = 2.5, 
+    prior.df = 1,
+    prior.mean.for.intercept = 0, 
     prior.scale.for.intercept = 10, 
-    prior.df = 1, min.prior.scale=1e-12,
+    prior.df.for.intercept = 1,
+    min.prior.scale=1e-12,
     scaled = TRUE) 
 {
     J <- NCOL(x)
-    if (length(prior.mean) == 1) {
-        prior.mean <- rep(prior.mean, J)
-    }
-    else {
-        prior.mean <- c(0, prior.mean)
-    }
-    if (is.null(prior.scale.for.intercept) & length(prior.scale) > 1){
-        prior.scale <- c(10, prior.scale)
-    }   
-    if (length(prior.scale) == 1) {
-        prior.scale <- rep(prior.scale, J)
-    }
-    if (is.numeric(prior.scale.for.intercept) & intercept) {
-        prior.scale[1] <- prior.scale.for.intercept
-    }
+        if (length(prior.mean) == 1) {
+            prior.mean <- rep(prior.mean, J)
+        }
+        else {
+            if (intercept) {
+                prior.mean <- c(prior.mean.for.intercept, prior.mean)
+                
+            }
+            else {
+                prior.mean <- prior.mean
+            }
+        }
+        if (length(prior.scale)==1){
+            prior.scale <- rep(prior.scale, J)
+        } 
+        else {
+            if (intercept) {
+                prior.scale <- c(prior.scale.for.intercept, prior.scale)
+            }
+            else {
+                prior.scale <- prior.scale
+            }
+        }  
+        if (length(prior.df) == 1) {
+            prior.df <- rep(prior.df, J)
+        }
+        else {
+            if (intercept) {
+                prior.df <- c(prior.df.for.intercept, prior.df)
+            }
+            else {
+                prior.df <- prior.df
+            }
+        }
+
+    
     if (scaled) {
         prior.scale <- prior.scale * sd( y )
         for (j in 1:J) {
@@ -132,12 +171,7 @@ bayesglm.fit <- function (x, y,
         }
         if (family$family == "gaussian") prior.scale.0 <- prior.scale
     }
-    if (length(prior.df) == 1) {
-        prior.df <- rep(prior.df, J)
-    }
-    else {
-        prior.df <- c(1, prior.df)
-    }
+    
     x <- as.matrix(x)
     xnames <- dimnames(x)[[2]]
     ynames <- if (is.matrix(y)) 

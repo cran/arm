@@ -16,9 +16,13 @@ bayesglm (formula, family = gaussian, data,
     offset, control = glm.control(...), 
     model = TRUE, method = "glm.fit", 
     x = FALSE, y = TRUE, contrasts = NULL, 
-    prior.mean = 0, prior.scale = 2.5, 
+    prior.mean = 0, 
+    prior.scale = 2.5, 
+    prior.df = 1, 
+    prior.mean.for.intercept = 0, 
     prior.scale.for.intercept = 10, 
-    prior.df = 1, min.prior.scale=1e-12,
+    prior.df.for.intercept = 1, 
+    min.prior.scale=1e-12,
     scaled = TRUE, keep.order=TRUE, 
     drop.baseline=TRUE, n.iter = 100, ...)
     
@@ -26,9 +30,13 @@ bayesglm.fit (x, y, weights = rep(1, nobs),
     start = NULL, etastart = NULL, 
     mustart = NULL, offset = rep(0, nobs), family = gaussian(), 
     control = glm.control(), intercept = TRUE,
-    prior.mean = 0, prior.scale = 2.5, 
+    prior.mean = 0, 
+    prior.scale = 2.5, 
+    prior.df = 1, 
+    prior.mean.for.intercept = 0,
     prior.scale.for.intercept = 10,
-    prior.df = 1, min.prior.scale=1e-12, scaled = TRUE)
+    prior.df.for.intercept = 1,
+    min.prior.scale=1e-12, scaled = TRUE)
 }
 
 \arguments{
@@ -103,20 +111,25 @@ bayesglm.fit (x, y, weights = rep(1, nobs),
      
   \item{prior.mean}{prior mean for the coefficients: default is 0. Can be a vector 
     of length equal to the number of predictors 
-    (including the intercept, if any). If it is a scalar, it is 
+    (not counting the intercept, if any). If it is a scalar, it is 
     expanded to the length of this vector.}
   
   \item{prior.scale}{prior scale for the coefficients: default is 2.5. 
     Can be a vector of length equal to the number of predictors 
-    (including the intercept, if any). If it is a scalar, it is 
+    (not counting the intercept, if any). If it is a scalar, it is 
     expanded to the length of this vector.}
+  
+  \item{prior.df}{prior degrees of freedom for the coefficients. 
+    For t distribution: default is 1 (Cauchy). Set to Inf to 
+    get normal prior distributions. Can be a vector of length equal to 
+    the number of predictors (not counting the intercept, if any). 
+    If it is a scalar, it is expanded to the length of this vector.}
+
+  \item{prior.mean.for.intercept}{prior mean for the intercept: default is 0.}
   
   \item{prior.scale.for.intercept}{prior scale for the intercept: default is 10.}
   
-  \item{prior.df}{for t distribution: default is 1 (Cauchy). Set to Inf to 
-    get normal prior distributions. Can be a vector of length equal to 
-    the number of predictors (including the intercept, if any). 
-    If it is a scalar, it is expanded to the length of this vector.}
+  \item{prior.df.for.intercept}{prior degrees of freedom for the intercept: default is 1.}
   
   \item{min.prior.scale}{Minimum prior scale for the coefficients: default is 1e-12.}  
   
@@ -159,7 +172,12 @@ The new arguments here are: \code{prior.mean}, \code{prior.scale},
 \code{scaled}.
 }
 
-\value{See \code{glm} for details.}
+\value{See \code{\link[stats]{glm}} for details.
+
+\item{prior.mean}{prior means for the cofficients and the intercept.}
+\item{prior.scale}{prior scales for the cofficients and the intercept.}
+\item{prior.df}{prior dfs for the cofficients and the intercept.}
+}
 
 \references{Andrew Gelman, Aleks Jakulin, Maria Grazia Pittau and Yu-Sung Su, 
             A default prior distribution for logistic and other regression models,  
@@ -171,9 +189,10 @@ The new arguments here are: \code{prior.mean}, \code{prior.scale},
         Maria Grazia Pittau \email{grazia@stat.columbia.edu};
         Aleks Jakulin \email{Jakulin@stat.columbia.edu}}
 
-\seealso{\code{\link{glm}},
-         \code{\link{bayespolr}}
-        }
+\seealso{
+    \code{\link[stats]{glm}},
+    \code{\link{bayespolr}}
+}
 
 \examples{
   n <- 100
@@ -255,13 +274,22 @@ The new arguments here are: \code{prior.mean}, \code{prior.scale},
   
   ## keep all levels with the intercept
   M9 <- bayesglm (y ~ x1 + factor(z1) + factor(z2), 
-    family=binomial(link="logit"), prior.scale=2.5, prior.df=Inf,
+    family=binomial(link="logit"), 
+    prior.mean=rep(0,10), 
+    prior.scale=rep(2.5,10), 
+    prior.df=rep(Inf,10),
+    prior.mean.for.intercept=0,
+    prior.scale.for.intercept=10,
+    prior.df.for.intercept=1,
     drop.baseline=FALSE)
   display (M9)
 
   ## keep all levels without the intercept
   M10 <- bayesglm (y ~ x1 + factor(z1) + factor(z2)-1, 
-    family=binomial(link="logit"), prior.scale=2.5, prior.df=Inf,
+    family=binomial(link="logit"), 
+    prior.mean=rep(0,10), 
+    prior.scale=rep(2.5,10), 
+    prior.df=rep(Inf,10),
     drop.baseline=FALSE)
   display (M10)
   

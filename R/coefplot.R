@@ -33,7 +33,7 @@ coefplot.default <- function(coefs, sds,
     }
     else{ # horizontal
         plot(c(idx,idx), c(coefs+2*sds, coefs-2*sds), type="n", axes=F,...)                                                   
-        axis(2, las=var.las)                                
+        #axis(2, las=var.las)                                
         axis(4, las=var.las)
         axis(1, 1:n.x, varnames[1:n.x], las=var.las, tck=FALSE, 
             lty=0, cex.axis=cex.var) 

@@ -4,11 +4,12 @@ function (formula, data, weights, start, ...,
     contrasts = NULL, Hess = TRUE, model = TRUE, 
     method = c("logistic", "probit", "cloglog", "cauchit"), 
     drop.unused.levels=TRUE, 
-    prior.mean = 0, prior.scale = 2.5, prior.df = 1, 
-    scaled = TRUE, 
+    prior.mean = 0, 
+    prior.scale = 2.5, prior.df = 1, 
     prior.mean.for.cutpoints = 0, 
     prior.scale.for.cutpoints = 10, 
     prior.df.for.cutpoints = 1, 
+    scaled = TRUE, 
     n.iter = 100) 
 {
     logit <- function(p) log(p/(1 - p))
@@ -123,37 +124,45 @@ function (formula, data, weights, start, ...,
             logistic = bayesglm.fit(X, y1, wt, family = binomial(), 
                 offset = offset, intercept = TRUE, 
                 prior.mean = prior.mean, 
-                prior.scale = prior.scale, 
-                prior.scale.for.intercept = NULL, 
-                prior.df = prior.df, 
+                prior.scale = prior.scale,
+                prior.df = prior.df,  
+                prior.mean.for.intercept = 0, 
+                prior.scale.for.intercept = 10, 
+                prior.df.for.intercept = 1, 
                 scaled = scaled, 
                 control = glm.control(maxit = n.iter)), 
             probit = bayesglm.fit(X, y1, wt, family = binomial("probit"), 
                 offset = offset, intercept = TRUE, 
                 prior.mean = prior.mean, 
                 prior.scale = prior.scale, 
-                prior.scale.for.intercept = NULL, 
                 prior.df = prior.df, 
+                prior.mean.for.intercept = 0, 
+                prior.scale.for.intercept = 10, 
+                prior.df.for.intercept = 1, 
                 scaled = scaled, 
                 control = glm.control(maxit = n.iter)), 
             cloglog = bayesglm.fit(X, y1, wt, family = binomial("probit"), 
                 offset = offset, intercept = TRUE, 
                 prior.mean = prior.mean, 
                 prior.scale = prior.scale, 
-                prior.scale.for.intercept = NULL, 
                 prior.df = prior.df, 
+                prior.mean.for.intercept = 0, 
+                prior.scale.for.intercept = 10, 
+                prior.df.for.intercept = 1, 
                 scaled = scaled, 
                 control = glm.control(maxit = n.iter)), 
             cauchit = bayesglm.fit(X, y1, wt, family = binomial("cauchit"), 
                 offset = offset, intercept = TRUE, 
                 prior.mean = prior.mean, 
                 prior.scale = prior.scale, 
-                prior.scale.for.intercept = NULL, 
                 prior.df = prior.df, 
+                prior.mean.for.intercept = 0, 
+                prior.scale.for.intercept = 10, 
+                prior.df.for.intercept = 1, 
                 scaled = scaled,
                 control = glm.control(maxit = n.iter)))
         if (!fit$converged) 
-            stop("attempt for find suitable starting values failed")
+            warning("attempt to find suitable starting values failed")
         coefs <- fit$coefficients
         if (any(is.na(coefs))) {
             warning("design appears to be rank-deficient, so dropping some coefs")
@@ -191,17 +200,18 @@ function (formula, data, weights, start, ...,
             }
         }
     }
-    if (length(prior.df) == 1) 
+    if (length(prior.df) == 1) {
         prior.df <- rep(prior.df, J)
-    if (length(prior.mean.for.cutpoints) == 1) 
-        prior.mean.for.cutpoints <- rep(prior.mean.for.cutpoints, 
-            q)
-    if (length(prior.scale.for.cutpoints) == 1) 
-        prior.scale.for.cutpoints <- rep(prior.scale.for.cutpoints, 
-            q)
-    if (length(prior.df.for.cutpoints) == 1) 
-        prior.df.for.cutpoints <- rep(prior.df.for.cutpoints, 
-            q)
+    }
+    if (length(prior.mean.for.cutpoints) == 1) {
+        prior.mean.for.cutpoints <- rep(prior.mean.for.cutpoints, q)
+    }
+    if (length(prior.scale.for.cutpoints) == 1) {
+        prior.scale.for.cutpoints <- rep(prior.scale.for.cutpoints, q)
+    }
+    if (length(prior.df.for.cutpoints) == 1) {
+        prior.df.for.cutpoints <- rep(prior.df.for.cutpoints, q)
+    }
     res <- optim(start, fmin, gmin, method = "BFGS", hessian = Hess, 
         ...)
     beta <- res$par[seq_len(pc)]
@@ -224,7 +234,13 @@ function (formula, data, weights, start, ...,
     fit <- list(coefficients = beta, zeta = zeta, deviance = deviance, 
         fitted.values = fitted, lev = lev, terms = Terms, df.residual = sum(wt) - 
             pc - q, edf = pc + q, n = sum(wt), nobs = sum(wt), 
-        call = match.call(), method = method, convergence = res$convergence, 
+        call = match.call(), method = method, convergence = res$convergence,
+        prior.mean = prior.mean, 
+        prior.scale = prior.scale, 
+        prior.df = prior.df, 
+        prior.mean.for.cutpoints = prior.mean.for.cutpoints, 
+        prior.scale.for.cutpoints = prior.scale.for.cutpoints, 
+        prior.df.for.cutpoints = prior.df.for.cutpoints,
         niter = niter)
     if (Hess) {
         dn <- c(names(beta), names(zeta))

@@ -1,3 +1,17 @@
+2006-9-4    Yu-Sung Su     <ys463@columbia.edu>
+    * man/bayesglm: separate priors for the coefficients 
+        and the intercept.
+    * R/bayesglm.fit: separate priors for the coefficients 
+        and the intercept.
+    * R/bayespolr: store priors for the coefficients and 
+        the cutpoints.
+
+
+2006-8-28    Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-29.
+    * R/bayespolr: if (!fit$converged) warning 
+
+
 2006-8-25    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-28.
     * R/bayesglm: fix bugs for bayesglm (model.matrix.bayes); 

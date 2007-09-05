@@ -25,7 +25,7 @@ setMethod("sim", signature(object = "glm"),
     function(object, n.sims=100)
     {
     object.class <- class(object)[[1]]
-    summ <- summary (object, correlation=TRUE)
+    summ <- summary (object, correlation=TRUE, dispersion = object$dispersion)
     coef <- summ$coef[,1:2,drop=FALSE]
     dimnames(coef)[[2]] <- c("coef.est","coef.sd")
     beta.hat <- coef[,1]

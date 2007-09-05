@@ -14,9 +14,13 @@ bayespolr(formula, data, weights, start, ...,
     Hess = TRUE, model = TRUE, 
     method = c("logistic", "probit", "cloglog", "cauchit"),
     drop.unused.levels=TRUE, 
-    prior.mean = 0, prior.scale = 2.5, prior.df = 1, 
-    scaled = TRUE, prior.mean.for.cutpoints = 0, 
-    prior.scale.for.cutpoints = 10, prior.df.for.cutpoints = 1,
+    prior.mean = 0, 
+    prior.scale = 2.5, 
+    prior.df = 1, 
+    prior.mean.for.cutpoints = 0, 
+    prior.scale.for.cutpoints = 10, 
+    prior.df.for.cutpoints = 1,
+    scaled = TRUE, 
     n.iter = 100)
 }
 
@@ -78,11 +82,6 @@ bayespolr(formula, data, weights, start, ...,
     the intercepts). If it is a scalar, it is expanded to the length of this 
     vector.}
    
-  \item{scaled}{if scaled = TRUE, then the prior distribution is rescaled.
-    Can be a vector of length equal to the number of cutpoints 
-    (intercepts). If it is a scalar, it is expanded to the length of 
-    this vector.}
-   
   \item{prior.mean.for.cutpoints}{prior mean for cutpoints: default is 0.
     Can be a vector of length equal to the number of cutpoints 
     (intercepts). If it is a scalar, it is expanded to the length of 
@@ -97,7 +96,12 @@ bayespolr(formula, data, weights, start, ...,
     Can be a vector of length equal to the number of cutpoints 
     (intercepts). If it is a scalar, it is expanded to the length 
     of this vector.}
-  
+
+  \item{scaled}{if scaled = TRUE, then the prior distribution is rescaled.
+    Can be a vector of length equal to the number of cutpoints 
+    (intercepts). If it is a scalar, it is expanded to the length of 
+    this vector.}  
+
   \item{n.iter}{default is 100.}
 }
 \details{
@@ -117,7 +121,17 @@ values, we use prior.scale/range(x).
 For a predictor with more than two values, we use prior.scale/(2*sd(x)).
 }
 
-\value{See \code{polr} for details.}
+\value{
+See \code{polr} for details.
+
+\item{prior.mean}{prior means for the cofficients.}
+\item{prior.scale}{prior scales for the cofficients.}
+\item{prior.df}{prior dfs for the cofficients.}
+\item{prior.mean.for.cutpoints}{prior means for the cutpoints.}
+\item{prior.scale.for.cutpoints}{prior scales for the cutpoints.}
+\item{prior.df.for.cutpoints}{prior dfs for the cutpoints.}
+
+}
 
 \author{Andrew Gelman \email{gelman@stat.columbia.edu};
         Yu-Sung Su \email{ys463@columbia.edu};
