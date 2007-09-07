@@ -1,4 +1,4 @@
-balanceplot <- function (matched, pscore.fit, 
+balanceplot <- function (rawdata, matched, pscore.fit, 
                 longcovnames=NULL, 
                 main="Standardized Difference in Means",
                 cex.main=1, cex.vars=0.8, cex.pts=0.8,
@@ -9,7 +9,7 @@ balanceplot <- function (matched, pscore.fit,
     
     response <- as.character(pscore.fit$formula[[2]])
     vars <- pscore.fit$terms@variables
-    vars <- eval(vars)
+    vars <- with(rawdata, eval(vars))
     covnames <- pscore.fit$terms@term.labels
     check1 <- sum(pmatch("factor", covnames, nomatch=0)>0)
     if (check1>0){
@@ -86,8 +86,9 @@ balanceplot <- function (matched, pscore.fit,
     plot(pts, idx,
     bty="n", xlab="", ylab="",
     xaxt="n", yaxt="n", xaxs="i", 
-    yaxs="i", type="n",
-    ylim=c(0,length(covnames)+.5),
+    #yaxs="i", 
+    type="n",
+    ylim=c(max(idx), min(idx)),
     xlim=x.range,
     main=main, cex.main=cex.main)
     abline(v=0, lty=2)
@@ -95,11 +96,11 @@ balanceplot <- function (matched, pscore.fit,
     points(pts2, idx, pch=19, cex=cex.pts) # after macthed
     axis(3, cex.axis=0.8)
     if (is.null(longcovnames)){
-        axis(2, at=length(covnames):1, labels=covnames, 
+        axis(2, at=1:length(covnames), labels=covnames, 
             las=2, hadj=1, lty=0, cex.axis=cex.vars)
     }
     else{
-        axis(2, at=length(covnames):1, labels=longcovnames, 
+        axis(2, at=1:length(covnames), labels=longcovnames, 
             las=2, hadj=1, lty=0, cex.axis=cex.vars)
     }
 }

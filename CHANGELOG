@@ -1,3 +1,10 @@
+2006-9-7    Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-30.
+    * man/balanceplot: add rawdata option.
+    * R/balanceplot: fix the order of var display.
+
+
+
 2006-9-4    Yu-Sung Su     <ys463@columbia.edu>
     * man/bayesglm: separate priors for the coefficients 
         and the intercept.

@@ -6,7 +6,7 @@
   This function plots the balance statistics before and after matching.
 }
 \usage{
-balanceplot(matched, pscore.fit, 
+balanceplot(rawdata, matched, pscore.fit, 
     longcovnames = NULL, 
     main = "Standardized Difference in Means", 
     cex.main = 1, cex.vars = 0.8, cex.pts = 0.8, 
@@ -15,6 +15,7 @@ balanceplot(matched, pscore.fit,
 }
 
 \arguments{
+  \item{rawdata}{data before using \code{matching} function, see the example below.}
   \item{matched}{matched data using \code{matching} function, see the example below.}
   \item{pscore.fit}{glm.fit object to get propensity scores.}
   \item{longcovnames}{long covariate names.  If not provided, plot will 
@@ -65,7 +66,7 @@ fit <- glm(treat ~ re74 + re75 + age + factor(educ) +
 pscores <- predict(fit, type="link")
 matches <- matching(z=lalonde$treat, score=pscores)
 matched <- lalonde[matches$matched,]  
-balanceplot(matched, fit)
+balanceplot(lalonde, matched, fit)
 }
 
 

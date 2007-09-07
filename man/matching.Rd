@@ -44,7 +44,7 @@ fit <- glm(treat ~ re74 + re75 + age + factor(educ) +
 pscores <- predict(fit, type="link")
 matches <- matching(z=lalonde$treat, score=pscores)
 matched <- lalonde[matches$matched,]  
-balanceplot(matched, fit)
+balanceplot(lalonde, matched, fit)
 }
 
 \keyword{models}
