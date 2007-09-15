@@ -14,7 +14,6 @@ export(
        "go",
        "invlogit",
        "matching", 
-       "mcsamp",
        "model.matrix.bayes",
        "model.matrix.bayes2",
        "pfround",
@@ -33,6 +32,7 @@ exportMethods(
               "coefplot",
               "display",
               "se.coef",
+              "mcsamp",
               "sim",
               "sigma.hat",
               "terms"

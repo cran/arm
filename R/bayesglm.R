@@ -165,8 +165,8 @@ bayesglm.fit <- function (x, y,
             prior.scale[j] <- prior.scale[j]/x.scale
             if (prior.scale[j] < min.prior.scale){
                 prior.scale[j] <- min.prior.scale
-                cat ("prior scale for variable", j, 
-                    "set to min.prior.scale =", min.prior.scale,"\n")
+                warning ("prior scale for variable ", j, 
+                    " set to min.prior.scale = ", min.prior.scale,"\n")
             }
         }
         if (family$family == "gaussian") prior.scale.0 <- prior.scale
@@ -221,22 +221,27 @@ bayesglm.fit <- function (x, y,
         coef <- numeric(0)
         iter <- 0
     }
+     
     else {
-        coefold <- NULL
-        eta <- if (!is.null(etastart)) 
-            etastart
-        else if (!is.null(start)) 
-            if (length(start) != nvars) 
-                stop(gettextf("length of 'start' should equal %d and correspond to initial coefs for %s", 
+        coefold <- NULL 
+        if (!is.null(etastart)) {
+            eta <- etastart
+        }
+        else if (!is.null(start)) {
+            if (length(start) != nvars)
+                stop(gettextf("length of 'start' should equal %d and correspond to initial coefs for %s",
                   nvars, paste(deparse(xnames), collapse = ", ")), 
                   domain = NA)
             else {
+                eta <- offset + 
+                    as.vector(if (NCOL(x) == 1) x *start else x %*% start)
                 coefold <- start
-                offset + as.vector(if (NCOL(x) == 1) 
-                  x * start
-                else x %*% start)
             }
-        else family$linkfun(mustart)
+        }
+        else {
+            eta <- family$linkfun(mustart)
+        }
+
         mu <- linkinv(eta)
         if (!(validmu(mu) && valideta(eta))) 
             stop("cannot find valid starting values: please specify some")
@@ -303,7 +308,7 @@ bayesglm.fit <- function (x, y,
                 mse.resid <- mean((w * (z - x %*% coefs.hat))^2)
                 #mse.uncertainty <- mean(diag(x %*% V.coefs %*% t(x))) * dispersion
                 mse.uncertainty <- mean(rowSums(( x %*% V.coefs ) * x)) * dispersion # faster
-                dispersion <- mse.resid + mse.uncertainty
+                dispersion <- mse.resid + ifelse(mse.uncertainty<0, 0, mse.uncertainty)
             }
             if (control$trace) 
                 cat("Deviance =", dev, "Iterations -", iter, 

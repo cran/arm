@@ -38,4 +38,11 @@ if (!isGeneric("terms")) {
                standardGeneric("terms"))
 }
 
+if (!isGeneric("mcsamp")) {
+    setGeneric("mcsamp",
+               function(object, ...)
+               standardGeneric("mcsamp"))
+}
+
+
    

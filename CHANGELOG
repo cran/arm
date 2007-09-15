@@ -1,9 +1,25 @@
+2006-9-15    Yu-Sung Su     <ys463@columbia.edu>
+    * DESCRIPTION (Version, Date): 1.0-31.
+    * R/Allgeneric: coerce mcsamp into a generic function
+    * R/bayesglm.fit: fix "eta" bug.
+    * R/mcsamp: return DIC for lmer (not glmer), change slot names
+        for variables.
+
+2006-9-13    Yu-Sung Su     <ys463@columbia.edu>
+    * man/mcsamp: add 2 non-nested examples
+    * man/display: add 2 non-nested examples
+    * R/bayesglm: dispersion <- mse.resid + 
+            ifelse(mse.uncertainty<0,0,mse.uncertainty)
+    * R/mcsamp: now can sim non-nested models
+
+2006-9-9    Yu-Sung Su     <ys463@columbia.edu>
+    * R/bayesglm: fix sim.glm to reveal NA coef for factors.
+
+
 2006-9-7    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-30.
     * man/balanceplot: add rawdata option.
     * R/balanceplot: fix the order of var display.
-
-
 
 2006-9-4    Yu-Sung Su     <ys463@columbia.edu>
     * man/bayesglm: separate priors for the coefficients 

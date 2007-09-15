@@ -68,23 +68,26 @@ display (object, ...)
 # Here's a simple example of a model of the form, y = a + bx + error, 
 # with 10 observations in each of 10 groups, and with both the 
 # intercept and the slope varying by group.  First we set up the model and data.
-
    group <- rep(1:10, rep(10,10))
+   group2 <- rep(1:10, 10)
    mu.a <- 0
    sigma.a <- 2
    mu.b <- 3
    sigma.b <- 4
-   rho <- 0
+   rho <- 0.56
    Sigma.ab <- array (c(sigma.a^2, rho*sigma.a*sigma.b, 
                     rho*sigma.a*sigma.b, sigma.b^2), c(2,2))
    sigma.y <- 1
    ab <- mvrnorm (10, c(mu.a,mu.b), Sigma.ab)
    a <- ab[,1]
    b <- ab[,2]
+   d <- rnorm(10)
 
    x <- rnorm (100)
-   y1 <- rnorm (100, a[group] + b[group]*x, sigma.y)
+   y1 <- rnorm (100, a[group] + b*x, sigma.y)
    y2 <- rbinom(100, 1, prob=invlogit(a[group] + b*x))
+   y3 <- rnorm (100, a[group] + b[group]*x + d[group2], sigma.y)
+   y4 <- rbinom(100, 1, prob=invlogit(a[group] + b*x + d[group2]))
 
 
 # display a simple linear model
@@ -124,24 +127,32 @@ display (object, ...)
  
 # Then the full varying-intercept, varying-slope logit model:
  
-   M6 <- lmer (y2 ~ x + (1 + x |group), family=binomial(link="logit"))
+   M6 <- lmer (y2 ~ 1 + (1 + x |group), family=binomial(link="logit"))
    display (M6)
    M6.sim <- mcsamp (M6)
    print (M6.sim)
    plot (M6.sim)
 
+# Then non-nested varying-intercept, varying-slop model:
+   
+   M7 <- lmer (y3 ~ x + (1 + x |group) + (1|group2))
+   display(M7)
+   M7.sim <- mcsamp (M7)
+   print (M7.sim)
+   plot (M7.sim)
+
  
 # Then the ordered logit model from polr
 
-   M7 <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
-   display(M7)
+   M8 <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
+   display(M8)
    
-   M8 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
-   display(M8) 
+   M9 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
+   display(M9) 
    
 \testonly{
-    M9 <- lmer2 (y1 ~ x + (1 + x |group))
-    display(M9)
+    M11 <- lmer2 (y1 ~ x + (1 + x |group))
+    display(M11)
 }  
 }
 

@@ -1,20 +1,25 @@
 # mcsamp function (wrapper for mcmcsamp in lmer())
+# Quick function to run mcmcsamp() [the function for MCMC sampling for
+# lmer objects) and convert to Bugs objects for easy display
 
-mcsamp <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.iter/2), n.thin=1, saveb=TRUE, make.bugs.object=TRUE){
-  # Quick function to run mcmcsamp() [the function for MCMC sampling for
-  # lmer objects) and convert to Bugs objects for easy display
-  
-  if (class(object)=="lmer2") stop ("Sorry--mcamp cannot work with lmer2!")
-  require ("R2WinBUGS")
+mcsamp.default <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.iter/2), 
+    n.thin=max(1, floor(n.chains * (n.iter - n.burnin)/1000)), 
+    saveb=TRUE, deviance=TRUE, make.bugs.object=TRUE)
+{
+
   if (n.chains<2) stop ("n.chains must be at least 2")
   n.keep <- n.iter - n.burnin
-  first.chain <- mcmcsamp (object, n.iter, saveb=saveb, trans=TRUE)[(n.burnin+1):n.iter,]
+  first.chain <- mcmcsamp (object, n.iter, saveb=saveb, trans=TRUE, deviance=deviance)[(n.burnin+1):n.iter,]
   n.parameters <- ncol(first.chain)
-  if (n.thin!=1){
-    cat ("Sorry--thinning hasn't been implemented yet!\n")
-    n.thin <- 1
+  
+  if (deviance) {
+    sims <- array (NA, c(n.keep, n.chains, n.parameters+1))
   }
-  sims <- array (NA, c(n.keep, n.chains, n.parameters))
+  if (!deviance){
+    sims <- array (NA, c(n.keep, n.chains, n.parameters))
+  }
+
+
   par.names <- dimnames(first.chain)[[2]]
   par.names <- gsub("b.", "b@", par.names, ignore.case = FALSE, # Su: rename "b.*" to ""
                     extended = TRUE, perl = FALSE,
@@ -23,22 +28,31 @@ mcsamp <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.iter/2), n
                     extended = TRUE, perl = FALSE,
                     fixed = FALSE, useBytes = TRUE)    
   par.names <- par.names[is.na(match(par.names,""))] 
+  ngrps <- lapply(object@flist, function(x) length(levels(x)))
+  
   if (saveb){
     b.hat <- se.coef (object)                   # Su: use se.coef() 
     n.groupings <- length(b.hat) - 1
+    J <- NA
+    K <- NA
     for (m in 1:n.groupings){
-      J <- dim(b.hat[[m+1]])[1]
-      K <- dim(b.hat[[m+1]])[2]
+      J[m] <- dim(b.hat[[m+1]])[1]
+      K[m] <- dim(b.hat[[m+1]])[2]
       var.names <- paste (names(b.hat)[m+1],
                           unlist (dimnames(b.hat[[m+1]])[2]), sep="") ##sep="."
       par.names <- c (par.names,
-        paste ("eta.", rep(var.names,J), "[", rep(1:J,each=K), "]", sep=""))
+        paste (names(ngrps)[m], ".", rep(var.names,J[m]), "[", rep(1:J[m],each=K[m]), "]", sep=""))
     }
   }
-  sims[,1,] <- first.chain
+  sims[,1,1:n.parameters] <- first.chain
+
   for (k in 2:n.chains){
-    sims[,k,] <- mcmcsamp (object, n.iter, saveb=saveb, trans=TRUE)[(n.burnin+1):n.iter,]
+    sims[,k,1:n.parameters] <- mcmcsamp (object, n.iter, saveb=saveb, trans=TRUE, deviance=deviance)[(n.burnin+1):n.iter,]
   }
+  
+  select <- c(rep(FALSE, n.thin-1),TRUE)
+  sims <- sims[select,,]
+  
   for (j in 1:n.parameters){
     if (pmatch("log(sigma^2)", par.names[j], nomatch=0)){#=="log(sigma^2)"){
       par.names[j] <- "sigma.y"
@@ -52,23 +66,47 @@ mcsamp <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.iter/2), n
       par.names[j] <- paste ("rho.", substr(par.names[j], 7, nchar(par.names[j])-1), sep="")
       sims[,,j] <- tanh (sims[,,j])
     }
-    else if (substr(par.names[j],1,4)=="eta."){#(pmatch("eta.", par.names[j], nomatch=0)){#(substr(par.names[j],1,4)=="eta."){
-      #par.names[j] <- paste ("", substr(par.names[j], 5, nchar(par.names[j])), sep="")
-      #par.names[j] <- par.names[j]
-    }
+    #else if (substr(par.names[j],1,4)=="eta."){#(pmatch("eta.", par.names[j], nomatch=0)){#(substr(par.names[j],1,4)=="eta."){
+    #  par.names[j] <- paste ("", substr(par.names[j], 5, nchar(par.names[j])), sep="")
+    #  par.names[j] <- par.names[j]
+    #}
     else if (pmatch("deviance", par.names[j], nomatch=0)){#(par.names[j]=="deviance"){          # Su: keep par.names for "deviance"
+        sims[,,n.parameters+1] <- sims[,,j] 
         sims <- sims[,,-j]                          # Su: delete deviance value from sims
     } 
-    else {
-      par.names[j] <- paste ("beta.", par.names[j], sep="")
-    }
-  }
+    #else {
+      #par.names[j] <- paste ("beta.", par.names[j], sep="")
+    #}
+  } 
+  
   par.names <- par.names[is.na(match(par.names,"deviance"))] # Su: delete par.names for "deviance"
-  dimnames(sims) <- list (NULL, NULL, par.names)
+  
+  if (deviance){
+      dimnames(sims) <- list (NULL, NULL, c(par.names,"deviance"))
+  }
+  if (!deviance){
+    dimnames(sims) <- list (NULL, NULL, par.names)
+  }
   if (make.bugs.object){
-    return (as.bugs.array (sims, program="lmer", n.iter=n.iter, n.burnin=n.burnin, n.thin=n.thin))
+    return (as.bugs.array (sims, program="lmer", n.iter=n.iter, n.burnin=n.burnin, n.thin=n.thin, DIC=deviance))
   }
   else {
     return (sims)
   }
 }
+
+
+
+setMethod("mcsamp", signature(object = "lmer"),
+    function (object, ...)
+{
+    mcsamp.default(object, deviance=TRUE, ...)
+}
+)
+
+setMethod("mcsamp", signature(object = "glmer"),
+    function (object, ...)
+{
+    mcsamp.default(object, deviance=FALSE, ...)
+}
+)

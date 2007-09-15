@@ -29,13 +29,14 @@ setMethod("se.coef", signature(object = "mer"),
     se.unmodeled[[1]] <- corF@sd
     names (se.unmodeled) <- "unmodeled"
 
-    coef <- ranef (object)
-    estimate <- ranef(object, postVar=TRUE)
+    #coef <- ranef (object)
+    #estimate <- ranef(object, postVar=TRUE)
+    coef <- ranef(object, postVar=TRUE)
     se.bygroup <- NULL
     n.groupings <- length (coef)
     
     for (m in 1:n.groupings){
-      vars.m <- attr (estimate[[m]], "postVar")
+      vars.m <- attr (coef[[m]], "postVar")
       K <- dim(vars.m)[1]
       J <- dim(vars.m)[3]
       se.bygroup[[m]] <- array (NA, c(J,K))
@@ -62,13 +63,14 @@ setMethod("se.coef", signature(object = "lmer2"),
     se.unmodeled[[1]] <- corF@sd
     names (se.unmodeled) <- "unmodeled"
 
-    coef <- ranef (object)
-    estimate <- ranef(object, postVar=TRUE)
+    #coef <- ranef (object)
+    #estimate <- ranef(object, postVar=TRUE)
+    coef <- ranef(object, postVar=TRUE)
     se.bygroup <- NULL
     n.groupings <- length (coef)
     
     for (m in 1:n.groupings){
-      vars.m <- attr (estimate[[m]], "postVar")
+      vars.m <- attr (coef[[m]], "postVar")
       K <- dim(vars.m)[1]
       J <- dim(vars.m)[3]
       se.bygroup[[m]] <- array (NA, c(J,K))
@@ -76,7 +78,7 @@ setMethod("se.coef", signature(object = "lmer2"),
         se.bygroup[[m]][j,] <- sqrt(diag(as.matrix(vars.m[,,j])))
       }
 #      se.bygroup[[m]] <- se.bygroup[[m]]*sc
-      names.full <- dimnames (ranef(object)[[m]])
+      names.full <- dimnames (coef[[m]])
       dimnames (se.bygroup[[m]]) <- list (names.full[[1]],
                             names.full[[2]])
     }

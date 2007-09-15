@@ -21,6 +21,8 @@ setMethod("sim", signature(object = "lm"),
     }
 )
 
+
+
 setMethod("sim", signature(object = "glm"),
     function(object, n.sims=100)
     {
@@ -39,22 +41,30 @@ setMethod("sim", signature(object = "glm"),
     for (s in 1:n.sims){
       beta[s,] <- mvrnorm (1, beta.hat, V.beta)
     }
+    # Added by Masanao
+    beta2 <- array (0, c(n.sims,length(coefficients(object))))
+    dimnames(beta2) <- list (NULL, names(coefficients(object)))
+    beta2[,dimnames(beta2)[[2]]%in%dimnames(beta)[[2]]] <- beta
+    # Added by Masanao
     sigma <- rep (sqrt(summ$dispersion), n.sims)
-    return (list(beta=beta, sigma=sigma))
+    return (list(beta=beta2, sigma=sigma))    
     }
 )
+    
+
 
 
 setMethod("sim", signature(object = "mer"),
     function(object, n.sims=100)
     {
     #object <- summary(object)
-    if (lapply(object@bVar,sum)<=0|sum(unlist(lapply(object@bVar, is.na)))>0){
-        object@call$control <- list(usePQL=TRUE)
-        object <- lmer(object@call$formula)
-    }
-    sc <- attr (VarCorr (object), "sc")  
+#    if (lapply(object@bVar,sum)<=0|sum(unlist(lapply(object@bVar, is.na)))>0){
+#        object@call$control <- list(usePQL=TRUE)
+#        object <- lmer(object@call$formula)
+    #}
+    #sc <- attr (VarCorr (object), "sc")  
     # simulate unmodeled coefficients
+    
     fcoef <- fixef(object)
     corF <- vcov(object)@factors$correlation
     se.unmodeled <- corF@sd
@@ -65,19 +75,24 @@ setMethod("sim", signature(object = "mer"),
       names (beta.unmodeled) <- "unmodeled"
     }
     # simulate coefficients within groups
-    coef <- ranef (object)
+    #coef <- ranef (object)  
+    #estimate <- ranef(object, postVar=TRUE)
+    #vars <- object@bVar
+    #beta.bygroup <- vars
+    
     sc <- attr (VarCorr (object, useScale=useScale), "sc")
-    vars <- object@bVar
-    beta.bygroup <- vars
-    n.groupings <- length (vars)
+    coef <- ranef(object, postVar=TRUE)   
+    beta.bygroup <- NULL
+    n.groupings <- length (coef)
     for (m in 1:n.groupings){
-      vars.m <- vars[[m]]
+      #vars.m <- vars[[m]]
+      vars.m <- attr (coef[[m]], "postVar")
       K <- dim(vars.m)[1]
       J <- dim(vars.m)[3]
       beta.bygroup[[m]] <- array (NA, c(n.sims, J, K))
-      bhat <- ranef(object)[[m]]
+      bhat <- coef[[m]]
       for (j in 1:J){
-        V.beta <- untriangle(vars.m[,,j])*sc^2
+        V.beta <- untriangle(vars.m[,,j])#*sc^2
         beta.bygroup[[m]][,j,] <- mvrnorm (n.sims, bhat[j,], V.beta)
       }   
       dimnames (beta.bygroup[[m]]) <- c (list(NULL), dimnames(bhat))
@@ -102,18 +117,19 @@ setMethod("sim", signature(object = "lmer2"),
     }
     # simulate coefficients within groups
     sc <- attr (VarCorr (object), "sc")  # scale
-    coef <- ranef (object)
-    estimate <- ranef(object, postVar=TRUE)
+    #coef <- ranef (object)
+    #estimate <- ranef(object, postVar=TRUE)
+    coef <- ranef(object, postVar=TRUE)
     beta.bygroup <- NULL
     n.groupings <- length (coef)
     for (m in 1:n.groupings){
-      bhat <- estimate[[m]]
-      vars.m <- attr (estimate[[m]], "postVar")
+      bhat <- coef[[m]]
+      vars.m <- attr (coef[[m]], "postVar")
       K <- dim(vars.m)[1]
       J <- dim(vars.m)[3]
       beta.bygroup[[m]] <- array (NA, c(n.sims, J, K))
       for (j in 1:J){
-        V.beta <- untriangle(vars.m[,,j])*sc^2
+        V.beta <- untriangle(vars.m[,,j])#*sc^2
         beta.bygroup[[m]][,j,] <- mvrnorm (n.sims, bhat[j,], V.beta)
       }   
       dimnames (beta.bygroup[[m]]) <- c (list(NULL), dimnames(bhat))
