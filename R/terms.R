@@ -1,9 +1,9 @@
-setMethod("terms", signature(x = "formula"),
+setMethod("terms.bayes", signature(x = "formula"),
     function(x, specials = NULL, abb = NULL, data = NULL, neg.out = TRUE, 
     keep.order = FALSE, simplify = FALSE, ..., allowDotAsName = FALSE) 
     {
-    fixFormulaObject <- function(object, keep.order, ...) {
-        Terms <- terms( object, keep.order, ...)
+    fixFormulaObject <- function(x, keep.order, ...) {
+        Terms <- terms(x, keep.order, ...)
         tmp   <- attr( Terms, "term.labels" )
         ## fix up terms involving | : PR#8462
         ind <- grep( "|", tmp, fixed = TRUE )
@@ -14,10 +14,10 @@ setMethod("terms", signature(x = "formula"),
             tmp2 <- as.character(attr(Terms, "variables"))[-1]
             tmp <- c(tmp, tmp2[ind])
         }
-        form <- formula( object )
+        form <- formula( x )
         lhs  <- if( length( form ) == 2 ) { NULL } else { paste( deparse( form[[2]] ), collapse="" ) }
         rhs  <- if( length( tmp ) ) { paste( tmp, collapse = " + ") } else { "1" }
-        if( !attr( terms( object ), "intercept" ) ) rhs <- paste(rhs, "- 1")
+        if( !attr( terms( x ), "intercept" ) ) rhs <- paste(rhs, "- 1")
             formula( paste( lhs, "~", rhs ) )
     }
     

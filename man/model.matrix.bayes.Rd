@@ -1,20 +1,21 @@
 \name{model.matrix.bayes}
+\docType{genericFunction}
 \alias{model.matrix.bayes}
-\alias{model.matrix.bayes2}
+\alias{model.matrix.bayes,bayesglm-method}
+\alias{model.matrix.bayes,bayesglm.h-method}
 
 \title{Construct Design Matrices}
 
 \description{
-  \code{model.matrix} creates a design matrix.
+  \code{model.matrix.bayes} creates a design matrix.
 }
 
 \usage{
-# for the use of bayesglm 
-model.matrix.bayes(object, data = environment(object), 
+\S4method{model.matrix.bayes}{bayesglm}(object, data = environment(object), 
     contrasts.arg = NULL, xlev = NULL, keep.order = FALSE, ...)
     
-# for the use of bayesglm.hiearchical (not implement yet!)
-model.matrix.bayes2(object, data = environment(object), 
+# (not implement yet!)
+\S4method{model.matrix.bayes}{bayesglm.h}(object, data = environment(object), 
     contrasts.arg = NULL, xlev = NULL, keep.order = FALSE, batch = NULL, ...)
 }
 
@@ -62,8 +63,10 @@ unpublished paper available at \url{http://www.stat.columbia.edu/~gelman/standar
 \examples{
 ff <- log(Volume) ~ log(Height) + log(Girth)
 str(m <- model.frame(ff, trees))
-(model.matrix.bayes(ff, m))
-(model.matrix.bayes2(ff, m))
 (model.matrix(ff, m))
+class(ff) <- c("bayesglm", "terms", "formula")
+(model.matrix.bayes(ff, m))
+class(ff) <- c("bayesglm.h", "terms", "formula")
+(model.matrix.bayes(ff, m))
 }
 \keyword{models}

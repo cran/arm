@@ -1,3 +1,25 @@
+2006-9-19    Yu-Sung Su     <ys463@columbia.edu>    
+    * DESCRIPTION (Version, Date): 1.0-32.    
+    * R/coefplot: rewrite coefplot for bugs.
+    * R/mcsamp: get rid of "()" in variable names.
+
+2006-9-18    Yu-Sung Su     <ys463@columbia.edu>
+    * R/coefplot: add h.axis and v.axis option.
+
+2006-9-17    Yu-Sung Su     <ys463@columbia.edu>
+    * man/bayesglm: document bayesglm and bayesglm.h class.
+    * man/blanceplot: take out the par description.
+    * man/model.matrix.bayes: clean up, document model.matrix.bayes methods
+            for bayesglm.
+    * man/terms: obsolet!
+    * man/terms.bayes: document temrs methods for bayesglm.
+    * R/AllClass: add bayesglm and bayesglm.h class.
+    * R/balanceplot: improved coding! can handle factor and interaction
+            terms now; take out the par option; use model.matrix.bayes, terms.bayes.
+    * R/model.matrix.bayes: S4 methods for bayesglm & bayesglm.h
+    * R/terms: obsolet!
+    * R/terms.bayes: S4 methods for the formula of bayesglm & bayesglm.h
+
 2006-9-15    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-31.
     * R/Allgeneric: coerce mcsamp into a generic function

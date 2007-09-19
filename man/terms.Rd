@@ -1,6 +1,7 @@
-\name{terms}
-\alias{terms}
-\alias{terms,formula-method}
+\name{terms.bayes}
+\docType{genericFunction}
+\alias{terms.bayes}
+\alias{terms.bayes,formula-method}
 
 \title{Construct a terms Object from a Formula}
 
@@ -10,7 +11,7 @@
   construct a \code{\link{model.matrix.bayes}}.
 }
 \usage{
-\S4method{terms}{formula}(x, specials = NULL, abb = NULL, data = NULL, 
+\S4method{terms.bayes}{formula}(x, specials = NULL, abb = NULL, data = NULL, 
     neg.out = TRUE, keep.order = FALSE, simplify = FALSE, 
     allowDotAsName = FALSE, \dots)
 }

@@ -3,24 +3,32 @@
 #coefplot.coefplot <- function(object,...) object
 
 coefplot.default <- function(coefs, sds, 
-            varnames=NULL, CI=2, vertical=TRUE,
+            varnames=NULL, CI=2, 
+            vertical=TRUE,
+            v.axis=TRUE, h.axis=TRUE,
             cex.var=0.8, cex.pts=0.9, col.pts=1,
-            var.las=2,...)
+            var.las=2, ...)
 {
      # collect informations
     if (is.list(coefs)){
         coefs <- unlist(coefs)
     }
     n.x <- length(coefs)
-    idx <- seq(1, n.x)                                                                
+    idx <- seq(1, n.x)      
+    coefs.h <- coefs + CI*sds
+    coefs.l <- coefs - CI*sds                                                          
   
     if (vertical){
-        plot(c(coefs+2*sds, coefs-2*sds), c(idx,idx), type="n",                                     
-            axes=F,...)                                                   
-        axis(1)                                
-        axis(3)
-        axis(2, n.x:1, varnames[n.x:1], las=var.las, tck=FALSE, 
-            lty=0, cex.axis=cex.var) 
+        plot(c(coefs.l, coefs.h), c(idx,idx), type="n",                                     
+            axes=F,...) 
+        if (h.axis){                                                  
+            axis(1)                                
+            axis(3)
+        }
+        if (v.axis){
+            axis(2, n.x:1, varnames[n.x:1], las=var.las, tck=FALSE, 
+                lty=0, cex.axis=cex.var) 
+        }
         abline(v=0, lty=2)                                                 
         points(coefs, idx, pch=19, cex=cex.pts, col=col.pts)
         if (CI==2){
@@ -32,11 +40,15 @@ coefplot.default <- function(coefs, sds,
         }
     }
     else{ # horizontal
-        plot(c(idx,idx), c(coefs+2*sds, coefs-2*sds), type="n", axes=F,...)                                                   
-        #axis(2, las=var.las)                                
-        axis(4, las=var.las)
-        axis(1, 1:n.x, varnames[1:n.x], las=var.las, tck=FALSE, 
-            lty=0, cex.axis=cex.var) 
+        plot(c(idx,idx), c(coefs.l, coefs.h), type="n", axes=F,...)                                                   
+        if (v.axis){
+            axis(2, las=var.las)                                
+            axis(4, las=var.las)
+        }
+        if (h.axis){
+            axis(1, 1:n.x, varnames[1:n.x], las=var.las, tck=FALSE, 
+                lty=0, cex.axis=cex.var) 
+        }
         abline(h=0, lty=2)                                                 
         points(idx, coefs, pch=19, cex=cex.pts, col=col.pts)
         if (CI==2){
@@ -112,37 +124,99 @@ setMethod("coefplot", signature(object = "glm"),
 
 
 setMethod("coefplot", signature(object = "bugs"),
-    function(object,
-            varnames=NULL, CI=2, 
-            cex.var=0.8, cex.pts=0.9, col.pts=1,...)
-    {
-    # collect informations
-    n.x <- length(object$summary[,"50%"])
-    coefs <- object$summary[,"50%"][1:(n.x-1)]
-    CI50 <- array(c(object$summary[,"25%"], object$summary[,"75%"]), c(n.x,2))[1:(n.x-1),]
-    CI95 <- array(c(object$summary[,"2.5%"], object$summary[,"97.5%"]), c(n.x,2))[1:(n.x-1),]
-    idx <- seq(1, n.x-1)
-
-    if (is.null(varnames)) varnames <- names(coefs)     
+    function(object, var.idx=NULL, varnames=NULL, 
+            CI=1, vertical=TRUE,
+            v.axis=TRUE, h.axis=TRUE, 
+            cex.var=0.8, cex.pts=0.9, 
+            col.pts=1, var.las=2, ...)
+{  
     
-    # plotting
-    plot(c(CI95[,1],CI95[,2]), c(idx,idx), type="n",                                     
-        axes=F,...)                                                   
-    axis(1)                                
-    axis(3)
-    axis(2, n.x:1, varnames[n.x:1], las=2, tck=FALSE, 
-        lty=0, cex.axis=cex.var)  
-    abline(v=0, lty=2)                                                 
-    points(coefs, idx, pch=19, cex=cex.pts, col=col.pts)
+    if (is.null(var.idx)){
+        var.idx <- 1:length(object$summary[,"50%"])
+    }
+    n.x <- length(var.idx)
+    idx <- 1:n.x
+    
+    coefs <- object$summary[,"50%"][var.idx]
+    if (is.null(varnames)){
+        varnames <- names(coefs)     
+    }
+    
+    if (CI==1){
+        CI50.h <- object$summary[,"75%"][var.idx]
+        CI50.l <- object$summary[,"25%"][var.idx]
+        CI50 <- cbind(CI50.l, CI50.h)
+        if (vertical){
+            plot(c(CI50[,1],CI50[,2]), c(idx,idx), type="n",                                     
+                axes=F,...) 
+            if (h.axis){
+                axis(3)
+            }
+            if (v.axis){
+            axis(2, n.x:1, varnames[n.x:1], las=var.las, tck=FALSE, 
+                lty=0, cex.axis=cex.var)  
+            }
+            abline(v=0, lty=2)                                                 
+            segments (CI50[,1], idx, CI50[,2], idx, lwd=1, col=col.pts)     
+            points(coefs, idx, pch=19, cex=cex.pts, col=col.pts)
+        }
+        else {
+            plot(c(idx,idx), c(CI50[,1],CI50[,2]), type="n",                                     
+                axes=F,...) 
+            if (v.axis){
+                axis(2)
+            }
+            if (h.axis){
+                axis(1, n.x:1, varnames[n.x:1], las=var.las, tck=FALSE, 
+                    lty=0, cex.axis=cex.var)  
+            }
+            abline(h=0, lty=2)                                                 
+            segments (idx, CI50[,1], idx, CI50[,2], lwd=1, col=col.pts)     
+            points(idx, coefs, pch=19, cex=cex.pts, col=col.pts)
+        }
+    }
+    
     if (CI==2){
-        segments (CI50[,1], idx, CI50[,2], idx, lwd=2, col=col.pts)     
-        segments (CI95[,1], idx, CI95[,2], idx, lwd=1, col=col.pts)
+        CI50.h <- object$summary[,"75%"][var.idx]
+        CI50.l <- object$summary[,"25%"][var.idx]
+        CI95.h <- object$summary[,"97.5%"][var.idx]
+        CI95.l <- object$summary[,"2.5%"][var.idx]
+        CI50 <- cbind(CI50.l, CI50.h)
+        CI95 <- cbind(CI95.l, CI95.h)
+        if (vertical){
+            plot(c(CI95[,1],CI95[,2]), c(idx,idx), type="n",                                     
+                axes=F,...)
+        if (h.axis){
+                axis(3)
+            }
+            if (v.axis){
+            axis(2, n.x:1, varnames[n.x:1], las=var.las, tck=FALSE, 
+                lty=0, cex.axis=cex.var)  
+            }
+            abline(v=0, lty=2)                                                 
+            segments (CI50[,1], idx, CI50[,2], idx, lwd=2, col=col.pts) 
+            segments (CI95[,1], idx, CI95[,2], idx, lwd=1, col=col.pts)    
+            points(coefs, idx, pch=19, cex=cex.pts, col=col.pts)
+        }
+        else {
+            plot(c(idx,idx), c(CI50[,1],CI50[,2]), type="n",                                     
+                axes=F,...) 
+            if (v.axis){
+                axis(2)
+            }
+            if (h.axis){
+                axis(1, n.x:1, varnames[n.x:1], las=var.las, tck=FALSE, 
+                    lty=0, cex.axis=cex.var)  
+            }
+            abline(h=0, lty=2)                                                 
+            segments (idx, CI50[,1], idx, CI50[,2], lwd=2, col=col.pts)
+            segments (idx, CI95[,1], idx, CI95[,2], lwd=1, col=col.pts)         
+            points(idx, coefs, pch=19, cex=cex.pts, col=col.pts)
+        }
     }
-    else if (CI==1){
-        segments (CI50[,1], idx, CI50[,2], idx, lwd=1, col=col.pts)     
-    }
-    }
+}
 )
+    
 
 
 setMethod("coefplot", signature(object = "polr"), 

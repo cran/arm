@@ -2,6 +2,8 @@
 \docType{genericFunction}
 \alias{display}
 \alias{display,lm-method}
+\alias{display,bayesglm-method}
+\alias{display,bayesglm.h-method}
 \alias{display,glm-method}
 \alias{display,mer-method}
 \alias{display,lmer2-method}
@@ -16,6 +18,8 @@
 display (object, ...)
 
 \S4method{display}{lm}(object, digits=2)
+\S4method{display}{bayesglm}(object, digits=2)
+\S4method{display}{bayesglm.h}(object, digits=2)
 \S4method{display}{glm}(object, digits=2)
 \S4method{display}{mer}(object, digits=2)
 \S4method{display}{lmer2}(object, digits=2)

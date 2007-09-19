@@ -7,11 +7,9 @@
 }
 \usage{
 balanceplot(rawdata, matched, pscore.fit, 
-    longcovnames = NULL, 
+    longcovnames = NULL, factor=TRUE,
     main = "Standardized Difference in Means", 
-    cex.main = 1, cex.vars = 0.8, cex.pts = 0.8, 
-    mar = c(0, 5, 4, 2), mgp = c(2, 0.25, 0), 
-    oma = c(0, 0, 0, 0), tcl = -0.2, ...)
+    cex.main = 1, cex.vars = 0.8, cex.pts = 0.8, ...)
 }
 
 \arguments{
@@ -20,14 +18,13 @@ balanceplot(rawdata, matched, pscore.fit,
   \item{pscore.fit}{glm.fit object to get propensity scores.}
   \item{longcovnames}{long covariate names.  If not provided, plot will 
             use covariate variable name by default}
+  \item{factor}{default is TRUE which will display the factorized categorical variables. In
+        a situation where no equal levels of factorized categorical variables is observed,
+        use factor=FALSE to proceed.}
   \item{main}{title of the plot}
   \item{cex.main}{font size of main title}
   \item{cex.vars}{font size of variabel names}
   \item{cex.pts}{point size of the estimates}
-  \item{mar}{margin of the plot, see ?\code{par} for details}
-  \item{mgp}{axis margin of the plot, see ?\code{par} for details}
-  \item{oma}{outer margin of the plot, see ?\code{par} for details}
-  \item{tcl}{length of ticks, see ?\code{par} for details}
   \item{\dots}{other plot options may be passed to this function}
 }
 \details{
@@ -58,6 +55,7 @@ Regression and Multilevel/Hierarchical Models, Cambridge University Press, 2006.
         }
         
 \examples{
+# matching first
 data(lalonde)
 attach(lalonde)
 fit <- glm(treat ~ re74 + re75 + age + factor(educ) + 
@@ -65,10 +63,14 @@ fit <- glm(treat ~ re74 + re75 + age + factor(educ) +
             family=binomial(link="logit"))
 pscores <- predict(fit, type="link")
 matches <- matching(z=lalonde$treat, score=pscores)
-matched <- lalonde[matches$matched,]  
-balanceplot(lalonde, matched, fit)
+matched <- lalonde[matches$matched,]
+
+# make the plot
+par(mar=c(0,6,4,2),mgp=c(2,0.25,0),tcl=-0.2)  
+balanceplot(lalonde, matched, fit, xlim=c(-0.3,0.2))
 }
 
 
 \keyword{methods}
+\keyword{models}
 \keyword{dplot}

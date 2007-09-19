@@ -36,6 +36,7 @@ Regression and Multilevel/Hierarchical Models, Cambridge University Press, 2006.
         }
 
 \examples{
+# matching first
 data(lalonde)
 attach(lalonde)
 fit <- glm(treat ~ re74 + re75 + age + factor(educ) + 
@@ -43,8 +44,11 @@ fit <- glm(treat ~ re74 + re75 + age + factor(educ) +
             family=binomial(link="logit"))
 pscores <- predict(fit, type="link")
 matches <- matching(z=lalonde$treat, score=pscores)
-matched <- lalonde[matches$matched,]  
-balanceplot(lalonde, matched, fit)
+matched <- lalonde[matches$matched,]
+
+# make the plot
+par(mar=c(0,6,4,2),mgp=c(2,0.25,0),tcl=-0.2)  
+balanceplot(lalonde, matched, fit, xlim=c(-0.3,0.2))
 }
 
 \keyword{models}

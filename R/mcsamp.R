@@ -74,10 +74,15 @@ mcsamp.default <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.it
         sims[,,n.parameters+1] <- sims[,,j] 
         sims <- sims[,,-j]                          # Su: delete deviance value from sims
     } 
-    #else {
-      #par.names[j] <- paste ("beta.", par.names[j], sep="")
-    #}
+#    else {  
+#    }
   } 
+  par.names <- gsub("(", "", par.names, ignore.case = FALSE,
+                    extended = TRUE, perl = FALSE,
+                    fixed = TRUE, useBytes = FALSE)   
+  par.names <- gsub(")", "", par.names, ignore.case = FALSE,
+                    extended = TRUE, perl = FALSE,
+                    fixed = TRUE, useBytes = FALSE) 
   
   par.names <- par.names[is.na(match(par.names,"deviance"))] # Su: delete par.names for "deviance"
   

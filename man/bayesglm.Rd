@@ -1,5 +1,9 @@
 \name{bayesglm}
-
+\docType{class}
+% Classes
+\alias{bayesglm-class}
+\alias{bayesglm.h-class}
+% functions
 \alias{bayesglm}
 \alias{bayesglm.fit}
 
@@ -272,24 +276,24 @@ The new arguments here are: \code{prior.mean}, \code{prior.scale},
     family=binomial(link="logit"), prior.scale=2.5, prior.df=Inf)
   display (M8)
   
-  ## keep all levels with the intercept
-  M9 <- bayesglm (y ~ x1 + factor(z1) + factor(z2), 
+  ## keep all levels with the intercept, keep the variable order
+  M9 <- bayesglm (y ~ x1 + x1:x2 + factor(z1) + x2 + factor(z2), 
     family=binomial(link="logit"), 
-    prior.mean=rep(0,10), 
-    prior.scale=rep(2.5,10), 
-    prior.df=rep(Inf,10),
+    prior.mean=rep(0,12), 
+    prior.scale=rep(2.5,12), 
+    prior.df=rep(Inf,12),
     prior.mean.for.intercept=0,
     prior.scale.for.intercept=10,
     prior.df.for.intercept=1,
-    drop.baseline=FALSE)
+    drop.baseline=FALSE, keep.order=TRUE)
   display (M9)
 
   ## keep all levels without the intercept
-  M10 <- bayesglm (y ~ x1 + factor(z1) + factor(z2)-1, 
+  M10 <- bayesglm (y ~ x1 + factor(z1) + x1:x2 + factor(z2)-1, 
     family=binomial(link="logit"), 
-    prior.mean=rep(0,10), 
-    prior.scale=rep(2.5,10), 
-    prior.df=rep(Inf,10),
+    prior.mean=rep(0,11), 
+    prior.scale=rep(2.5,11), 
+    prior.df=rep(Inf,11),
     drop.baseline=FALSE)
   display (M10)
   

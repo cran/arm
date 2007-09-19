@@ -1,62 +1,82 @@
 balanceplot <- function (rawdata, matched, pscore.fit, 
-                longcovnames=NULL, 
+                longcovnames=NULL, factor=TRUE,
                 main="Standardized Difference in Means",
                 cex.main=1, cex.vars=0.8, cex.pts=0.8,
-                mar=c(0, 5, 4, 2), mgp=c(2, 0.25, 0), 
-                oma=c(0,0,0,0), tcl=-0.2,
+                #mar=c(0, 8, 4, 2), mgp=c(2, 0.25, 0), 
+                #oma=c(0,0,0,0), tcl=-0.2,
                 ...)
 {
     
-    response <- as.character(pscore.fit$formula[[2]])
-    vars <- pscore.fit$terms@variables
-    vars <- with(rawdata, eval(vars))
-    covnames <- pscore.fit$terms@term.labels
-    check1 <- sum(pmatch("factor", covnames, nomatch=0)>0)
-    if (check1>0){
-        covnames <- gsub("factor(", "", covnames, fixed=TRUE)
-        covnames <- gsub(")", "", covnames, fixed=TRUE)
-    }
-    n <- length(pscore.fit$y)
-    K <- length(vars)
-    rawdata <- matrix(NA, n, K)
-    for (i in 1:K){
-        rawdata[,i] <- vars[[i]]
-    }
-    colnames(rawdata) <- c("treat", covnames)
+    #int <- attr(terms(pscore.fit), "intercept")
+    call.raw <- call.matched <- pscore.fit$call
+    call.matched$data <- substitute(matched)    
 
+    if (!factor){
+        form <- gsub("factor(", "", call.raw$formula, fixed = TRUE)
+        form <- gsub(")", "", form, fixed = TRUE)
+        form <- as.formula(paste(form[2], form[1], form[3]))
+        call.raw$formula <- call.matched$formula <- form
+    }
+
+    fit.raw <- eval(call.raw)
+    fit.matched <- eval(call.matched)
+    class(fit.raw$formula) <- class(fit.matched$formula) <- c("bayesglm", "formula")
+    treat.raw <- fit.raw$y
+    treat.matched <- fit.matched$y
+    pred.raw <- model.matrix.bayes(fit.raw$formula, data=rawdata, keep.order=TRUE)
+    pred.matched <- model.matrix.bayes(fit.matched$formula, data=matched, keep.order=TRUE)
+    
+    #if (int){
+    #    pred.raw <- model.matrix(fit.raw)[,-1]
+    #    pred.matched <- model.matrix(fit.matched)[,-1]
+    #}
+    #if (!int){
+    #    pred.raw <- model.matrix(fit.raw)
+    #    pred.matched <- model.matrix(fit.matched)
+    #}
+    
+    if(dim(pred.raw)[2]!=dim(pred.matched)[2])
+        warnings("number of covariates of the raw data does not equal to
+            that of the matched data! This might be due to the drop of 
+            factor levels.  Use factor=FALSE to proceed!")
+    
+    raw.dat <- data.frame(pred.raw,treat=treat.raw)
+    matched.dat <- data.frame(pred.matched,treat=treat.matched)
+    covnames <- c(colnames(pred.raw),"treat")
+    K <- length(covnames)-1
     # diff.mean.rawdata
     
-    cat("\n=========diff.mean.rawdata==========\n")
-    diff.means=matrix(0,length(covnames),6)
-    for(i in 1:length(covnames)){
-        diff.means[i,1:2] <- c(mean(rawdata[(rawdata[,"treat"]==1),covnames[i]]),
-            mean(rawdata[(rawdata[,"treat"]==0),covnames[i]]))
+    cat("\n=========diff.mean.raw.data==========\n")
+    diff.means=matrix(NA,K,6)
+    for(i in 1:K){
+        diff.means[i,1:2] <- c(mean(raw.dat[(raw.dat[,"treat"]==1),i]),
+            mean(raw.dat[(raw.dat[,"treat"]==0),i]))
         diff.means[i,3] <- diff.means[i,1]-diff.means[i,2]
-        diff.means[i,5] <- sqrt(var(rawdata[(rawdata[,"treat"]==1),covnames[i]])/
-            sum((rawdata[,"treat"]==1)) + var(rawdata[(rawdata[,"treat"]==0),covnames[i]])/sum((rawdata[,"treat"]==0)))
-        diff.means[i,6] <- sqrt((var(rawdata[(rawdata[,"treat"]==1),covnames[i]])+
-            var(rawdata[(rawdata[,"treat"]==0),covnames[i]]))/2)
+        diff.means[i,5] <- sqrt(var(raw.dat[(raw.dat[,"treat"]==1),i])/
+            sum((raw.dat[,"treat"]==1)) + var(raw.dat[(raw.dat[,"treat"]==0),i])/sum((raw.dat[,"treat"]==0)))
+        diff.means[i,6] <- sqrt((var(raw.dat[(raw.dat[,"treat"]==1),i])+
+            var(raw.dat[(raw.dat[,"treat"]==0),i]))/2)
         diff.means[i,4] <- diff.means[i,3]/diff.means[i,6]
     }
-    dimnames(diff.means) <- list(covnames,
+    dimnames(diff.means) <- list(covnames[-(K+1)],
         c("Treat","control","diff","diff.std","se","sd"))
     print(round(diff.means,2))
     
-    # diff.means.matched
+    # diff.means.matched.dat
     cat("\n=========diff.mean.matched.data==========\n")
-    diff.means.matched=matrix(0,length(covnames),6)
-    for(i in 1:length(covnames)){
-        diff.means.matched[i,1:2] <- c(mean(matched[(matched[,response]==1),
-            covnames[i]]),mean(matched[(matched[,response]==0),covnames[i]]))
+    diff.means.matched=matrix(NA,K,6)
+    for(i in 1:K){
+        diff.means.matched[i,1:2] <- c(mean(matched.dat[(matched.dat[,"treat"]==1),i]),
+            mean(matched.dat[(matched.dat[,"treat"]==0),i]))
         diff.means.matched[i,3] <- diff.means.matched[i,1]-diff.means.matched[i,2]
-        diff.means.matched[i,5] <- sqrt(var(matched[(matched[,response]==1),covnames[i]])/
-            sum((rawdata[,"treat"]==1)) + var(rawdata[(rawdata[,"treat"]==0),covnames[i]])/sum((rawdata[,"treat"]==0)))
-        diff.means.matched[i,6] <- sqrt((var(rawdata[(rawdata[,"treat"]==1),covnames[i]])+
-            var(rawdata[(rawdata[,"treat"]==0),covnames[i]]))/2)
+        diff.means.matched[i,5] <- sqrt(var(matched.dat[(matched.dat[,"treat"]==1),i])/
+            sum((raw.dat[,"treat"]==1)) + var(raw.dat[(raw.dat[,"treat"]==0),i])/sum((raw.dat[,"treat"]==0)))
+        diff.means.matched[i,6] <- sqrt((var(raw.dat[(raw.dat[,"treat"]==1),i])+
+            var(raw.dat[(raw.dat[,"treat"]==0),i]))/2)
         diff.means.matched[i,4] <- diff.means.matched[i,3]/diff.means.matched[i,6]
     }
 
-    dimnames(diff.means.matched) <- list(covnames,
+    dimnames(diff.means.matched) <- list(covnames[-(K+1)],
         c("Treat","control","diff","diff.std","se","sd"))
     print(round(diff.means.matched,2))
 
@@ -71,36 +91,37 @@ balanceplot <- function (rawdata, matched, pscore.fit,
     # x.range[2] <- x.range[2] +.3
     # A <- -x.range[1]/(x.range[2]-x.range[1])
     # B <- 1/(x.range[2]-x.range[1])
-    # pts <- A + B*(est/sd)              # before matched
+    # pts <- A + B*(est/sd)              # before matched.dat
     # pts2 <- A + B*(est2/sd2)           # after macthed
     
-    pts <-  est/sd                      # before matched
-    pts2 <- est2/sd2                    # after macthed
-    x.range <- c( min(c(pts, pts2))-.25, max(c(pts,pts2)+.25) )
-    idx <- 1:length(covnames)
+    pts <<-  est/sd                      # before matched.dat
+    pts2 <<- est2/sd2                    # after macthed 
+    #x.range <- c(jitter(min(c(pts, pts2)),15), max(c(pts,pts2)+.105))
+    
+    idx <- 1:K
     
     # tune the graphic console
-    par (mar=mar, mgp=mgp, oma=oma, tcl=tcl)
+    #par (mar=mar, mgp=mgp, oma=oma, tcl=tcl)
     
     # plot the estimates
     plot(pts, idx,
     bty="n", xlab="", ylab="",
-    xaxt="n", yaxt="n", xaxs="i", 
+    xaxt="n", yaxt="n", #xaxs="i", 
     #yaxs="i", 
     type="n",
     ylim=c(max(idx), min(idx)),
-    xlim=x.range,
-    main=main, cex.main=cex.main)
+    #xlim=x.range,
+    main=main, cex.main=cex.main,...)
     abline(v=0, lty=2)
     points(pts, idx, cex=cex.pts)          # before matched
-    points(pts2, idx, pch=19, cex=cex.pts) # after macthed
+    points(pts2, idx, pch=19, cex=cex.pts) # after matched
     axis(3, cex.axis=0.8)
     if (is.null(longcovnames)){
-        axis(2, at=1:length(covnames), labels=covnames, 
+        axis(2, at=1:K, labels=covnames[1:K], 
             las=2, hadj=1, lty=0, cex.axis=cex.vars)
     }
     else{
-        axis(2, at=1:length(covnames), labels=longcovnames, 
+        axis(2, at=1:K, labels=longcovnames, 
             las=2, hadj=1, lty=0, cex.axis=cex.vars)
     }
 }

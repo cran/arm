@@ -80,7 +80,7 @@ setMethod("sim", signature(object = "mer"),
     #vars <- object@bVar
     #beta.bygroup <- vars
     
-    sc <- attr (VarCorr (object, useScale=useScale), "sc")
+    sc <- attr (VarCorr (object), "sc")
     coef <- ranef(object, postVar=TRUE)   
     beta.bygroup <- NULL
     n.groupings <- length (coef)

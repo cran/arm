@@ -1,3 +1,12 @@
+if (!isGeneric("bayesglm")) {
+    setGeneric("bayesglm",
+               function(formula, ...)
+               standardGeneric("bayesglm"))
+}
+
+
+
+
 if (!isGeneric("coefplot")) {
     setGeneric("coefplot",
                function(object, ...)
@@ -9,6 +18,12 @@ if (!isGeneric("display")) {
     setGeneric("display",
                function(object, ...)
                standardGeneric("display"))
+}
+
+if (!isGeneric("model.matrix.bayes")) {
+    setGeneric("model.matrix.bayes",
+               function(object, ...)
+               standardGeneric("model.matrix.bayes"))
 }
 
 
@@ -32,16 +47,17 @@ if (!isGeneric("se.coef")) {
 }
 
 
-if (!isGeneric("terms")) {
-    setGeneric("terms",
-               function(x,...)
-               standardGeneric("terms"))
-}
-
 if (!isGeneric("mcsamp")) {
     setGeneric("mcsamp",
                function(object, ...)
                standardGeneric("mcsamp"))
+}
+
+
+if (!isGeneric("terms.bayes")) {
+    setGeneric("terms.bayes",
+               function(x, ...)
+               standardGeneric("terms.bayes"))
 }
 
 

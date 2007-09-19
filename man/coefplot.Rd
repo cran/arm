@@ -19,13 +19,18 @@ coefplot(object,\dots)
 
 \method{coefplot}{default}(coefs, sds, 
                 varnames=NULL, CI=2, vertical=TRUE, 
+                v.axis=TRUE, h.axis=TRUE,
                 cex.var=0.8, cex.pts=0.9, 
                 col.pts=1, var.las=2,\dots)
-                
+\S4method{coefplot}{bugs}(object, var.idx=NULL, varnames=NULL, 
+            CI=1, vertical=TRUE,
+            v.axis=TRUE, h.axis=TRUE, 
+            cex.var=0.8, cex.pts=0.9, 
+            col.pts=1, var.las=2, \ldots)
+\S4method{coefplot}{numeric}(object, \dots)
 \S4method{coefplot}{lm}(object, varnames=NULL, intercept=FALSE, \dots)
 \S4method{coefplot}{glm}(object, varnames=NULL, intercept=FALSE, \dots)
 \S4method{coefplot}{polr}(object, varnames=NULL, \dots)
-\S4method{coefplot}{bugs}(object, varnames=NULL, CI=2, \dots)
 }
 
 \arguments{
@@ -40,21 +45,25 @@ coefplot(object,\dots)
   \item{vertical}{orientation of the plot, default is TRUE which will plot
     variable names in the 2nd axis. If FALSE, plot variable names in the first
     axis instead.}
+  \item{v.axis}{default if TRUE, which shows bottom axis--axis(1) and top axis--axis(3).}
+  \item{h.axis}{default if TRUE, which shows left axis--axis(2) and right axis--axis(4).}
   \item{cex.var}{The fontsize of the varible names, default=0.8.}
   \item{cex.pts}{The size of data points, default=0.9.}
   \item{col.pts}{color of points and segments, default is black.}
   \item{var.las}{the orientation of variable names against the axis, default is 2. 
     see the usage of \code{las} in \code{\link{par}}.}
+  \item{var.idx}{the index of the variables of a bugs object, default
+        is TRUE which will plot all the variables.}
   \item{intercept}{If TRUE will plot intercept, default=FALSE to get better presentation.}
 }
 
 \details{
-  This function plots coefficients from lm, glm and polr
+  This function plots coefficients from bugs, lm, glm and polr
   with 1 sd and 2 sd interval bars.
 }
 
 \value{
-   Plot of the coefficients from a lm or glm fit. You can add the intercept, 
+   Plot of the coefficients from a bugs, lm or glm fit. You can add the intercept, 
    the variable names and the display the result of the fitted model. 
 }
 
@@ -152,11 +161,12 @@ coefplot(object,\dots)
  M4 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
  coefplot(M4, xlab="", ylab="", main="bayespolr")
 
-# plot 6: plot bugs 
+# plot 6: plot bugs & lmer
  par (mar=c(3,8,4,1), mgp=c(2,0.25,0), tcl=-0.2)
  M5 <- lmer(Reaction ~ Days + (1|Subject), sleepstudy)
  M5.sim <- mcsamp(M5)
- coefplot(M5.sim, xlab="", ylab="", main="BUGS model")
+ coefplot(M5.sim, var.idx=5:22, CI=1, 
+    xlab="", ylab="", ylim=c(18,1), main="lmer model")
  
 # plot 7: plot coefficients & sds vectors
  par (mar=c(3,4,4,4), mgp=c(2,0.25,0), tcl=-0.2)

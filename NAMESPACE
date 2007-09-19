@@ -1,3 +1,19 @@
+exportClasses(
+              "bayesglm",
+              "bayesglm.h"
+              )
+
+exportMethods(
+              "coefplot",
+              "display",
+              "se.coef",
+              "mcsamp",
+              "model.matrix.bayes",
+              "sim",
+              "sigma.hat",
+              "terms.bayes"
+              )
+
 export(
        "balanceplot",
        "bayesglm",
@@ -14,8 +30,6 @@ export(
        "go",
        "invlogit",
        "matching", 
-       "model.matrix.bayes",
-       "model.matrix.bayes2",
        "pfround",
        "rescale",
        "se.coef",
@@ -28,14 +42,6 @@ export(
 )
 
 
-exportMethods(
-              "coefplot",
-              "display",
-              "se.coef",
-              "mcsamp",
-              "sim",
-              "sigma.hat",
-              "terms"
-              )
+
 
 S3method(print, GO)
