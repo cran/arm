@@ -122,7 +122,8 @@ functions in the "R2WinBUGS" package.
 # 
 # Then the full varying-intercept, varying-slope logit model:
 # 
-   M4 <- lmer (y2 ~ 1 + (1 + x |group), family=binomial(link="logit"))
+   M4 <- lmer (y2 ~ x + (1|group) + (0+x |group), 
+        family=binomial(link="logit"))
    display (M4)
    M4.sim <- mcsamp (M4)
    print (M4.sim)

@@ -26,7 +26,7 @@ mcsamp.default <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.it
                     fixed = TRUE, useBytes = FALSE)   
   par.names <- gsub("b@.*", "", par.names, ignore.case = FALSE, 
                     extended = TRUE, perl = FALSE,
-                    fixed = FALSE, useBytes = TRUE)    
+                    fixed = FALSE)    
   par.names <- par.names[is.na(match(par.names,""))] 
   ngrps <- lapply(object@flist, function(x) length(levels(x)))
   
@@ -41,7 +41,7 @@ mcsamp.default <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.it
       var.names <- paste (names(b.hat)[m+1],
                           unlist (dimnames(b.hat[[m+1]])[2]), sep="") ##sep="."
       par.names <- c (par.names,
-        paste (names(ngrps)[m], ".", rep(var.names,J[m]), "[", rep(1:J[m],each=K[m]), "]", sep=""))
+        paste (abbreviate(names(ngrps)[m], 4), ".", rep(var.names,J[m]), "[", rep(1:J[m],each=K[m]), "]", sep=""))
     }
   }
   sims[,1,1:n.parameters] <- first.chain

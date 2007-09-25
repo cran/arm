@@ -7,7 +7,6 @@
 
 # new functions!
 
-
 as.matrix.VarCorr <- function (varc, useScale, digits){
 # VarCorr function for lmer objects, altered as follows:
 #   1.  specify rounding
@@ -104,3 +103,22 @@ dwish <- function (W, v, S) {
     num <- detS^(-v/2) * detW^((v - k - 1)/2) * exp(-1/2 * tracehold)
     return(num/denom)
 }
+
+# no visible binding~~~~~~~~~~~~~~~
+# functions used to pass the check for bayespolr
+
+pgumbel <- function(q, loc = 0, scale = 1, lower.tail = TRUE)
+{
+    q <- (q - loc)/scale
+    p <- exp(-exp(-q))
+    if (!lower.tail) 1 - p else p
+}
+
+dgumbel <- function (x, loc = 0, scale = 1, log = FALSE)
+{
+    d <- log(1/scale) - x - exp(-x)
+    if (!log) exp(d) else d
+}
+
+# defin n to pass the bayesglm.fit and bayesglm.h.fit check
+n <- NULL

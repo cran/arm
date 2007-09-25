@@ -1,8 +1,8 @@
-if (!isGeneric("bayesglm")) {
-    setGeneric("bayesglm",
-               function(formula, ...)
-               standardGeneric("bayesglm"))
-}
+#if (!isGeneric("bayesglm")) {
+#    setGeneric("bayesglm",
+#               function(formula, ...)
+#               standardGeneric("bayesglm"))
+#}
 
 
 

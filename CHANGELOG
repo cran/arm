@@ -1,3 +1,15 @@
+2006-9-25    Yu-Sung Su     <ys463@columbia.edu>  
+    * DESCRIPTION (Version, Date): 1.0-33.
+    * man/sim: fix examples. no round(cbind())
+    * R/AllInternal: add pgumbel, dgumbel and n=NULL to pass check for 
+            "no visible binding."     
+    * R/mcsamp.default: 
+        1. when gsub(fixed=FALSE) cannot use useByte=TRUE
+        2. abbreviate(group level names)
+    
+2006-9-24    Yu-Sung Su     <ys463@columbia.edu>    
+    * R/balanceplot: add v.axis option.
+
 2006-9-19    Yu-Sung Su     <ys463@columbia.edu>    
     * DESCRIPTION (Version, Date): 1.0-32.    
     * R/coefplot: rewrite coefplot for bugs.

@@ -68,11 +68,10 @@ sim(object, ...)
  sigma.y <- 6
  y <- rnorm (n, a[group] + b*x, sigma.y)
  u <- runif (J, 0, 3)
- y123.dat <- as.data.frame (round (cbind (y, x, group), 2))
-
+ y123.dat <- cbind (y, x, group)
 # Linear regression 
- x1 <- y123.dat$y
- y1 <- y123.dat$x
+ x1 <- y123.dat[,2]
+ y1 <- y123.dat[,1]
  M1 <- lm (y1 ~ x1)
  display(M1)
  M1.sim <- sim(M1)
@@ -80,7 +79,7 @@ sim(object, ...)
 # Logistic regression 
  u.data <- cbind (1:J, u)
  dimnames(u.data)[[2]] <- c("group", "u")
- u.dat <- as.data.frame (round (u.data, 2))
+ u.dat <- as.data.frame (u.data)
  y <- rbinom (n, 1, invlogit (a[group] + b*x))
  M2 <- glm (y ~ x, family=binomial(link="logit"))
  display(M2)

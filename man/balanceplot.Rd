@@ -8,8 +8,9 @@
 \usage{
 balanceplot(rawdata, matched, pscore.fit, 
     longcovnames = NULL, factor=TRUE,
-    main = "Standardized Difference in Means", 
-    cex.main = 1, cex.vars = 0.8, cex.pts = 0.8, ...)
+    main = "Standardized Difference in Means",
+    v.axis=TRUE,cex.main = 1, 
+    cex.vars = 0.8, cex.pts = 0.8, ...)
 }
 
 \arguments{
@@ -22,6 +23,7 @@ balanceplot(rawdata, matched, pscore.fit,
         a situation where no equal levels of factorized categorical variables is observed,
         use factor=FALSE to proceed.}
   \item{main}{title of the plot}
+  \item{v.axis}{default is TRUE, which shows the top axis--axis(3).}
   \item{cex.main}{font size of main title}
   \item{cex.vars}{font size of variabel names}
   \item{cex.pts}{point size of the estimates}

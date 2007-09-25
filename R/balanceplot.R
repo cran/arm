@@ -1,6 +1,7 @@
 balanceplot <- function (rawdata, matched, pscore.fit, 
                 longcovnames=NULL, factor=TRUE,
                 main="Standardized Difference in Means",
+                v.axis=TRUE,
                 cex.main=1, cex.vars=0.8, cex.pts=0.8,
                 #mar=c(0, 8, 4, 2), mgp=c(2, 0.25, 0), 
                 #oma=c(0,0,0,0), tcl=-0.2,
@@ -94,8 +95,8 @@ balanceplot <- function (rawdata, matched, pscore.fit,
     # pts <- A + B*(est/sd)              # before matched.dat
     # pts2 <- A + B*(est2/sd2)           # after macthed
     
-    pts <<-  est/sd                      # before matched.dat
-    pts2 <<- est2/sd2                    # after macthed 
+    pts <-  est/sd                      # before matched.dat
+    pts2 <- est2/sd2                    # after macthed 
     #x.range <- c(jitter(min(c(pts, pts2)),15), max(c(pts,pts2)+.105))
     
     idx <- 1:K
@@ -104,24 +105,26 @@ balanceplot <- function (rawdata, matched, pscore.fit,
     #par (mar=mar, mgp=mgp, oma=oma, tcl=tcl)
     
     # plot the estimates
-    plot(pts, idx,
+    plot(c(pts,pts2), c(idx,idx),
     bty="n", xlab="", ylab="",
     xaxt="n", yaxt="n", #xaxs="i", 
     #yaxs="i", 
     type="n",
-    ylim=c(max(idx), min(idx)),
+    ylim=c(max(idx)+.25, min(idx)-.25),
     #xlim=x.range,
     main=main, cex.main=cex.main,...)
     abline(v=0, lty=2)
     points(pts, idx, cex=cex.pts)          # before matched
     points(pts2, idx, pch=19, cex=cex.pts) # after matched
-    axis(3, cex.axis=0.8)
+    if (v.axis){
+        axis(3, cex.axis=0.8)
+    }
     if (is.null(longcovnames)){
         axis(2, at=1:K, labels=covnames[1:K], 
             las=2, hadj=1, lty=0, cex.axis=cex.vars)
     }
     else{
-        axis(2, at=1:K, labels=longcovnames, 
+        axis(2, at=1:K, labels=longcovnames[1:K], 
             las=2, hadj=1, lty=0, cex.axis=cex.vars)
     }
 }
