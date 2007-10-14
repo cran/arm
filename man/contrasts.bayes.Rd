@@ -1,4 +1,4 @@
-\name{contrast.bayes.ordered}
+\name{contrast.bayes}
 \alias{contr.bayes.ordered}
 \alias{contr.bayes.unordered}
 

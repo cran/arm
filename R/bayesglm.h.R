@@ -300,7 +300,7 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
             nu.mu.batch    <- ifelse( batch.mean.df == Inf, batch.mean.scale, batch.mean.df )
             # Prepare the subtotals for the batches with unknown means
             x.plus         <- x[ ,batch > 0]
-            x.star         <- rbind( cbind( x, x.plus %*% W.plus ), diag( J+K ) )
+            #x.star         <- rbind( cbind( x, x.plus %*% W.plus ), diag( J+K ) )
             x.star         <- rbind( cbind( x, tcrossprod( x.plus,t( W.plus ) ) ), diag( J+K ) )
             if ( intercept ) { x.star[NROW( x )+1, 1:J] <- colMeans( x ) }  # 17 Dec
             dimnames( x.star )[[2]] <- c ( dimnames( x )[[2]], paste( "mu.batch.", 1:K, sep="" ) )

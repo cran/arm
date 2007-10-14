@@ -83,6 +83,9 @@ mcsamp.default <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.it
   par.names <- gsub(")", "", par.names, ignore.case = FALSE,
                     extended = TRUE, perl = FALSE,
                     fixed = TRUE, useBytes = FALSE) 
+  par.names <- gsub("rescale", "z.", par.names, ignore.case = FALSE,
+                    extended = TRUE, perl = FALSE,
+                    fixed = TRUE, useBytes = FALSE) 
   
   par.names <- par.names[is.na(match(par.names,"deviance"))] # Su: delete par.names for "deviance"
   

@@ -1,5 +1,5 @@
 # some useful little functions
-
+  round <- base:::round  
   sd.scalar <- function (x, ...) {sqrt(var(as.vector(x), ...))}
   wmean <- function (x, w, ...) {mean(x*w, ...)/mean(w, ...)}
   logit <- function (x) {log(x/(1-x))}

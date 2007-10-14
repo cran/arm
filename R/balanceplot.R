@@ -10,6 +10,7 @@ balanceplot <- function (rawdata, matched, pscore.fit,
     
     #int <- attr(terms(pscore.fit), "intercept")
     call.raw <- call.matched <- pscore.fit$call
+    call.raw$data <- substitute(rawdata)
     call.matched$data <- substitute(matched)    
 
     if (!factor){
@@ -43,7 +44,7 @@ balanceplot <- function (rawdata, matched, pscore.fit,
     
     raw.dat <- data.frame(pred.raw,treat=treat.raw)
     matched.dat <- data.frame(pred.matched,treat=treat.matched)
-    covnames <- c(colnames(pred.raw),"treat")
+    covnames <- c(colnames(pred.matched),"treat")
     K <- length(covnames)-1
     # diff.mean.rawdata
     

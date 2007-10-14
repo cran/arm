@@ -1,4 +1,10 @@
-2006-9-25    Yu-Sung Su     <ys463@columbia.edu>  
+2007-10-14    Yu-Sung Su     <ys463@columbia.edu>  
+    * DESCRIPTION (Version, Date): 1.0-34.
+    * R/AllInternal: create round() = base:::round
+    * R/balanceplot: follow the variable names for matched data set.
+    * R/mcsamp.default: use z. for rescaled variable names.
+
+2007-9-25    Yu-Sung Su     <ys463@columbia.edu>  
     * DESCRIPTION (Version, Date): 1.0-33.
     * man/sim: fix examples. no round(cbind())
     * R/AllInternal: add pgumbel, dgumbel and n=NULL to pass check for 
@@ -7,18 +13,18 @@
         1. when gsub(fixed=FALSE) cannot use useByte=TRUE
         2. abbreviate(group level names)
     
-2006-9-24    Yu-Sung Su     <ys463@columbia.edu>    
+2007-9-24    Yu-Sung Su     <ys463@columbia.edu>    
     * R/balanceplot: add v.axis option.
 
-2006-9-19    Yu-Sung Su     <ys463@columbia.edu>    
+2007-9-19    Yu-Sung Su     <ys463@columbia.edu>    
     * DESCRIPTION (Version, Date): 1.0-32.    
     * R/coefplot: rewrite coefplot for bugs.
     * R/mcsamp: get rid of "()" in variable names.
 
-2006-9-18    Yu-Sung Su     <ys463@columbia.edu>
+2007-9-18    Yu-Sung Su     <ys463@columbia.edu>
     * R/coefplot: add h.axis and v.axis option.
 
-2006-9-17    Yu-Sung Su     <ys463@columbia.edu>
+2007-9-17    Yu-Sung Su     <ys463@columbia.edu>
     * man/bayesglm: document bayesglm and bayesglm.h class.
     * man/blanceplot: take out the par description.
     * man/model.matrix.bayes: clean up, document model.matrix.bayes methods
@@ -32,30 +38,30 @@
     * R/terms: obsolet!
     * R/terms.bayes: S4 methods for the formula of bayesglm & bayesglm.h
 
-2006-9-15    Yu-Sung Su     <ys463@columbia.edu>
+2007-9-15    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-31.
     * R/Allgeneric: coerce mcsamp into a generic function
     * R/bayesglm.fit: fix "eta" bug.
     * R/mcsamp: return DIC for lmer (not glmer), change slot names
         for variables.
 
-2006-9-13    Yu-Sung Su     <ys463@columbia.edu>
+2007-9-13    Yu-Sung Su     <ys463@columbia.edu>
     * man/mcsamp: add 2 non-nested examples
     * man/display: add 2 non-nested examples
     * R/bayesglm: dispersion <- mse.resid + 
             ifelse(mse.uncertainty<0,0,mse.uncertainty)
     * R/mcsamp: now can sim non-nested models
 
-2006-9-9    Yu-Sung Su     <ys463@columbia.edu>
+2007-9-9    Yu-Sung Su     <ys463@columbia.edu>
     * R/bayesglm: fix sim.glm to reveal NA coef for factors.
 
 
-2006-9-7    Yu-Sung Su     <ys463@columbia.edu>
+2007-9-7    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-30.
     * man/balanceplot: add rawdata option.
     * R/balanceplot: fix the order of var display.
 
-2006-9-4    Yu-Sung Su     <ys463@columbia.edu>
+2007-9-4    Yu-Sung Su     <ys463@columbia.edu>
     * man/bayesglm: separate priors for the coefficients 
         and the intercept.
     * R/bayesglm.fit: separate priors for the coefficients 
@@ -64,12 +70,12 @@
         the cutpoints.
 
 
-2006-8-28    Yu-Sung Su     <ys463@columbia.edu>
+2007-8-28    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-29.
     * R/bayespolr: if (!fit$converged) warning 
 
 
-2006-8-25    Yu-Sung Su     <ys463@columbia.edu>
+2007-8-25    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-28.
     * R/bayesglm: fix bugs for bayesglm (model.matrix.bayes); 
         prior.scale scaled to prior.sd
@@ -77,31 +83,31 @@
     * R/display.glm: n equlas df.residual.
     * R/model.matrix.bayes2: drop intercepts with only factor(x) 
 
-2006-8-16    Yu-Sung Su     <ys463@columbia.edu>
+2007-8-16    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-27.
     * R/bayespolr: fix bugs for assigning priors manually.
     * R/bayesglm: fix a bug for the aforementioned bugs.
     * man/coefplot: add labels and titles for examples.
 
 
-2006-8-13    Yu-Sung Su     <ys463@columbia.edu>
+2007-8-13    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-26.
     * Clean up codes.  Register S4 methods more explicitly. Methods affected
         are: coefplot, display, se.coef, sigma.hat, sim.
     * Prepare to release R.1.1-0.
 
-2006-8-1    Yu-Sung Su     <ys463@columbia.edu>
+2007-8-1    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-25.
     * man/arm-package.Rd: add new documentation for arm package       
     * R/.load.first.R: shows the current option for digit
     * R/model.matrix.bayes.R: add model.matrix.bayes2 for bayesglm.H.
     
-2006-7-22    Yu-Sung Su     <ys463@columbia.edu>
+2007-7-22    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-24.
     * R/mcsamp: fix a bug in mcsamp.
 
 
-2006-7-22    Yu-Sung Su     <ys463@columbia.edu>
+2007-7-22    Yu-Sung Su     <ys463@columbia.edu>
     * DESCRIPTION (Version, Date): 1.0-23.
     * Export and document contr.bayes.ordered, contr.bayes.unordered, 
         model.matrix.bayes, and terms.bayes.

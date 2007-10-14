@@ -98,19 +98,20 @@ coefplot(object,\dots)
             family=binomial(link="logit"))
  
  # plot 1
- par (mfrow=c(2,2), mar=c(3,3,4,1), mgp=c(2,0.25,0), tcl=-0.2)
+ par (mfrow=c(2,2), mar=c(3,3,5,1), mgp=c(2,0.25,0), tcl=-0.2)
  coefplot(fit1, xlab="", ylab="", main="Regression Estimates")
  coefplot(fit2, col.pts="blue",
     xlab="", ylab="", main="Regression Estimates")
  
  
  # plot 2
- par (mar=c(2,8,2,0.5))
+ par (mar=c(2,8,5,0.5))
+ longnames <- c("(Intercept)", longnames) 
  coefplot(fit1, longnames, intercept=TRUE, CI=1,
      xlab="", ylab="", main="Regression Estimates")
  
  # plot 3
- par (mar=c(2,2,2,2))
+ par (mar=c(2,2,5,2))
  coefplot(fit2, vertical=FALSE, var.las=1,
      xlab="", ylab="", main="Regression Estimates")
  
