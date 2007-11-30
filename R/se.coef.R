@@ -22,6 +22,7 @@ setMethod("se.coef", signature(object = "mer"),
 #        object@call$control <- list(usePQL=TRUE)
 #        object <- lmer(object@call$formula)
 #    }
+    #ngrps <- lapply(object@flist, function(x) length(levels(x)))
     fcoef <- fixef(object)
     sc <- attr (VarCorr (object), "sc")
     corF <- vcov(object)@factors$correlation
@@ -32,7 +33,7 @@ setMethod("se.coef", signature(object = "mer"),
     #coef <- ranef (object)
     #estimate <- ranef(object, postVar=TRUE)
     coef <- ranef(object, postVar=TRUE)
-    se.bygroup <- NULL
+    se.bygroup <- ranef( object, postVar = TRUE )
     n.groupings <- length (coef)
     
     for (m in 1:n.groupings){
@@ -48,6 +49,7 @@ setMethod("se.coef", signature(object = "mer"),
       dimnames (se.bygroup[[m]]) <- list (names.full[[1]],
                             names.full[[2]])
     }
+    #names(se.bygroup) <- names(ngrps)
     ses <- c (se.unmodeled, se.bygroup)
     return (ses)
     }
@@ -56,6 +58,7 @@ setMethod("se.coef", signature(object = "mer"),
 setMethod("se.coef", signature(object = "lmer2"),
     function(object)
     {
+    #ngrps <- lapply(object@flist, function(x) length(levels(x)))
     fcoef <- fixef(object)
     sc <- attr (VarCorr (object), "sc")
     corF <- vcov(object)@factors$correlation
@@ -66,7 +69,7 @@ setMethod("se.coef", signature(object = "lmer2"),
     #coef <- ranef (object)
     #estimate <- ranef(object, postVar=TRUE)
     coef <- ranef(object, postVar=TRUE)
-    se.bygroup <- NULL
+    se.bygroup <- ranef( object, postVar = TRUE )
     n.groupings <- length (coef)
     
     for (m in 1:n.groupings){
@@ -82,6 +85,7 @@ setMethod("se.coef", signature(object = "lmer2"),
       dimnames (se.bygroup[[m]]) <- list (names.full[[1]],
                             names.full[[2]])
     }
+    #names(se.bygroup) <- names(ngrps)
     ses <- c (se.unmodeled, se.bygroup)
     return (ses)
     }
@@ -97,6 +101,7 @@ se.fixef <- function (object){
 }
 
 se.ranef <- function (object){
+    ngrps <- lapply(object@flist, function(x) length(levels(x)))
     se.bygroup <- ranef( object, postVar = TRUE )
     n.groupings<- length( se.bygroup )
     for( m in 1:n.groupings ) {

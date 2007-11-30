@@ -7,7 +7,7 @@
   useful to plot residuals for logistic regression.
 }
 \usage{
- binnedplot(x ,y, nclass=floor(sqrt(length(x))), 
+ binnedplot(x ,y, nclass=NULL, 
     xlab="Expected Values", ylab="Average residual", 
     main="Binned residual plot", 
     cex.pts=0.8, col.pts=1, col.int="gray")
@@ -18,7 +18,10 @@
   \item{y}{The residuals values from logistic regression (observed values
             minus expected values).}
   \item{nclass}{Number of categories (bins) based on their fitted values in which
-                  the data are divided, default is floor(sqrt(length(x))).}
+                  the data are divided. Default=NULL and will take the value of nclass
+                  according to the $n$ such that if $n >=100$, 
+                  nclass=floor(sqrt(length(x))); if $10<n<100$, nclass=10;
+                  if $n<10$, nclass=floor(n/2).}
   \item{xlab}{a label for the x axis, default is "Expected Values".}
   \item{ylab}{a label for the y axis, default is "Average residual".}       
   \item{main}{a main title for the plot, default is "Binned residual plot". 

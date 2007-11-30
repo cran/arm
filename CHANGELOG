@@ -1,3 +1,10 @@
+2007-11-30    Yu-Sung Su     <ys463@columbia.edu>  
+    * R/se.coef: fix se.bygroup name
+
+2007-10-29    Yu-Sung Su     <ys463@columbia.edu>  
+    * R/binnedplot: n < 10, binned class=n/2, 100>n>=10, n/10, ....
+    * R/bayesglm: new option, print.unnormalized.log.posterior
+
 2007-10-14    Yu-Sung Su     <ys463@columbia.edu>  
     * DESCRIPTION (Version, Date): 1.0-34.
     * R/AllInternal: create round() = base:::round

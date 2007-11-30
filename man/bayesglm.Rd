@@ -28,7 +28,8 @@ bayesglm (formula, family = gaussian, data,
     prior.df.for.intercept = 1, 
     min.prior.scale=1e-12,
     scaled = TRUE, keep.order=TRUE, 
-    drop.baseline=TRUE, n.iter = 100, ...)
+    drop.baseline=TRUE, n.iter = 100, 
+    print.unnormalized.log.posterior=TRUE,...)
     
 bayesglm.fit (x, y, weights = rep(1, nobs), 
     start = NULL, etastart = NULL, 
@@ -40,7 +41,8 @@ bayesglm.fit (x, y, weights = rep(1, nobs),
     prior.mean.for.intercept = 0,
     prior.scale.for.intercept = 10,
     prior.df.for.intercept = 1,
-    min.prior.scale=1e-12, scaled = TRUE)
+    min.prior.scale=1e-12, scaled = TRUE,
+    print.unnormalized.log.posterior=TRUE)
 }
 
 \arguments{
@@ -149,6 +151,7 @@ bayesglm.fit (x, y, weights = rep(1, nobs),
   \item{drop.baseline}{Drop the base level of categorical x's, default is TRUE.}
   
   \item{n.iter}{default is 100.}
+  \item{print.unnormalized.log.posterior}{display the unnormalized log posterior likelihood for bayesglm, default=TRUE}
   
   \item{\dots}{further arguments passed to or from other methods.}
 }

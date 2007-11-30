@@ -8,7 +8,8 @@ bayesglm <- function (formula, family = gaussian, data, weights, subset,
     prior.scale.for.intercept = 10, 
     prior.df.for.intercept = 1,
     min.prior.scale=1e-12, 
-    scaled = TRUE, keep.order=TRUE, drop.baseline = TRUE, n.iter = 100, ...) 
+    scaled = TRUE, keep.order=TRUE, drop.baseline = TRUE, n.iter = 100, 
+    print.unnormalized.log.posterior=TRUE, ...) 
 {
     call <- match.call()
     if (is.character(family)) 
@@ -112,7 +113,7 @@ bayesglm.fit <- function (x, y,
     prior.scale.for.intercept = 10, 
     prior.df.for.intercept = 1,
     min.prior.scale=1e-12,
-    scaled = TRUE) 
+    scaled = TRUE, print.unnormalized.log.posterior=TRUE) 
 {
     J <- NCOL(x)
         if (length(prior.mean) == 1) {
@@ -356,6 +357,20 @@ bayesglm.fit <- function (x, y,
                 if (control$trace) 
                   cat("Step halved: new deviance =", dev, "\n")
             }
+            ############################
+            if ( family$family == "binomial" && print.unnormalized.log.posterior) {
+              logprior <- if( intercept ) {
+                sum( dt( coefs.hat[-1], prior.df ,prior.mean,log = TRUE ) )
+                  + dt( coefs.hat[1], prior.df.for.intercept, prior.mean.for.intercept, log = TRUE )
+              }
+              else{
+                sum( dt( coefs.hat, prior.df ,prior.mean, log = TRUE ) )
+              }
+              xb <- invlogit( x %*% coefs.hat )
+              loglikelihood <- sum( log( c( xb[ y == 1 ], 1 - xb[ y == 0 ] ) ) )
+              cat( "log prior: ", logprior, ", log likelihood: ", loglikelihood, ", unnormalized log posterior: ", loglikelihood +logprior, "\n" ,sep="")
+            }
+            ####################
             if (iter > 1 & abs(dev - devold)/(0.1 + abs(dev)) < 
                 control$epsilon & abs(dispersion - dispersionold)/(0.1 + 
                 abs(dispersion)) < control$epsilon) {

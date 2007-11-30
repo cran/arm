@@ -2,15 +2,23 @@
 # Functions for plotting the binned residuals
 # ====================================================================
 
-binnedplot <- function(x, y, nclass=floor(sqrt(length(x))), 
+binnedplot <- function(x, y, nclass=NULL, 
     xlab="Expected Values", ylab="Average residual", 
     main="Binned residual plot", 
     cex.pts=0.8, col.pts=1, col.int="gray")
 {
 
-         
+    n <- length(x)     
     if (is.null(nclass)){
-        nclass=floor(sqrt(length(x)))
+        if (n >= 100){
+            nclass=floor(sqrt(length(x)))
+        }
+        if (n > 10 & n < 100){
+            nclass=10
+        }
+        if (n <=10){
+            nclass=floor(n/2)
+        }
     }
     
     aa <- data.frame(binned.resids (x, y, nclass)$binned)
