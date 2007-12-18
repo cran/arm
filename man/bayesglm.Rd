@@ -20,29 +20,30 @@ bayesglm (formula, family = gaussian, data,
     offset, control = glm.control(...), 
     model = TRUE, method = "glm.fit", 
     x = FALSE, y = TRUE, contrasts = NULL, 
+    drop.unused.levels = TRUE,
     prior.mean = 0, 
-    prior.scale = 2.5, 
+    prior.scale = NULL, 
     prior.df = 1, 
     prior.mean.for.intercept = 0, 
-    prior.scale.for.intercept = 10, 
+    prior.scale.for.intercept = NULL, 
     prior.df.for.intercept = 1, 
     min.prior.scale=1e-12,
     scaled = TRUE, keep.order=TRUE, 
     drop.baseline=TRUE, n.iter = 100, 
-    print.unnormalized.log.posterior=TRUE,...)
+    print.unnormalized.log.posterior=FALSE,...)
     
 bayesglm.fit (x, y, weights = rep(1, nobs), 
     start = NULL, etastart = NULL, 
     mustart = NULL, offset = rep(0, nobs), family = gaussian(), 
     control = glm.control(), intercept = TRUE,
     prior.mean = 0, 
-    prior.scale = 2.5, 
+    prior.scale = NULL, 
     prior.df = 1, 
     prior.mean.for.intercept = 0,
-    prior.scale.for.intercept = 10,
+    prior.scale.for.intercept = NULL,
     prior.df.for.intercept = 1,
     min.prior.scale=1e-12, scaled = TRUE,
-    print.unnormalized.log.posterior=TRUE)
+    print.unnormalized.log.posterior=FALSE)
 }
 
 \arguments{
@@ -111,6 +112,9 @@ bayesglm.fit (x, y, weights = rep(1, nobs),
 
   \item{contrasts}{an optional list. See the \code{contrasts.arg}
     of \code{model.matrix.default}.}
+  
+  \item{drop.unused.levels}{default TRUE, if FALSE, it interpolates the
+        intermediate values if the data have integer levels.}
     
   \item{intercept}{logical. Should an intercept be included in the
     \emph{null} model?}
@@ -120,7 +124,8 @@ bayesglm.fit (x, y, weights = rep(1, nobs),
     (not counting the intercept, if any). If it is a scalar, it is 
     expanded to the length of this vector.}
   
-  \item{prior.scale}{prior scale for the coefficients: default is 2.5. 
+  \item{prior.scale}{prior scale for the coefficients: default is NULL; for 
+    a logit model, prior.scale is 2.5; for a probit model, prior scale is 2.5*1.6.
     Can be a vector of length equal to the number of predictors 
     (not counting the intercept, if any). If it is a scalar, it is 
     expanded to the length of this vector.}
@@ -133,7 +138,9 @@ bayesglm.fit (x, y, weights = rep(1, nobs),
 
   \item{prior.mean.for.intercept}{prior mean for the intercept: default is 0.}
   
-  \item{prior.scale.for.intercept}{prior scale for the intercept: default is 10.}
+  \item{prior.scale.for.intercept}{prior scale for the intercept: default is NULL; for 
+    a logit model, prior scale for intercept is 10;
+    for probit model, prior scale for intercept is rescaled as 10*1.6.}
   
   \item{prior.df.for.intercept}{prior degrees of freedom for the intercept: default is 1.}
   
@@ -151,7 +158,7 @@ bayesglm.fit (x, y, weights = rep(1, nobs),
   \item{drop.baseline}{Drop the base level of categorical x's, default is TRUE.}
   
   \item{n.iter}{default is 100.}
-  \item{print.unnormalized.log.posterior}{display the unnormalized log posterior likelihood for bayesglm, default=TRUE}
+  \item{print.unnormalized.log.posterior}{display the unnormalized log posterior likelihood for bayesglm, default=FALSE}
   
   \item{\dots}{further arguments passed to or from other methods.}
 }

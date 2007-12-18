@@ -1,6 +1,7 @@
 exportClasses(
               "bayesglm",
-              "bayesglm.h"
+              "bayesglm.h",
+              "bayespolr"
               )
 
 exportMethods(
@@ -21,6 +22,7 @@ export(
        "bayespolr",
        "binnedplot",
        "coefplot",
+       "coefplot.default",
        "contr.bayes.ordered",
        "contr.bayes.unordered",
        "corrplot",

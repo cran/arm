@@ -232,4 +232,4 @@ setMethod("coefplot", signature(object = "polr"),
     coefplot(coefs, sds, 
         varnames=varnames, ...)
     }
-)                                                                       
+)        

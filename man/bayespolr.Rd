@@ -1,4 +1,8 @@
 \name{bayespolr}
+\docType{class}
+% Classes
+\alias{bayespolr-class}
+% functions
 \alias{bayespolr}
 
 
@@ -21,7 +25,8 @@ bayespolr(formula, data, weights, start, ...,
     prior.scale.for.cutpoints = 10, 
     prior.df.for.cutpoints = 1,
     scaled = TRUE, 
-    n.iter = 100)
+    n.iter = 100,
+    print.unnormalized.log.posterior = FALSE) 
 }
 
 \arguments{
@@ -103,6 +108,8 @@ bayespolr(formula, data, weights, start, ...,
     this vector.}  
 
   \item{n.iter}{default is 100.}
+  
+   \item{print.unnormalized.log.posterior}{display the unnormalized log posterior likelihood for bayesglm fit, default=FALSE}
 }
 \details{
 The program is a simple alteration of \code{\link[MASS]{polr}} in

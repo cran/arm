@@ -1,4 +1,19 @@
+2007-12-18    Yu-Sung Su     <ys463@columbia.edu>  
+    * DESCRIPTION (Version, Date): 1.0-36.
+    * NAMESPACE: export bayespolr class, coefplot.default
+    * R/AllClass: add bayespolr class
+    * R/bayespolr: return pretty display
+    
+2007-12-15    Yu-Sung Su     <ys463@columbia.edu>  
+    * R/bayesglm: 
+        1. for probit model, prior.scale is 2.5*1.6, 
+            prior.scale.for.intercept is 10*1.6
+        2. prior scale is rescale by 2sd(y) in gaussian family only
+        3. fix prior.sd
+    
+
 2007-11-30    Yu-Sung Su     <ys463@columbia.edu>  
+    * DESCRIPTION (Version, Date): 1.0-35.
     * R/se.coef: fix se.bygroup name
 
 2007-10-29    Yu-Sung Su     <ys463@columbia.edu>  

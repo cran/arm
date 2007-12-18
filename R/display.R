@@ -216,7 +216,7 @@ setMethod("display", signature(object = "polr"),
     summ <- summary(object)
     coef <- summ$coef[, 1:2, drop = FALSE]
     dimnames(coef)[[2]] <- c("coef.est", "coef.se")
-    n <- summ$n  # or maybe should be "nobs", I don't know for sure
+    n <- summ$n  
     k <- nrow (coef)
     k.intercepts <- length (summ$zeta)
     print(call)
@@ -229,3 +229,25 @@ setMethod("display", signature(object = "polr"),
         "\n", sep = ""))
     }
 )
+
+
+#setMethod("display", signature(object = "bayespolr"),
+#    function(object, digits=2)
+#    {
+#    call <- object$call
+#    summ <- summary(object)
+#    coef <- summ$coef[, 1:2, drop = FALSE]
+#    dimnames(coef)[[2]] <- c("coef.est", "coef.se")
+#    n <- summ$n  # or maybe should be "nobs", I don't know for sure
+#    k <- nrow (coef)
+#    k.intercepts <- length (summ$zeta)
+#    print(call)
+#    pfround(coef, digits)
+#    cat("---\n")
+#    cat(paste("n = ", n, ", k = ", k, " (including ", k.intercepts,
+#        " intercepts)\nresidual deviance = ",
+#        fround(summ$deviance, 1), 
+#        ", null deviance is not computed by bayespolr",
+#        "\n", sep = ""))
+#    }
+#)

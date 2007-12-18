@@ -10,7 +10,8 @@ function (formula, data, weights, start, ...,
     prior.scale.for.cutpoints = 10, 
     prior.df.for.cutpoints = 1, 
     scaled = TRUE, 
-    n.iter = 100) 
+    n.iter = 100, 
+    print.unnormalized.log.posterior = FALSE) 
 {
     logit <- function(p) log(p/(1 - p))
     dt.deriv <- function(x, mean, scale, df, log = TRUE, delta = 0.001) {
@@ -130,7 +131,8 @@ function (formula, data, weights, start, ...,
                 prior.scale.for.intercept = 10, 
                 prior.df.for.intercept = 1, 
                 scaled = scaled, 
-                control = glm.control(maxit = n.iter)), 
+                control = glm.control(maxit = n.iter),
+                print.unnormalized.log.posterior=print.unnormalized.log.posterior), 
             probit = bayesglm.fit(X, y1, wt, family = binomial("probit"), 
                 offset = offset, intercept = TRUE, 
                 prior.mean = prior.mean, 
@@ -140,7 +142,8 @@ function (formula, data, weights, start, ...,
                 prior.scale.for.intercept = 10, 
                 prior.df.for.intercept = 1, 
                 scaled = scaled, 
-                control = glm.control(maxit = n.iter)), 
+                control = glm.control(maxit = n.iter),
+                print.unnormalized.log.posterior=print.unnormalized.log.posterior), 
             cloglog = bayesglm.fit(X, y1, wt, family = binomial("probit"), 
                 offset = offset, intercept = TRUE, 
                 prior.mean = prior.mean, 
@@ -150,7 +153,8 @@ function (formula, data, weights, start, ...,
                 prior.scale.for.intercept = 10, 
                 prior.df.for.intercept = 1, 
                 scaled = scaled, 
-                control = glm.control(maxit = n.iter)), 
+                control = glm.control(maxit = n.iter),
+                print.unnormalized.log.posterior=print.unnormalized.log.posterior), 
             cauchit = bayesglm.fit(X, y1, wt, family = binomial("cauchit"), 
                 offset = offset, intercept = TRUE, 
                 prior.mean = prior.mean, 
@@ -160,7 +164,8 @@ function (formula, data, weights, start, ...,
                 prior.scale.for.intercept = 10, 
                 prior.df.for.intercept = 1, 
                 scaled = scaled,
-                control = glm.control(maxit = n.iter)))
+                control = glm.control(maxit = n.iter),
+                print.unnormalized.log.posterior=print.unnormalized.log.posterior))
         if (!fit$converged) 
             warning("attempt to find suitable starting values failed")
         coefs <- fit$coefficients
@@ -253,6 +258,9 @@ function (formula, data, weights, start, ...,
     fit$na.action <- attr(m, "na.action")
     fit$contrasts <- cons
     fit$xlevels <- .getXlevels(Terms, m)
-    class(fit) <- "polr"
+    class(fit) <- c("bayespolr", "polr")
     fit
 }
+
+setMethod("print", signature(x = "bayespolr"), 
+    function(x, digits= getOption("digits")) display(object=x, digits=digits))

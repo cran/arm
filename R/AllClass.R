@@ -23,5 +23,35 @@ setClass("bayesglm.h",
             prior.scale = "numeric", 
             prior.df = "numeric",
             batch = "numeric"),
-    contains = c("bayesglm","glm")
+    contains = "bayesglm"
+)
+
+#setClass("polr",
+#     representation(
+#            formula = "formula",
+#            Hess = "logical",
+#            method = "character"
+##            prior.mean = "numeric", 
+##            prior.scale = "numeric", 
+##            prior.df = "numeric",
+##            prior.mean.for.cutpoints = "numeric", 
+##            prior.scale.for.cutpoints = "numeric",  
+##            prior.df.for.cutpoints = "numeric"
+#            ),
+#    contains="oldClass"
+#)
+
+
+setClass("bayespolr",
+     representation(
+            formula = "formula",
+            Hess = "logical",
+            method = "character",
+            prior.mean = "numeric", 
+            prior.scale = "numeric", 
+            prior.df = "numeric",
+            prior.mean.for.cutpoints = "numeric", 
+            prior.scale.for.cutpoints = "numeric",  
+            prior.df.for.cutpoints = "numeric"),
+     contains = "polr"
 )

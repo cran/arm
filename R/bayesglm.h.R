@@ -524,3 +524,5 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
         batch.sd.scale=batch.sd.scale, batch.sd.df=batch.sd.df, 
         sigma.0=sigma.0, sigma.batch=sigma.batch, sigma.mu.batch=sigma.mu.batch )
 }
+
+setMethod("print", signature(x = "bayesglm.h"), function(x, digits=2) display(object=x, ...))
