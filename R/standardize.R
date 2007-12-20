@@ -78,20 +78,3 @@ standardize <- function (object, unchanged=NULL,
   call.new$formula <- as.formula (formula) 
   return (eval (call.new))
 }
-
-rescale <- function (x, binary.inputs){
-# function to rescale by subtracting the mean and dividing by 2 sd's
-  x.obs <- x[!is.na(x)]
-  if (!is.numeric(x)) #x <- as.numeric(factor(x))
-    stop ("can't rescale a non-numeric variable")
-  if (length(unique(x.obs))==2){
-    x <- (x-min(x.obs))/(max(x.obs)-min(x.obs))
-    if (binary.inputs=="0/1") return (x)
-    else if (binary.inputs=="-0.5,0.5") return (x-0.5)
-    else if (binary.inputs=="center") return (x-mean(x.obs))
-    else if (binary.inputs=="full") return ((x-mean(x.obs))/(2*sd(x.obs)))
-  }      
-  else {
-    return ((x-mean(x.obs))/(2*sd(x.obs)))
-  }
-}

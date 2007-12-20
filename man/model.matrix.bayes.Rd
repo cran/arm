@@ -12,11 +12,11 @@
 
 \usage{
 \S4method{model.matrix.bayes}{bayesglm}(object, data = environment(object), 
-    contrasts.arg = NULL, xlev = NULL, keep.order = FALSE, ...)
+    contrasts.arg = NULL, xlev = NULL, keep.order = FALSE, drop.baseline=FALSE,...)
     
 # (not implement yet!)
 \S4method{model.matrix.bayes}{bayesglm.h}(object, data = environment(object), 
-    contrasts.arg = NULL, xlev = NULL, keep.order = FALSE, batch = NULL, ...)
+    contrasts.arg = NULL, xlev = NULL, keep.order = FALSE,  batch = NULL, ...)
 }
 
 \arguments{
@@ -35,6 +35,7 @@
     that main effects come first, followed by the interactions,
     all second-order, all third-order and so on.  Effects of a given
     order are kept in the order specified.} 
+  \item{drop.baseline}{Drop the base level of categorical x's, default is TRUE.}
   \item{batch}{Not implement yet!}
   \item{\dots}{further arguments passed to or from other methods.}
 }

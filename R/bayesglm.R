@@ -39,18 +39,17 @@ bayesglm <- function (formula, family = gaussian, data, weights, subset,
     if (!is.null(nm))
       names(Y) <- nm
   }
-  if (!drop.baseline) {
-    X <- if (!is.empty.model(mt)) {
+  X <- if (!is.empty.model(mt)) {
       class(mt) <- c("bayesglm", "terms", "formula")
-    model.matrix.bayes(mt, mf, contrasts, keep.order = keep.order)
+      model.matrix.bayes(mt, mf, contrasts, keep.order = keep.order, drop.baseline=drop.baseline)
     }
     else matrix(, NROW(Y), 0)
-  }
-  else {
-    X <- if (!is.empty.model(mt))
-      model.matrix(mt, mf, contrasts)
-  else matrix(, NROW(Y), 0)
-  }
+#  }
+#  else {
+#    X <- if (!is.empty.model(mt))
+#      model.matrix(mt, mf, contrasts)
+#  else matrix(, NROW(Y), 0)
+#  }
   weights <- model.weights(mf)
   offset <- model.offset(mf)
   if (!is.null(weights) && any(weights < 0))

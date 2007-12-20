@@ -1,6 +1,6 @@
 setMethod("model.matrix.bayes", signature(object = "bayesglm"),
     function(object, data = environment(object),
-        contrasts.arg = NULL, xlev = NULL, keep.order=FALSE, ...)
+        contrasts.arg = NULL, xlev = NULL, keep.order=FALSE, drop.baseline=FALSE,...)
 {
     class(object) <- c("formula")
     t <- if( missing( data ) ) { terms.object( object ) } else { terms.bayes( object, data=data, keep.order=keep.order ) }
@@ -17,7 +17,12 @@ setMethod("model.matrix.bayes", signature(object = "bayesglm"),
     }
     int <- attr( t, "response")
     if( length( data ) ) {      # otherwise no rhs terms, so skip all this
-        contr.funs <- as.character(list("contr.bayes.unordered", "contr.bayes.ordered"))
+        
+        if (drop.baseline){
+             contr.funs <- as.character(getOption("contrasts"))
+        }
+        else  contr.funs <- as.character(list("contr.bayes.unordered", "contr.bayes.ordered"))
+        
         namD <- names(data)
         ## turn any character columns into factors
         for(i in namD)

@@ -8,12 +8,14 @@ exceptions for binary variables.
 }
 
 \usage{
-rescale(x, binary.inputs)
+rescale(x, binary.inputs="center")
 }
 
 \arguments{
   \item{x}{a vector}
-  \item{binary.inputs}{options for standardizing binary variables}
+  \item{binary.inputs}{options for standardizing binary variables, default is \code{center}; \code{0/1} keeps original scale;
+    \code{-0.5,0.5} rescales 0 as -0.5 and 1 as 0.5; \code{center} substracts the mean; and 
+    \code{full} substracts the mean and divids by 2 sd.}
 }
 
 \value{

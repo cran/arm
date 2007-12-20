@@ -1,3 +1,8 @@
+2007-12-20    Yu-Sung Su     <ys463@columbia.edu>  
+    * DESCRIPTION (Version, Date): 1.0-37.
+    * R/rescale: add binary.input="center" as default
+    * R/bayesglm: fix keep.order and drop.baseline bugs
+
 2007-12-18    Yu-Sung Su     <ys463@columbia.edu>  
     * DESCRIPTION (Version, Date): 1.0-36.
     * NAMESPACE: export bayespolr class, coefplot.default

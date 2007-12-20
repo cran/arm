@@ -1,5 +1,5 @@
 # Function for standardizing regression predictors by dividing by 2 sd'
-rescale <- function (x, binary.inputs){
+rescale <- function (x, binary.inputs="center"){
 # function to rescale by subtracting the mean and dividing by 2 sd's
   x.obs <- x[!is.na(x)]
   if (!is.numeric(x)) x <- as.numeric(factor(x))
