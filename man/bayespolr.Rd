@@ -21,9 +21,7 @@ bayespolr(formula, data, weights, start, ...,
     prior.mean = 0, 
     prior.scale = 2.5, 
     prior.df = 1, 
-    prior.mean.for.cutpoints = 0, 
-    prior.scale.for.cutpoints = 10, 
-    prior.df.for.cutpoints = 1,
+    prior.counts.for.bins = NULL,
     scaled = TRUE, 
     n.iter = 100,
     print.unnormalized.log.posterior = FALSE) 
@@ -87,21 +85,8 @@ bayespolr(formula, data, weights, start, ...,
     the intercepts). If it is a scalar, it is expanded to the length of this 
     vector.}
    
-  \item{prior.mean.for.cutpoints}{prior mean for cutpoints: default is 0.
-    Can be a vector of length equal to the number of cutpoints 
-    (intercepts). If it is a scalar, it is expanded to the length of 
-    this vector.}
+  \item{prior.counts.for.bins}{default is NULL.}
   
-  \item{prior.scale.for.cutpoints}{prior scale for cutpoints: default is 10.
-    Can be a vector of length equal to the number of cutpoints 
-    (intercepts). If it is a scalar, it is expanded to the length 
-    of this vector.}
-  
-  \item{prior.df.for.cutpoints}{for t distribution: default is 1 (Cauchy).
-    Can be a vector of length equal to the number of cutpoints 
-    (intercepts). If it is a scalar, it is expanded to the length 
-    of this vector.}
-
   \item{scaled}{if scaled = TRUE, then the prior distribution is rescaled.
     Can be a vector of length equal to the number of cutpoints 
     (intercepts). If it is a scalar, it is expanded to the length of 
@@ -173,10 +158,43 @@ See \code{polr} for details.
     
     # Assign priors 
     M7 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing,
-        prior.mean=rep(0,6), prior.scale=rep(2.5,6), prior.df=c(1,1,1,7,7,7),
-        prior.mean.for.cutpoints = rep(0,2), 
-        prior.scale.for.cutpoints = rep(10,2), prior.df.for.cutpoints = c(1,7))
+        prior.mean=rep(0,6), prior.scale=rep(2.5,6), prior.df=c(1,1,1,7,7,7))
     display (M7)
+    
+    
+    #### Another example
+    y <- factor (rep (1:10,1:10))
+    x <- rnorm (length(y))
+    x <- x - mean(x)
+    
+    M8 <- polr (y ~ x)
+    display (M8)
+
+    M9 <- bayespolr (y ~ x,  prior.scale=Inf, prior.df=Inf, prior.counts.for.bins=0)   # same as M1
+    display (M9)
+
+    M10 <- bayespolr (y ~ x,  prior.scale=Inf, prior.df=Inf, prior.counts.for.bins=10000)
+    display (M10)
+
+
+    #### Another example
+
+    y <- factor (rep (1:3,1:3))
+    x <- rnorm (length(y))
+    x <- x - mean(x)
+
+    M11 <- polr (y ~ x)
+    display (M11)
+
+    M12 <- bayespolr (y ~ x,  prior.scale=Inf, prior.df=Inf, prior.counts.for.bins=0)   # same as M1
+    display (M12)
+
+    M13 <- bayespolr (y ~ x,  prior.scale=Inf, prior.df=Inf, prior.counts.for.bins=1)
+    display (M13)
+
+    M14 <- bayespolr (y ~ x,  prior.scale=Inf, prior.df=Inf, prior.counts.for.bins=10)
+    display (M14)
+
 }
 
 \keyword{models}

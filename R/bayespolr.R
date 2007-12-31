@@ -1,17 +1,11 @@
-bayespolr <-
-function (formula, data, weights, start, ..., 
-    subset, na.action, 
-    contrasts = NULL, Hess = TRUE, model = TRUE, 
-    method = c("logistic", "probit", "cloglog", "cauchit"), 
-    drop.unused.levels=TRUE, 
-    prior.mean = 0, 
-    prior.scale = 2.5, prior.df = 1, 
-    prior.mean.for.cutpoints = 0, 
-    prior.scale.for.cutpoints = 10, 
-    prior.df.for.cutpoints = 1, 
-    scaled = TRUE, 
-    n.iter = 100, 
-    print.unnormalized.log.posterior = FALSE) 
+# New bayespolr() using Kenny's Dirichlet prior distribution
+
+bayespolr <- 
+function (formula, data, weights, start, ..., subset, na.action, 
+    contrasts = NULL, Hess = TRUE, model = TRUE, method = c("logistic", 
+        "probit", "cloglog", "cauchit"), drop.unused.levels = TRUE, 
+    prior.mean = 0, prior.scale = 2.5, prior.df = 1, prior.counts.for.bins = NULL,
+    scaled = TRUE, n.iter = 100, print.unnormalized.log.posterior = FALSE) 
 {
     logit <- function(p) log(p/(1 - p))
     dt.deriv <- function(x, mean, scale, df, log = TRUE, delta = 0.001) {
@@ -23,16 +17,12 @@ function (formula, data, weights, start, ...,
         gamm <- c(-100, cumsum(c(theta[1], exp(theta[-1]))), 
             100)
         eta <- offset
-        if (pc > 0) 
+        if (pc > 0)
             eta <- eta + drop(x %*% beta[1:pc])
         pr <- pfun(gamm[y + 1] - eta) - pfun(gamm[y] - eta)
         if (all(pr > 0)) 
             f <- -sum(wt * log(pr))
         else f <- Inf
-        zeta <- cumsum(c(theta[1], exp(theta[-1])))
-        zeta.centered <- zeta - sum(beta[1:pc] * colMeans(x))
-        f <- f - sum(dt((zeta.centered - prior.mean.for.cutpoints)/prior.scale.for.cutpoints, 
-            prior.df.for.cutpoints, log = TRUE))
         if (pc > 0) 
             f <- f - sum(dt((beta[1:pc] - prior.mean)/prior.scale, 
                 prior.df, log = TRUE))
@@ -62,12 +52,7 @@ function (formula, data, weights, start, ...,
         xx <- .polrY1 * p1 - .polrY2 * p2
         g2 <- -t(xx) %*% (wt/pr)
         g2 <- t(g2) %*% jacobian(theta)
-        zeta <- cumsum(c(theta[1], exp(theta[-1])))
-        zeta.centered <- zeta - sum(beta[1:pc] * colMeans(x))
-        g2 <- g2 - dt.deriv(zeta.centered, prior.mean.for.cutpoints, 
-            prior.scale.for.cutpoints, prior.df.for.cutpoints, 
-            log = TRUE)
-        if (pc > 0) 
+        if (pc > 0)
             g1 <- g1 - dt.deriv(beta[1:pc], prior.mean, prior.scale, 
                 prior.df, log = TRUE)
         if (all(pr) > 0) 
@@ -80,6 +65,13 @@ function (formula, data, weights, start, ...,
     m <- m[c(1, mf)]
     m$drop.unused.levels <- drop.unused.levels
     method <- match.arg(method)
+  
+  ##### adjust prior.scale for probit ####
+  if (method == "probit"){
+    prior.scale <- prior.scale*1.6
+  }
+  ################
+
     pfun <- switch(method, logistic = plogis, probit = pnorm, 
         cloglog = pgumbel, cauchit = pcauchy)
     dfun <- switch(method, logistic = dlogis, probit = dnorm, 
@@ -118,54 +110,34 @@ function (formula, data, weights, start, ...,
     .polrY1 <- col(Y) == y
     .polrY2 <- col(Y) == y - 1
     if (missing(start)) {
-        q1 <- length(lev)%/%2 
+        q1 <- length(lev)%/%2
         y1 <- (y > q1)
         X <- cbind(Intercept = rep(1, n), x)
-        fit <- switch(method, 
-            logistic = bayesglm.fit(X, y1, wt, family = binomial(), 
-                offset = offset, intercept = TRUE, 
-                prior.mean = prior.mean, 
-                prior.scale = prior.scale,
-                prior.df = prior.df,  
-                prior.mean.for.intercept = 0, 
-                prior.scale.for.intercept = 10, 
-                prior.df.for.intercept = 1, 
-                scaled = scaled, 
-                control = glm.control(maxit = n.iter),
-                print.unnormalized.log.posterior=print.unnormalized.log.posterior), 
+        fit <- switch(method, logistic = bayesglm.fit(X, y1, 
+            wt, family = binomial(), offset = offset, intercept = TRUE, 
+            prior.mean = prior.mean, prior.scale = prior.scale, 
+            prior.df = prior.df, prior.mean.for.intercept = 0, 
+            prior.scale.for.intercept = 10, prior.df.for.intercept = 1, 
+            scaled = scaled, control = glm.control(maxit = n.iter), 
+            print.unnormalized.log.posterior = print.unnormalized.log.posterior), 
             probit = bayesglm.fit(X, y1, wt, family = binomial("probit"), 
-                offset = offset, intercept = TRUE, 
-                prior.mean = prior.mean, 
-                prior.scale = prior.scale, 
-                prior.df = prior.df, 
-                prior.mean.for.intercept = 0, 
-                prior.scale.for.intercept = 10, 
-                prior.df.for.intercept = 1, 
-                scaled = scaled, 
-                control = glm.control(maxit = n.iter),
-                print.unnormalized.log.posterior=print.unnormalized.log.posterior), 
+                offset = offset, intercept = TRUE, prior.mean = prior.mean, 
+                prior.scale = prior.scale, prior.df = prior.df, 
+                prior.mean.for.intercept = 0, prior.scale.for.intercept = 10, 
+                prior.df.for.intercept = 1, scaled = scaled, 
+                control = glm.control(maxit = n.iter), print.unnormalized.log.posterior = print.unnormalized.log.posterior), 
             cloglog = bayesglm.fit(X, y1, wt, family = binomial("probit"), 
-                offset = offset, intercept = TRUE, 
-                prior.mean = prior.mean, 
-                prior.scale = prior.scale, 
-                prior.df = prior.df, 
-                prior.mean.for.intercept = 0, 
-                prior.scale.for.intercept = 10, 
-                prior.df.for.intercept = 1, 
-                scaled = scaled, 
-                control = glm.control(maxit = n.iter),
-                print.unnormalized.log.posterior=print.unnormalized.log.posterior), 
+                offset = offset, intercept = TRUE, prior.mean = prior.mean, 
+                prior.scale = prior.scale, prior.df = prior.df, 
+                prior.mean.for.intercept = 0, prior.scale.for.intercept = 10, 
+                prior.df.for.intercept = 1, scaled = scaled, 
+                control = glm.control(maxit = n.iter), print.unnormalized.log.posterior = print.unnormalized.log.posterior), 
             cauchit = bayesglm.fit(X, y1, wt, family = binomial("cauchit"), 
-                offset = offset, intercept = TRUE, 
-                prior.mean = prior.mean, 
-                prior.scale = prior.scale, 
-                prior.df = prior.df, 
-                prior.mean.for.intercept = 0, 
-                prior.scale.for.intercept = 10, 
-                prior.df.for.intercept = 1, 
-                scaled = scaled,
-                control = glm.control(maxit = n.iter),
-                print.unnormalized.log.posterior=print.unnormalized.log.posterior))
+                offset = offset, intercept = TRUE, prior.mean = prior.mean, 
+                prior.scale = prior.scale, prior.df = prior.df, 
+                prior.mean.for.intercept = 0, prior.scale.for.intercept = 10, 
+                prior.df.for.intercept = 1, scaled = scaled, 
+                control = glm.control(maxit = n.iter), print.unnormalized.log.posterior = print.unnormalized.log.posterior))
         if (!fit$converged) 
             warning("attempt to find suitable starting values failed")
         coefs <- fit$coefficients
@@ -208,17 +180,38 @@ function (formula, data, weights, start, ...,
     if (length(prior.df) == 1) {
         prior.df <- rep(prior.df, J)
     }
-    if (length(prior.mean.for.cutpoints) == 1) {
-        prior.mean.for.cutpoints <- rep(prior.mean.for.cutpoints, q)
+    if (is.null(prior.counts.for.bins)) {
+      prior.counts.for.bins <- 1/(q+1)
     }
-    if (length(prior.scale.for.cutpoints) == 1) {
-        prior.scale.for.cutpoints <- rep(prior.scale.for.cutpoints, q)
+    if (length(prior.counts.for.bins) == 1) {
+        prior.counts.for.bins <- rep(prior.counts.for.bins, q+1)
     }
-    if (length(prior.df.for.cutpoints) == 1) {
-        prior.df.for.cutpoints <- rep(prior.df.for.cutpoints, q)
-    }
-    res <- optim(start, fmin, gmin, method = "BFGS", hessian = Hess, 
-        ...)
+# Augment the data to add prior information
+    y.0 <- y
+    Y.0 <- Y
+    x.0 <- x
+    wt.0 <- wt
+    offset.0 <- offset
+    .polrY1.0 <- .polrY1
+    .polrY2.0 <- .polrY2
+    y <- c (y.0, 1:(q+1))
+    Y <- matrix(0, n+q+1, q)
+    .polrY1 <- col(Y) == y
+    .polrY2 <- col(Y) == y - 1
+    x <- rbind (x.0, matrix (colMeans(x.0), nrow=(q+1), ncol=J, byrow=TRUE))
+    wt <- c (wt.0, prior.counts.for.bins)
+    offset <- c (offset, rep(0,q+1))
+# Fit the model as before
+    res <- optim(start, fmin, gmin, method = "BFGS", hessian = Hess, ...)
+# Restore the old variables
+    y <- y.0
+    Y <- Y.0
+    x <- x.0
+    wt <- wt.0
+    offset <- offset.0
+    .polrY1 <- .polrY1.0
+    .polrY2 <- .polrY2.0
+# Continue on as before
     beta <- res$par[seq_len(pc)]
     theta <- res$par[pc + 1:q]
     zeta <- cumsum(c(theta[1], exp(theta[-1])))
@@ -239,14 +232,9 @@ function (formula, data, weights, start, ...,
     fit <- list(coefficients = beta, zeta = zeta, deviance = deviance, 
         fitted.values = fitted, lev = lev, terms = Terms, df.residual = sum(wt) - 
             pc - q, edf = pc + q, n = sum(wt), nobs = sum(wt), 
-        call = match.call(), method = method, convergence = res$convergence,
-        prior.mean = prior.mean, 
-        prior.scale = prior.scale, 
-        prior.df = prior.df, 
-        prior.mean.for.cutpoints = prior.mean.for.cutpoints, 
-        prior.scale.for.cutpoints = prior.scale.for.cutpoints, 
-        prior.df.for.cutpoints = prior.df.for.cutpoints,
-        niter = niter)
+        call = match.call(), method = method, convergence = res$convergence, 
+        prior.mean = prior.mean, prior.scale = prior.scale, prior.df = prior.df, 
+        prior.counts.for.bins = prior.counts.for.bins, niter = niter)
     if (Hess) {
         dn <- c(names(beta), names(zeta))
         H <- res$hessian

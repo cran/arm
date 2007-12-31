@@ -1,4 +1,9 @@
 2007-12-20    Yu-Sung Su     <ys463@columbia.edu>  
+    * DESCRIPTION (Version, Date): 1.0-38.
+    * R/bayespolr: new bayespolr() using Kenny's Dirichlet 
+        prior distribution 
+
+2007-12-20    Yu-Sung Su     <ys463@columbia.edu>  
     * DESCRIPTION (Version, Date): 1.0-37.
     * R/rescale: add binary.input="center" as default
     * R/bayesglm: fix keep.order and drop.baseline bugs
