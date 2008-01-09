@@ -6,12 +6,12 @@ mcsamp.default <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.it
     n.thin=max(1, floor(n.chains * (n.iter - n.burnin)/1000)), 
     saveb=TRUE, deviance=TRUE, make.bugs.object=TRUE)
 {
-
+  
   if (n.chains<2) stop ("n.chains must be at least 2")
   n.keep <- n.iter - n.burnin
   first.chain <- mcmcsamp (object, n.iter, saveb=saveb, trans=TRUE, deviance=deviance)[(n.burnin+1):n.iter,]
   n.parameters <- ncol(first.chain)
-  
+    
   if (deviance) {
     sims <- array (NA, c(n.keep, n.chains, n.parameters+1))
   }
@@ -19,7 +19,7 @@ mcsamp.default <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.it
     sims <- array (NA, c(n.keep, n.chains, n.parameters))
   }
 
-
+  pred.names <- attr(terms(object), "term.labels")
   par.names <- dimnames(first.chain)[[2]]
   par.names <- gsub("b.", "b@", par.names, ignore.case = FALSE, # Su: rename "b.*" to ""
                     extended = TRUE, perl = FALSE,
@@ -28,8 +28,9 @@ mcsamp.default <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.it
                     extended = TRUE, perl = FALSE,
                     fixed = FALSE)    
   par.names <- par.names[is.na(match(par.names,""))] 
-  ngrps <- lapply(object@flist, function(x) length(levels(x)))
-  
+  name.chk.idx <- as.logical(match(par.names, pred.names, nomatch=0))
+  par.names[name.chk.idx] <- paste("beta", par.names[name.chk.idx], sep=".")
+
   if (saveb){
     b.hat <- se.coef (object)                   # Su: use se.coef() 
     n.groupings <- length(b.hat) - 1
@@ -38,10 +39,10 @@ mcsamp.default <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.it
     for (m in 1:n.groupings){
       J[m] <- dim(b.hat[[m+1]])[1]
       K[m] <- dim(b.hat[[m+1]])[2]
-      var.names <- paste (names(b.hat)[m+1],
+      var.names <- paste (abbreviate(names(b.hat)[m+1],4), ".",
                           unlist (dimnames(b.hat[[m+1]])[2]), sep="") ##sep="."
       par.names <- c (par.names,
-        paste (abbreviate(names(ngrps)[m], 4), ".", rep(var.names,J[m]), "[", rep(1:J[m],each=K[m]), "]", sep=""))
+        paste (rep(var.names,J[m]), "[", rep(1:J[m],each=K[m]), "]", sep=""))
     }
   }
   sims[,1,1:n.parameters] <- first.chain
@@ -83,6 +84,9 @@ mcsamp.default <- function (object, n.chains=3, n.iter=1000, n.burnin=floor(n.it
   par.names <- gsub(")", "", par.names, ignore.case = FALSE,
                     extended = TRUE, perl = FALSE,
                     fixed = TRUE, useBytes = FALSE) 
+ # par.names <- gsub(".Intercept", ".Int", par.names, ignore.case = FALSE,
+#                    extended = TRUE, perl = FALSE,
+#                    fixed = TRUE, useBytes = FALSE) 
   par.names <- gsub("rescale", "z.", par.names, ignore.case = FALSE,
                     extended = TRUE, perl = FALSE,
                     fixed = TRUE, useBytes = FALSE) 

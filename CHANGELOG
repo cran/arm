@@ -1,3 +1,14 @@
+2008-1-9  Yu-Sung Su     <ys463@columbia.edu>  
+    * DESCRIPTION: change GPL (version 2 or later) to GPL  (>=2)
+    * R/mcsamp: fix naming rule in mcsamp
+    * R/terms: fix code and doc inconsistency
+    
+2008-1-4  Yu-Sung Su     <ys463@columbia.edu>  
+    * DESCRIPTION (Version, Date): 1.1-0.
+    * R/se.coef: 
+        1. fix list names for se.ranef.
+        2. clean up se.coef.mer & se.coef.mer2
+
 2007-12-20    Yu-Sung Su     <ys463@columbia.edu>  
     * DESCRIPTION (Version, Date): 1.0-38.
     * R/bayespolr: new bayespolr() using Kenny's Dirichlet 

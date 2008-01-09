@@ -12,8 +12,8 @@
 }
 \usage{
 \S4method{terms.bayes}{formula}(x, specials = NULL, abb = NULL, data = NULL, 
-    neg.out = TRUE, keep.order = FALSE, simplify = FALSE, 
-    allowDotAsName = FALSE, \dots)
+    neg.out = TRUE, keep.order = FALSE, simplify = FALSE, \dots,
+    allowDotAsName = FALSE)
 }
 
 \arguments{

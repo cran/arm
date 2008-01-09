@@ -24,7 +24,7 @@ setMethod("se.coef", signature(object = "mer"),
 #    }
     #ngrps <- lapply(object@flist, function(x) length(levels(x)))
     fcoef <- fixef(object)
-    sc <- attr (VarCorr (object), "sc")
+    #sc <- attr (VarCorr (object), "sc")
     corF <- vcov(object)@factors$correlation
     se.unmodeled <- NULL
     se.unmodeled[[1]] <- corF@sd
@@ -33,7 +33,7 @@ setMethod("se.coef", signature(object = "mer"),
     #coef <- ranef (object)
     #estimate <- ranef(object, postVar=TRUE)
     coef <- ranef(object, postVar=TRUE)
-    se.bygroup <- ranef( object, postVar = TRUE )
+    se.bygroup <- coef #ranef( object, postVar = TRUE )
     n.groupings <- length (coef)
     
     for (m in 1:n.groupings){
@@ -60,7 +60,7 @@ setMethod("se.coef", signature(object = "lmer2"),
     {
     #ngrps <- lapply(object@flist, function(x) length(levels(x)))
     fcoef <- fixef(object)
-    sc <- attr (VarCorr (object), "sc")
+    #sc <- attr (VarCorr (object), "sc")
     corF <- vcov(object)@factors$correlation
     se.unmodeled <- NULL
     se.unmodeled[[1]] <- corF@sd
@@ -69,7 +69,7 @@ setMethod("se.coef", signature(object = "lmer2"),
     #coef <- ranef (object)
     #estimate <- ranef(object, postVar=TRUE)
     coef <- ranef(object, postVar=TRUE)
-    se.bygroup <- ranef( object, postVar = TRUE )
+    se.bygroup <- coef #ranef( object, postVar = TRUE )
     n.groupings <- length (coef)
     
     for (m in 1:n.groupings){
@@ -116,5 +116,5 @@ se.ranef <- function (object){
         names.full <- dimnames(se.bygroup)
         dimnames(se.bygroup[[m]]) <- list(names.full[[1]], names.full[[2]])
     }
-    return(se.bygroup)
+    return(c(se.bygroup))
 }
