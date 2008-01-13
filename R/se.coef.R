@@ -95,9 +95,11 @@ setMethod("se.coef", signature(object = "lmer2"),
 
 se.fixef <- function (object){
   #object <- summary (object)
-  fcoef <- fixef(object)
+  fcoef.name <- names(fixef(object))
   corF <- vcov(object)@factors$correlation
-  return (corF@sd)
+  ses <- corF@sd
+  names(ses) <- fcoef.name
+  return (ses)
 }
 
 se.ranef <- function (object){

@@ -53,7 +53,7 @@ coefplot(object,\dots)
   \item{var.las}{the orientation of variable names against the axis, default is 2. 
     see the usage of \code{las} in \code{\link{par}}.}
   \item{var.idx}{the index of the variables of a bugs object, default
-        is TRUE which will plot all the variables.}
+        is NULL which will plot all the variables.}
   \item{intercept}{If TRUE will plot intercept, default=FALSE to get better presentation.}
 }
 
