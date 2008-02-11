@@ -47,8 +47,7 @@ matches <- matching(z=lalonde$treat, score=pscores)
 matched <- lalonde[matches$matched,]
 
 # make the plot
-par(mar=c(0,6,4,2),mgp=c(2,0.25,0),tcl=-0.2)  
-balanceplot(lalonde, matched, fit, xlim=c(-0.3,0.2))
+balanceplot(lalonde, matched, fit)
 }
 
 \keyword{models}

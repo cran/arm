@@ -9,8 +9,8 @@
 balanceplot(rawdata, matched, pscore.fit, 
     longcovnames = NULL, factor=TRUE,
     main = "Standardized Difference in Means",
-    v.axis=TRUE,cex.main = 1, 
-    cex.vars = 0.8, cex.pts = 0.8, ...)
+    v.axis=TRUE, cex.main = 1, 
+    cex.vars = 0.8, cex.pts = 0.8, mar=c(0,3,5.1,2),...)
 }
 
 \arguments{
@@ -22,11 +22,17 @@ balanceplot(rawdata, matched, pscore.fit,
   \item{factor}{default is TRUE which will display the factorized categorical variables. In
         a situation where no equal levels of factorized categorical variables is observed,
         use factor=FALSE to proceed.}
-  \item{main}{title of the plot}
+  \item{main}{The main title (on top) using font and size (character
+          expansion) \code{par("font.main")} and color \code{par("col.main")};
+          default title is \code{Standardized Difference in Means}.}
   \item{v.axis}{default is TRUE, which shows the top axis--axis(3).}
   \item{cex.main}{font size of main title}
   \item{cex.vars}{font size of variabel names}
   \item{cex.pts}{point size of the estimates}
+  \item{mar}{A numerical vector of the form \code{c(bottom, left, top, right)}
+          which gives the number of lines of margin to be specified on
+          the four sides of the plot. The default is \code{c(0,3,5.1,2)}.}
+
   \item{\dots}{other plot options may be passed to this function}
 }
 \details{
@@ -68,11 +74,11 @@ matches <- matching(z=lalonde$treat, score=pscores)
 matched <- lalonde[matches$matched,]
 
 # make the plot
-par(mar=c(0,6,4,2),mgp=c(2,0.25,0),tcl=-0.2)  
-balanceplot(lalonde, matched, fit, xlim=c(-0.3,0.2))
+balanceplot(lalonde, matched, fit)
 }
 
 
 \keyword{methods}
 \keyword{models}
+\keyword{hplot}
 \keyword{dplot}

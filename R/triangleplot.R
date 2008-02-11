@@ -119,14 +119,14 @@ triangleplot <- function(x, y=NULL, cutpts=NULL, details=TRUE,
             col=z.colors[i-1])
         text(x=0.45, y=z.breaks[i-1],
             labels=format(round(z.breaks[i-1], digits)),
-            cex=cex.col, adj=1)
+            cex=cex.col, adj=1, xpd=TRUE)
     }
     rect(xleft=0.5, ybottom=z.breaks[length(z.breaks)],
         xright=1, y=z.breaks[length(z.breaks)],
         col=z.colors[length(z.colors)])
     text(x=0.45, y=z.breaks[length(z.breaks)],
         labels=format(round(z.breaks[length(z.breaks)], digits)),
-        cex=cex.col, adj=1)
+        cex=cex.col, adj=1, xpd=TRUE)
 
     # correlation fig
     par(mar=c(0.1, 0.1, 2, 0.1), pty="m")
@@ -138,7 +138,7 @@ triangleplot <- function(x, y=NULL, cutpts=NULL, details=TRUE,
         xlab="", ylab="")
     text(x=1:dim(z.plot)[1], y=1:dim(z.plot)[2],
         labels=z.names,
-        cex=cex.var, adj=1)
+        cex=cex.var, adj=1, xpd=TRUE)
         
     # plot missing values
     for(i in 1:dim(z.plot)[1]){

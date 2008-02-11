@@ -3,9 +3,7 @@ balanceplot <- function (rawdata, matched, pscore.fit,
                 main="Standardized Difference in Means",
                 v.axis=TRUE,
                 cex.main=1, cex.vars=0.8, cex.pts=0.8,
-                #mar=c(0, 8, 4, 2), mgp=c(2, 0.25, 0), 
-                #oma=c(0,0,0,0), tcl=-0.2,
-                ...)
+                mar=c(0, 3, 5.1, 2), ...)
 {
     
     #int <- attr(terms(pscore.fit), "intercept")
@@ -105,15 +103,28 @@ balanceplot <- function (rawdata, matched, pscore.fit,
     # tune the graphic console
     #par (mar=mar, mgp=mgp, oma=oma, tcl=tcl)
     
+
+    par(mar = c(0, 3, 5.1, 2))
+    if (is.null(longcovnames)) {
+        longcovnames <- covnames
+        maxchar <- max(sapply(longcovnames, nchar))
+    }
+    else {
+        maxchar <- max(sapply(longcovnames, nchar))
+    }
+    min.mar <- par("mar")
+    mar[2] <- min(min.mar[2], trunc(mar[2] + maxchar/10)) + mar[2] + 
+        0.1
+    par(mar = mar)
     # plot the estimates
     plot(c(pts,pts2), c(idx,idx),
-    bty="n", xlab="", ylab="",
-    xaxt="n", yaxt="n", #xaxs="i", 
-    #yaxs="i", 
-    type="n",
-    ylim=c(max(idx)+.25, min(idx)-.25),
-    #xlim=x.range,
-    main=main, cex.main=cex.main,...)
+        bty="n", xlab="", ylab="",
+        xaxt="n", yaxt="n", #xaxs="i", 
+        #yaxs="i", 
+        type="n",
+        ylim=c(max(idx)+.25, min(idx)-.25),
+        #xlim=x.range,
+        main=main, cex.main=cex.main,...)
     abline(v=0, lty=2)
     points(pts, idx, cex=cex.pts)          # before matched
     points(pts2, idx, pch=19, cex=cex.pts) # after matched

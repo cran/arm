@@ -224,9 +224,10 @@ setMethod("display", signature(object = "polr"),
     cat("---\n")
     cat(paste("n = ", n, ", k = ", k, " (including ", k.intercepts,
         " intercepts)\nresidual deviance = ",
-        fround(summ$deviance, 1), 
+        fround(deviance(object), 1), 
         ", null deviance is not computed by polr",
         "\n", sep = ""))
+    #cat("AIC:", fround(AIC(object), 1), "\n")
     }
 )
 

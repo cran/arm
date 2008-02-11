@@ -103,7 +103,7 @@ se.fixef <- function (object){
 }
 
 se.ranef <- function (object){
-    ngrps <- lapply(object@flist, function(x) length(levels(x)))
+    #ngrps <- lapply(object@flist, function(x) length(levels(x)))
     se.bygroup <- ranef( object, postVar = TRUE )
     n.groupings<- length( se.bygroup )
     for( m in 1:n.groupings ) {

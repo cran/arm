@@ -21,12 +21,14 @@ coefplot(object,\dots)
                 varnames=NULL, CI=2, vertical=TRUE, 
                 v.axis=TRUE, h.axis=TRUE,
                 cex.var=0.8, cex.pts=0.9, 
-                col.pts=1, var.las=2,\dots)
+                col.pts=1, var.las=2,
+                main=NULL, xlab=NULL, ylab=NULL, mar=c(1,3,5.1,2),\dots)
 \S4method{coefplot}{bugs}(object, var.idx=NULL, varnames=NULL, 
             CI=1, vertical=TRUE,
             v.axis=TRUE, h.axis=TRUE, 
             cex.var=0.8, cex.pts=0.9, 
-            col.pts=1, var.las=2, \ldots)
+            col.pts=1, var.las=2, 
+            main=NULL, xlab=NULL, ylab=NULL, mar=c(1,3,5.1,2),\ldots)
 \S4method{coefplot}{numeric}(object, \dots)
 \S4method{coefplot}{lm}(object, varnames=NULL, intercept=FALSE, \dots)
 \S4method{coefplot}{glm}(object, varnames=NULL, intercept=FALSE, \dots)
@@ -52,6 +54,14 @@ coefplot(object,\dots)
   \item{col.pts}{color of points and segments, default is black.}
   \item{var.las}{the orientation of variable names against the axis, default is 2. 
     see the usage of \code{las} in \code{\link{par}}.}
+  \item{main}{The main title (on top) using font and size (character
+          expansion) \code{par("font.main")} and color \code{par("col.main")}.}
+  \item{xlab}{X axis label using font and character expansion
+          \code{par("font.lab")} and color \code{par("col.lab")}.}
+  \item{ylab}{Y axis label, same font attributes as \code{xlab}.}
+  \item{mar}{A numerical vector of the form \code{c(bottom, left, top, right)}
+          which gives the number of lines of margin to be specified on
+          the four sides of the plot. The default is \code{c(1,3,5.1,2)}.}
   \item{var.idx}{the index of the variables of a bugs object, default
         is NULL which will plot all the variables.}
   \item{intercept}{If TRUE will plot intercept, default=FALSE to get better presentation.}
@@ -96,24 +106,18 @@ coefplot(object,\dots)
  fit1 <- lm(y1 ~ x1 + x2 + x3 + x4 + x5)
  fit2 <- glm(y2 ~ x1 + x2 + x3 + x4 + x5, 
             family=binomial(link="logit"))
- 
+ op <- par()
  # plot 1
- par (mfrow=c(2,2), mar=c(3,3,5,1), mgp=c(2,0.25,0), tcl=-0.2)
- coefplot(fit1, xlab="", ylab="", main="Regression Estimates")
- coefplot(fit2, col.pts="blue",
-    xlab="", ylab="", main="Regression Estimates")
- 
+ par (mfrow=c(2,2))
+ coefplot(fit1)
+ coefplot(fit2, col.pts="blue")
  
  # plot 2
- par (mar=c(2,8,5,0.5))
  longnames <- c("(Intercept)", longnames) 
- coefplot(fit1, longnames, intercept=TRUE, CI=1,
-     xlab="", ylab="", main="Regression Estimates")
+ coefplot(fit1, longnames, intercept=TRUE, CI=1)
  
  # plot 3
- par (mar=c(2,2,5,2))
- coefplot(fit2, vertical=FALSE, var.las=1,
-     xlab="", ylab="", main="Regression Estimates")
+ coefplot(fit2, vertical=FALSE, var.las=1, frame.plot=TRUE)
  
  # plot 4: comparison to show bayesglm works better than glm
  n <- 100
@@ -131,55 +135,50 @@ coefplot(object,\dots)
        display (M1)
  M2 <- bayesglm (y ~ x1 + x2, family=binomial(link="logit"))
        display (M2)
- 
-    ## stacked plot
-    par(mar=c(2,5,3,1), mgp=c(2,0.25,0), oma=c(0,0,2,0), tcl=-0.2)
- 
-    coefplot(M2, xlim=c(-1,5), intercept=TRUE, xlab="", ylab="")
-    points(coef(M1), c(3:1)-0.1, col="red", pch=19)
-    segments(coef(M1) + se.coef(M1), c(3:1)-0.1,
-        coef(M1) - se.coef(M1), c(3:1)-0.1, lwd=2, col="red")
-    segments(coef(M1) + 2*se.coef(M1), c(3:1)-0.1,
-        coef(M1) - 2*se.coef(M1), c(3:1)-0.1, col="red")    
-    mtext("Coefficients", side=3, at=0.1, outer=TRUE)
-    mtext("Estimate", side=3, at=0.6, outer=TRUE)
- 
-    ## arrayed plot
-    par(mfrow=c(1,2), mar=c(2,5,5,1), mgp=c(2,0.25,0), tcl=-0.2)
-    x.scale <- c(0, 7.5) # fix x.scale for comparison
- 
-    coefplot(M1, xlim=x.scale, main="glm", intercept=TRUE,
-         xlab="", ylab="")
-    coefplot(M2, xlim=x.scale, main="bayesglm", intercept=TRUE,
-         xlab="", ylab="")
+#=================== 
+#    stacked plot
+#===================
+  par <- op
+  par(oma=c(0,0,1,0))
+  coefplot(M2, xlim=c(-1,5), intercept=TRUE, main="")
+  points(coef(M1), c(3:1)-0.1, col="red", pch=19)
+  segments(coef(M1) + se.coef(M1), c(3:1)-0.1,
+    coef(M1) - se.coef(M1), c(3:1)-0.1, lwd=2, col="red")
+  segments(coef(M1) + 2*se.coef(M1), c(3:1)-0.1,
+    coef(M1) - 2*se.coef(M1), c(3:1)-0.1, col="red")    
+  mtext("Coefficients", side=3, at=0.1, outer=TRUE)
+  mtext("Estimate", side=3, at=0.6, outer=TRUE)
+#==================== 
+# arrayed plot       
+#====================
+  par(mfrow=c(1,2))
+  x.scale <- c(0, 7.5) # fix x.scale for comparison
+   
+  coefplot(M1, xlim=x.scale, main="glm", intercept=TRUE)
+  coefplot(M2, xlim=x.scale, main="bayesglm", intercept=TRUE)
 
 # plot 5: the ordered logit model from polr
- par (mar=c(3,8,4,1), mgp=c(2,0.25,0), tcl=-0.2)
- 
  M3 <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
- coefplot(M3, xlab="", ylab="", main="polr")
+ coefplot(M3, main="polr")
    
  M4 <- bayespolr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
- coefplot(M4, xlab="", ylab="", main="bayespolr")
+ coefplot(M4, main="bayespolr")
 
 # plot 6: plot bugs & lmer
- par (mar=c(3,8,4,1), mgp=c(2,0.25,0), tcl=-0.2)
+ par <- op
  M5 <- lmer(Reaction ~ Days + (1|Subject), sleepstudy)
  M5.sim <- mcsamp(M5)
- coefplot(M5.sim, var.idx=5:22, CI=1, 
-    xlab="", ylab="", ylim=c(18,1), main="lmer model")
+ coefplot(M5.sim, var.idx=5:22, CI=1, ylim=c(18,1), main="lmer model")
  
 # plot 7: plot coefficients & sds vectors
- par (mar=c(3,4,4,4), mgp=c(2,0.25,0), tcl=-0.2)
  coef.vect <- c(0.2, 1.4, 2.3, 0.5)
  sd.vect <- c(0.12, 0.24, 0.23, 0.15)
  longnames <- c("var1", "var2", "var3", "var4")
- coefplot (coef.vect, sd.vect, longnames,
-    xlab="", ylab="", main="Regression Estimates")
- coefplot (coef.vect, sd.vect, longnames, 
-    vertical=FALSE, var.las=1, las=2,
-    xlab="", ylab="", main="Regression Estimates")
+ coefplot (coef.vect, sd.vect, longnames, main="Regression Estimates")
+ coefplot (coef.vect, sd.vect, longnames, vertical=FALSE, 
+    var.las=1, main="Regression Estimates")
 }
 
+\keyword{hplot}
 \keyword{dplot}
 \keyword{methods}

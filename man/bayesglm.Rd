@@ -6,6 +6,10 @@
 % functions
 \alias{bayesglm}
 \alias{bayesglm.fit}
+% display methods
+\alias{print,bayesglm-method}
+\alias{print,bayesglm.h-method}
+\alias{show,bayesglm-method}
 
 \title{Bayesian generalized linear models.}
 

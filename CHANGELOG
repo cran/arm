@@ -1,3 +1,22 @@
+2008-2-11  Yu-Sung Su     <ys463@columbia.edu>  
+    * R/mcplot: object check: either matrix or data.frame
+
+2008-2-9  Yu-Sung Su     <ys463@columbia.edu>  
+    * DESCRIPTION (Version, Date): 1.1-2.
+    * NAMESPACE: export new print & show methods for bayespolr & bayesglm
+    * Man/bayespolr: add more descriptions on prior.counts.for.bins
+    * R/AllInternal: round fix becomes internal
+    * R/bayespolr: fix a bug when no predictor is in the model
+    * R/balanceplot: smart magining.
+    * R/coefplot: smart magining.
+    * R/mcplot: smart magining.
+
+
+2008-2-7  Masanao Yajima <my2167@columbia.edu>
+          Yu-Sung Su     <ys463@columbia.edu>    
+    * Man/multicomp.plot: description for MC.plot
+    * R/multicomp.plot: add a new plot function: multiple comparison plot.
+
 2008-1-12  Yu-Sung Su     <ys463@columbia.edu>  
     * DESCRIPTION (Version, Date): 1.1-1.
     * R/se.coef: fix naming in se.fixef

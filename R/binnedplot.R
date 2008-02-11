@@ -63,7 +63,7 @@ binned.resids <- function (x, y, nclass=floor(sqrt(length(x)))){
         xbar <- mean(x[items])
         ybar <- mean(y[items])
         n <- length(items)
-        p <- xbar                 
+        #p <- xbar                 
         sdev <- sd(y[items])
         output <- rbind (output, c(xbar, ybar, n, x.range, 2*sdev/sqrt(n)))
     }

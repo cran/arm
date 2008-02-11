@@ -466,3 +466,5 @@ bayesglm.fit <- function (x, y, weights = rep(1, nobs), start = NULL,
 
 setMethod("print", signature(x = "bayesglm"), 
     function(x, digits= getOption("digits")) display(object=x, digits=digits))
+setMethod("show", signature(object = "bayesglm"), 
+    function(object) display(object, digits=getOption("digits")))

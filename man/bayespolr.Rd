@@ -4,7 +4,9 @@
 \alias{bayespolr-class}
 % functions
 \alias{bayespolr}
-
+% display methods
+\alias{print,bayespolr-method}
+\alias{show,bayespolr-method}
 
 \title{Bayesian Ordered Logistic or Probit Regression}
 
@@ -85,7 +87,10 @@ bayespolr(formula, data, weights, start, ...,
     the intercepts). If it is a scalar, it is expanded to the length of this 
     vector.}
    
-  \item{prior.counts.for.bins}{default is NULL.}
+  \item{prior.counts.for.bins}{default is NULL, which will augment the data by 
+    giving each cut point a \code{1/levels(y)}. To use a noninformative prior, assign
+    prior.counts.for.bins = 0. If it is a scalar, it is expanded to the number 
+    of levels of y.}
   
   \item{scaled}{if scaled = TRUE, then the prior distribution is rescaled.
     Can be a vector of length equal to the number of cutpoints 
@@ -94,7 +99,8 @@ bayespolr(formula, data, weights, start, ...,
 
   \item{n.iter}{default is 100.}
   
-   \item{print.unnormalized.log.posterior}{display the unnormalized log posterior likelihood for bayesglm fit, default=FALSE}
+  \item{print.unnormalized.log.posterior}{display the unnormalized log posterior 
+    likelihood for bayesglm fit, default=FALSE}
 }
 \details{
 The program is a simple alteration of \code{\link[MASS]{polr}} in
@@ -119,10 +125,7 @@ See \code{polr} for details.
 \item{prior.mean}{prior means for the cofficients.}
 \item{prior.scale}{prior scales for the cofficients.}
 \item{prior.df}{prior dfs for the cofficients.}
-\item{prior.mean.for.cutpoints}{prior means for the cutpoints.}
-\item{prior.scale.for.cutpoints}{prior scales for the cutpoints.}
-\item{prior.df.for.cutpoints}{prior dfs for the cutpoints.}
-
+\item{prior.counts.for.bins}{prior counts for the cutpoints.}
 }
 
 \author{Andrew Gelman \email{gelman@stat.columbia.edu};
@@ -170,8 +173,8 @@ See \code{polr} for details.
     M8 <- polr (y ~ x)
     display (M8)
 
-    M9 <- bayespolr (y ~ x,  prior.scale=Inf, prior.df=Inf, prior.counts.for.bins=0)   # same as M1
-    display (M9)
+    M9 <- bayespolr (y ~ x,  prior.scale=Inf, prior.df=Inf, prior.counts.for.bins=0)   
+    display (M9) # same as M1
 
     M10 <- bayespolr (y ~ x,  prior.scale=Inf, prior.df=Inf, prior.counts.for.bins=10000)
     display (M10)
@@ -186,8 +189,8 @@ See \code{polr} for details.
     M11 <- polr (y ~ x)
     display (M11)
 
-    M12 <- bayespolr (y ~ x,  prior.scale=Inf, prior.df=Inf, prior.counts.for.bins=0)   # same as M1
-    display (M12)
+    M12 <- bayespolr (y ~ x,  prior.scale=Inf, prior.df=Inf, prior.counts.for.bins=0)   
+    display (M12) # same as M1
 
     M13 <- bayespolr (y ~ x,  prior.scale=Inf, prior.df=Inf, prior.counts.for.bins=1)
     display (M13)

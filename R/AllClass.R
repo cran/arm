@@ -55,3 +55,5 @@ setClass("bayespolr",
             prior.df.for.cutpoints = "numeric"),
      contains = "polr"
 )
+
+setClass("GO")

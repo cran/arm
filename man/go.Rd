@@ -1,4 +1,8 @@
-\name{go}
+\name{GO}
+\docType{class}
+% Classes
+\alias{GO-class}
+% functions
 \alias{go}
 \alias{G}
 

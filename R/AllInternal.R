@@ -1,11 +1,11 @@
 # some useful little functions
-  round <- base:::round  
+  #.round <- base:::round  
   sd.scalar <- function (x, ...) {sqrt(var(as.vector(x), ...))}
   wmean <- function (x, w, ...) {mean(x*w, ...)/mean(w, ...)}
   logit <- function (x) {log(x/(1-x))}
   untriangle <- function (x) {x + t(x) - x*diag(nrow(as.matrix(x)))}
 
-# new functions!
+# new functions! 
 
 as.matrix.VarCorr <- function (varc, useScale, digits){
 # VarCorr function for lmer objects, altered as follows:
@@ -122,3 +122,13 @@ dgumbel <- function (x, loc = 0, scale = 1, log = FALSE)
 
 # defin n to pass the bayesglm.fit and bayesglm.h.fit check
 n <- NULL
+
+# for mcplot
+.pvalue <- function ( v1, v2 ){
+  mean( ( sign( v1 - v2 ) + 1 ) / 2 )
+}
+
+.is.significant <- function ( p, alpha = 0.05 ){
+  significant <- 0 + ( p > ( 1 - alpha ) ) - ( p < alpha )
+  return( significant )
+}

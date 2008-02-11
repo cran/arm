@@ -1,14 +1,11 @@
-#coefplot <- function(object,...) UseMethod("coefplot","ANY")
-
-#coefplot.coefplot <- function(object,...) object
-
 coefplot.default <- function(coefs, sds, 
             varnames=NULL, CI=2, 
             vertical=TRUE,
             v.axis=TRUE, h.axis=TRUE,
             cex.var=0.8, cex.pts=0.9, col.pts=1,
-            var.las=2, ...)
+            var.las=2, main=NULL, xlab=NULL, ylab=NULL, mar=c(1,3,5.1,2),...)
 {
+
      # collect informations
     if (is.list(coefs)){
         coefs <- unlist(coefs)
@@ -17,12 +14,28 @@ coefplot.default <- function(coefs, sds,
     idx <- seq(1, n.x)      
     coefs.h <- coefs + CI*sds
     coefs.l <- coefs - CI*sds                                                          
-  
+    
+    if (is.null(main)){main <- "Regression Estimates"}
+    if (is.null(xlab)){xlab <- ""}
+    if (is.null(ylab)){ylab <- ""}
+        
+    par(mar = mar)
+    
+    if (is.null(varnames)) {
+      maxchar <- 0
+    }
+    else{
+      maxchar <- max(sapply(varnames, nchar))
+    }
+    min.mar <- par('mar')
+    
     if (vertical){
+        mar[2] <- min(min.mar[2], trunc(mar[2] + maxchar/10)) + mar[2] + 0.1
+        par(mar=mar)
         plot(c(coefs.l, coefs.h), c(idx,idx), type="n",                                     
-            axes=F,...) 
+            axes=F, main=main, xlab=xlab, ylab=ylab,...) 
         if (h.axis){                                                  
-            axis(1)                                
+#            axis(1)                                
             axis(3)
         }
         if (v.axis){
@@ -40,10 +53,13 @@ coefplot.default <- function(coefs, sds,
         }
     }
     else{ # horizontal
-        plot(c(idx,idx), c(coefs.l, coefs.h), type="n", axes=F,...)                                                   
+        mar[1] <- min(min.mar[1], trunc(mar[1] + maxchar/10)) + mar[1] + 0.1
+        par(mar=mar)
+        plot(c(idx,idx), c(coefs.l, coefs.h), type="n", axes=F, 
+          main=main, xlab=xlab, ylab=ylab,...)                                                  
         if (v.axis){
             axis(2, las=var.las)                                
-            axis(4, las=var.las)
+            #axis(4, las=var.las)
         }
         if (h.axis){
             axis(1, 1:n.x, varnames[1:n.x], las=var.las, tck=FALSE, 
@@ -61,13 +77,13 @@ coefplot.default <- function(coefs, sds,
     }   
 }
 
-setMethod("coefplot", signature(object = "numeric"), 
-    function(object, ...)
-    {
-    coefplot.default(object, ...)
-    }
+setMethod("coefplot", signature(object = "numeric"),
+  function(object, ...)
+{
+  coefplot.default(object, ...)
+} 
 )
-    
+
 
 
 setMethod("coefplot", signature(object = "lm"), 
@@ -128,7 +144,8 @@ setMethod("coefplot", signature(object = "bugs"),
             CI=1, vertical=TRUE,
             v.axis=TRUE, h.axis=TRUE, 
             cex.var=0.8, cex.pts=0.9, 
-            col.pts=1, var.las=2, ...)
+            col.pts=1, var.las=2, 
+            main=NULL, xlab=NULL, ylab=NULL, mar=c(1,3,5.1,2), ...)
 {  
     
     if (is.null(var.idx)){
@@ -141,14 +158,27 @@ setMethod("coefplot", signature(object = "bugs"),
     if (is.null(varnames)){
         varnames <- names(coefs)     
     }
+
+    if (is.null(main)){main <- "Regression Estimates"}
+    if (is.null(xlab)){xlab <- ""}
+    if (is.null(ylab)){ylab <- ""}
+    
+    
+    par(mar=mar)
+    
+    
+    maxchar <- max(sapply(varnames, nchar))
+    min.mar <- par('mar')
     
     if (CI==1){
         CI50.h <- object$summary[,"75%"][var.idx]
         CI50.l <- object$summary[,"25%"][var.idx]
         CI50 <- cbind(CI50.l, CI50.h)
         if (vertical){
-            plot(c(CI50[,1],CI50[,2]), c(idx,idx), type="n",                                     
-                axes=F,...) 
+          mar[2] <- min(min.mar[2], trunc(mar[2] + maxchar/10)) + mar[2] + 0.1
+          par(mar=mar)
+          plot(c(CI50[,1],CI50[,2]), c(idx,idx), type="n", 
+            axes=F, main=main, xlab=xlab, ylab=ylab,...) 
             if (h.axis){
                 axis(3)
             }
@@ -161,8 +191,10 @@ setMethod("coefplot", signature(object = "bugs"),
             points(coefs, idx, pch=19, cex=cex.pts, col=col.pts)
         }
         else {
-            plot(c(idx,idx), c(CI50[,1],CI50[,2]), type="n",                                     
-                axes=F,...) 
+          mar[1] <- min(min.mar[1], trunc(mar[1] + maxchar/10)) + mar[1] + 0.1
+          par(mar=mar)
+          plot(c(idx,idx), c(CI50[,1],CI50[,2]), type="n",                                     
+                axes=F, main=main, xlab=xlab, ylab=ylab,...) 
             if (v.axis){
                 axis(2)
             }
@@ -184,8 +216,10 @@ setMethod("coefplot", signature(object = "bugs"),
         CI50 <- cbind(CI50.l, CI50.h)
         CI95 <- cbind(CI95.l, CI95.h)
         if (vertical){
-            plot(c(CI95[,1],CI95[,2]), c(idx,idx), type="n",                                     
-                axes=F,...)
+          mar[2] <- min(min.mar[2], trunc(mar[2] + maxchar/10)) + mar[2] + 0.1
+          par(mar=mar)
+          plot(c(CI95[,1],CI95[,2]), c(idx,idx), type="n",                                     
+                axes=F, main=main, xlab=xlab, ylab=ylab,...) 
         if (h.axis){
                 axis(3)
             }
@@ -199,8 +233,10 @@ setMethod("coefplot", signature(object = "bugs"),
             points(coefs, idx, pch=19, cex=cex.pts, col=col.pts)
         }
         else {
-            plot(c(idx,idx), c(CI50[,1],CI50[,2]), type="n",                                     
-                axes=F,...) 
+            mar[1] <- min(min.mar[1], trunc(mar[1] + maxchar/10)) + mar[1] + 0.1
+            par(mar=mar)
+            plot(c(idx,idx), c(CI95[,1],CI95[,2]), type="n",                                     
+                axes=F, main=main, xlab=xlab, ylab=ylab,...) 
             if (v.axis){
                 axis(2)
             }
@@ -232,4 +268,4 @@ setMethod("coefplot", signature(object = "polr"),
     coefplot(coefs, sds, 
         varnames=varnames, ...)
     }
-)        
+)  

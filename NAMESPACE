@@ -7,12 +7,14 @@ exportClasses(
 exportMethods(
               "coefplot",
               "display",
-              "se.coef",
               "mcsamp",
               "model.matrix.bayes",
+              "se.coef",
               "sim",
               "sigma.hat",
-              "terms.bayes"
+              "terms.bayes",
+              "print",
+              "show"
               )
 
 export(
@@ -32,6 +34,8 @@ export(
        "go",
        "invlogit",
        "matching", 
+       "multicomp.plot",
+       "mcplot",
        "pfround",
        "rescale",
        "se.coef",

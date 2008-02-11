@@ -157,34 +157,40 @@ function (formula, data, weights, start, ..., subset, na.action,
     }
     else if (length(start) != pc + q) 
         stop("'start' is not of the correct length")
+    
     J <- NCOL(x)
-    if (length(prior.mean) == 1) 
+    
+    # SU: if no x's, no priors for coefs  2008.2.9
+    if (xint>1) {
+      if (length(prior.mean) == 1) 
         prior.mean <- rep(prior.mean, J)
-    if (length(prior.scale) == 1) {
+      if (length(prior.scale) == 1) {
         prior.scale <- rep(prior.scale, J)
-        if (scaled == TRUE) {
+          if (scaled == TRUE) {
             for (j in 1:J) {
-                x.obs <- x[, j]
-                x.obs <- x.obs[!is.na(x.obs)]
-                num.categories <- length(unique(x.obs))
-                if (num.categories == 2) {
-                  prior.scale[j] <- prior.scale[j]/(max(x.obs) - 
-                    min(x.obs))
-                }
-                else if (num.categories > 2) {
-                  prior.scale[j] <- prior.scale[j]/(2 * sd(x.obs))
-                }
+              x.obs <- x[, j]
+              x.obs <- x.obs[!is.na(x.obs)]
+              num.categories <- length(unique(x.obs))
+              if (num.categories == 2) {
+                prior.scale[j] <- prior.scale[j]/(max(x.obs) - min(x.obs))
+              }
+              else if (num.categories > 2) {
+                prior.scale[j] <- prior.scale[j]/(2 * sd(x.obs))
+              }
             }
-        }
-    }
-    if (length(prior.df) == 1) {
+          }
+      }
+      if (length(prior.df) == 1) {
         prior.df <- rep(prior.df, J)
+      }
     }
+
+    # prior for intercept sum(priors.intercpet)=1
     if (is.null(prior.counts.for.bins)) {
       prior.counts.for.bins <- 1/(q+1)
     }
     if (length(prior.counts.for.bins) == 1) {
-        prior.counts.for.bins <- rep(prior.counts.for.bins, q+1)
+      prior.counts.for.bins <- rep(prior.counts.for.bins, q+1)
     }
 # Augment the data to add prior information
     y.0 <- y
@@ -225,8 +231,7 @@ function (formula, data, weights, start, ..., subset, na.action,
     else {
         eta <- rep(0, n)
     }
-    cumpr <- matrix(pfun(matrix(zeta, n, q, byrow = TRUE) - eta), 
-        , q)
+    cumpr <- matrix(pfun(matrix(zeta, n, q, byrow = TRUE) - eta), , q)
     fitted <- t(apply(cumpr, 1, function(x) diff(c(0, x, 1))))
     dimnames(fitted) <- list(row.names(m), lev)
     fit <- list(coefficients = beta, zeta = zeta, deviance = deviance, 
@@ -241,8 +246,9 @@ function (formula, data, weights, start, ..., subset, na.action,
         dimnames(H) <- list(dn, dn)
         fit$Hessian <- H
     }
-    if (model) 
+    if (model){
         fit$model <- m
+    }
     fit$na.action <- attr(m, "na.action")
     fit$contrasts <- cons
     fit$xlevels <- .getXlevels(Terms, m)
@@ -252,3 +258,5 @@ function (formula, data, weights, start, ..., subset, na.action,
 
 setMethod("print", signature(x = "bayespolr"), 
     function(x, digits= getOption("digits")) display(object=x, digits=digits))
+setMethod("show", signature(object = "bayespolr"), 
+    function(object) display(object, digits=getOption("digits")))
