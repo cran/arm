@@ -11,8 +11,9 @@ coefplot.default <- function(coefs, sds,
         coefs <- unlist(coefs)
     }
     n.x <- length(coefs)
-    idx <- seq(1, n.x)      
-    coefs.h <- coefs + CI*sds
+    idx <- seq(1, n.x)   
+    
+    coefs.h <- coefs + CI*sds 
     coefs.l <- coefs - CI*sds                                                          
     
     if (is.null(main)){main <- "Regression Estimates"}
@@ -29,10 +30,13 @@ coefplot.default <- function(coefs, sds,
     }
     min.mar <- par('mar')
     
+    # add margin to the axis
+    k <- 1/n.x   
+    
     if (vertical){
         mar[2] <- min(min.mar[2], trunc(mar[2] + maxchar/10)) + mar[2] + 0.1
         par(mar=mar)
-        plot(c(coefs.l, coefs.h), c(idx,idx), type="n",                                     
+        plot(c(coefs.l, coefs.h), c(idx+k,idx-k), type="n",                                     
             axes=F, main=main, xlab=xlab, ylab=ylab,...) 
         if (h.axis){                                                  
 #            axis(1)                                
@@ -55,7 +59,7 @@ coefplot.default <- function(coefs, sds,
     else{ # horizontal
         mar[1] <- min(min.mar[1], trunc(mar[1] + maxchar/10)) + mar[1] + 0.1
         par(mar=mar)
-        plot(c(idx,idx), c(coefs.l, coefs.h), type="n", axes=F, 
+        plot(c(idx+k,idx-k), c(coefs.l, coefs.h), type="n", axes=F, 
           main=main, xlab=xlab, ylab=ylab,...)                                                  
         if (v.axis){
             axis(2, las=var.las)                                
@@ -170,6 +174,8 @@ setMethod("coefplot", signature(object = "bugs"),
     maxchar <- max(sapply(varnames, nchar))
     min.mar <- par('mar')
     
+    k <- 1/n.x
+    
     if (CI==1){
         CI50.h <- object$summary[,"75%"][var.idx]
         CI50.l <- object$summary[,"25%"][var.idx]
@@ -177,7 +183,7 @@ setMethod("coefplot", signature(object = "bugs"),
         if (vertical){
           mar[2] <- min(min.mar[2], trunc(mar[2] + maxchar/10)) + mar[2] + 0.1
           par(mar=mar)
-          plot(c(CI50[,1],CI50[,2]), c(idx,idx), type="n", 
+          plot(c(CI50[,1],CI50[,2]), c(idx+k,idx-k), type="n", 
             axes=F, main=main, xlab=xlab, ylab=ylab,...) 
             if (h.axis){
                 axis(3)
@@ -193,7 +199,7 @@ setMethod("coefplot", signature(object = "bugs"),
         else {
           mar[1] <- min(min.mar[1], trunc(mar[1] + maxchar/10)) + mar[1] + 0.1
           par(mar=mar)
-          plot(c(idx,idx), c(CI50[,1],CI50[,2]), type="n",                                     
+          plot(c(idx+k,idx-k), c(CI50[,1],CI50[,2]), type="n",                                     
                 axes=F, main=main, xlab=xlab, ylab=ylab,...) 
             if (v.axis){
                 axis(2)
@@ -218,7 +224,7 @@ setMethod("coefplot", signature(object = "bugs"),
         if (vertical){
           mar[2] <- min(min.mar[2], trunc(mar[2] + maxchar/10)) + mar[2] + 0.1
           par(mar=mar)
-          plot(c(CI95[,1],CI95[,2]), c(idx,idx), type="n",                                     
+          plot(c(CI95[,1],CI95[,2]), c(idx+k,idx-k), type="n",                                     
                 axes=F, main=main, xlab=xlab, ylab=ylab,...) 
         if (h.axis){
                 axis(3)
@@ -235,7 +241,7 @@ setMethod("coefplot", signature(object = "bugs"),
         else {
             mar[1] <- min(min.mar[1], trunc(mar[1] + maxchar/10)) + mar[1] + 0.1
             par(mar=mar)
-            plot(c(idx,idx), c(CI95[,1],CI95[,2]), type="n",                                     
+            plot(c(idx+k,idx-k), c(CI95[,1],CI95[,2]), type="n",                                     
                 axes=F, main=main, xlab=xlab, ylab=ylab,...) 
             if (v.axis){
                 axis(2)
