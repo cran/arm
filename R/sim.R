@@ -82,7 +82,7 @@ setMethod("sim", signature(object = "mer"),
     
     sc <- attr (VarCorr (object), "sc")
     coef <- ranef(object, postVar=TRUE)   
-    beta.bygroup <- NULL
+    beta.bygroup <- c(coef)
     n.groupings <- length (coef)
     for (m in 1:n.groupings){
       #vars.m <- vars[[m]]
@@ -115,12 +115,12 @@ setMethod("sim", signature(object = "lmer2"),
       beta.unmodeled[[1]] <- mvrnorm (n.sims, fcoef, V.beta)
       names (beta.unmodeled) <- "unmodeled"
     }
-    # simulate coefficients within groups
+   # simulate coefficients within groups
     sc <- attr (VarCorr (object), "sc")  # scale
     #coef <- ranef (object)
     #estimate <- ranef(object, postVar=TRUE)
     coef <- ranef(object, postVar=TRUE)
-    beta.bygroup <- NULL
+    beta.bygroup <- c(coef)
     n.groupings <- length (coef)
     for (m in 1:n.groupings){
       bhat <- coef[[m]]

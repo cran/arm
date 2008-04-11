@@ -40,7 +40,7 @@ bayesglm <- function (formula, family = gaussian, data, weights, subset,
       names(Y) <- nm
   }
   X <- if (!is.empty.model(mt)) {
-      class(mt) <- c("bayesglm", "terms", "formula")
+#      class(mt) <- c("bayesglm", oldClass(mt))
       model.matrix.bayes(mt, mf, contrasts, keep.order = keep.order, drop.baseline=drop.baseline)
     }
     else matrix(, NROW(Y), 0)
@@ -466,5 +466,6 @@ bayesglm.fit <- function (x, y, weights = rep(1, nobs), start = NULL,
 
 setMethod("print", signature(x = "bayesglm"), 
     function(x, digits= getOption("digits")) display(object=x, digits=digits))
+
 setMethod("show", signature(object = "bayesglm"), 
     function(object) display(object, digits=getOption("digits")))

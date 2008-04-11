@@ -1,3 +1,20 @@
+2008-4-11  Yu-Sung Su     <ys463@columbia.edu>  
+    * DESCRIPTION (Version, Date): 1.1-4.
+    * man/terms: terms.Rd is obsolet!
+    * R/bayesglm: terms.object -> terms
+    * R/bayesglm.h: use model.matrix.bayes.h; terms.object -> terms
+    * R/model.matrix.bayes: 
+        1. no longer a S4 method.
+        2. add model.matrix.bayes2 for bayesglm.h
+    * R/terms: terms.bayes is obsolet!
+
+2008-4-10  Yu-Sung Su     <ys463@columbia.edu>  
+           Masanao Yajima <my2167@columbia.edu>
+    * man/traceplot.bugs: add help file of traceplot.bugs().
+    * R/rescale: if !is.numeric(x.obs) coerce x.obs into numeric
+    * R/sim: fix a naming issue for group levels in lmer object.
+    * R/traceplot.bugs: add traceplot.bugs().
+    
 2008-2-18  Yu-Sung Su     <ys463@columbia.edu>  
     * DESCRIPTION (Version, Date): 1.1-3.
 

@@ -1,9 +1,9 @@
-setMethod("model.matrix.bayes", signature(object = "bayesglm"),
-    function(object, data = environment(object),
+#setMethod("model.matrix.bayes", signature(object = "bayesglm"),
+model.matrix.bayes <- function(object, data = environment(object),
         contrasts.arg = NULL, xlev = NULL, keep.order=FALSE, drop.baseline=FALSE,...)
 {
     class(object) <- c("formula")
-    t <- if( missing( data ) ) { terms.object( object ) } else { terms.bayes( object, data=data, keep.order=keep.order ) }
+    t <- if( missing( data ) ) { terms( object ) } else { terms( object, data=data, keep.order=keep.order ) }
     attr(t, "intercept") <- attr(object, "intercept")
     if ( is.null( attr( data, "terms" ) ) ){ data <- model.frame( object, data, xlev=xlev ) }
     else {
@@ -69,16 +69,16 @@ setMethod("model.matrix.bayes", signature(object = "bayesglm"),
     attr( ans, "contrasts" ) <- cons
     ans
 }
-)
+#)
 
-setMethod("model.matrix.bayes", signature(object = "bayesglm.h"),
-        function (object, data = environment(object), 
+#setMethod("model.matrix.bayes", signature(object = "bayesglm.h"),
+model.matrix.bayes.h <- function (object, data = environment(object), 
             contrasts.arg = NULL, 
             xlev = NULL, keep.order = FALSE, batch = NULL, ...)
 {
     class(object) <- c("formula")
     t <- if (missing(data)) {
-        terms.object(object)
+        terms(object)
     }
     else {
         terms(object, data = data, keep.order = keep.order)
@@ -165,4 +165,4 @@ setMethod("model.matrix.bayes", signature(object = "bayesglm.h"),
     attr(ans, "contrasts") <- cons
     ans
 }
-)
+#)

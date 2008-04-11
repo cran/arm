@@ -8,11 +8,10 @@ exportMethods(
               "coefplot",
               "display",
               "mcsamp",
-              "model.matrix.bayes",
+              #"model.matrix.bayes",
               "se.coef",
               "sim",
               "sigma.hat",
-              "terms.bayes",
               "print",
               "show"
               )
@@ -34,6 +33,7 @@ export(
        "go",
        "invlogit",
        "matching", 
+       "model.matrix.bayes",
        "multicomp.plot",
        "mcplot",
        "pfround",
@@ -44,6 +44,7 @@ export(
        "sigma.hat",
        "sim",
        "standardize",
+       "traceplot.bugs",
        "triangleplot"
 )
 

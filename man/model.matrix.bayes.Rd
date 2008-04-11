@@ -1,8 +1,9 @@
 \name{model.matrix.bayes}
-\docType{genericFunction}
+%\docType{genericFunction}
 \alias{model.matrix.bayes}
-\alias{model.matrix.bayes,bayesglm-method}
-\alias{model.matrix.bayes,bayesglm.h-method}
+\alias{model.matrix.bayes.h}
+%\alias{model.matrix.bayes,bayesglm-method}
+%\alias{model.matrix.bayes,bayesglm.h-method}
 
 \title{Construct Design Matrices}
 
@@ -11,11 +12,10 @@
 }
 
 \usage{
-\S4method{model.matrix.bayes}{bayesglm}(object, data = environment(object), 
+model.matrix.bayes(object, data = environment(object), 
     contrasts.arg = NULL, xlev = NULL, keep.order = FALSE, drop.baseline=FALSE,...)
     
-# (not implement yet!)
-\S4method{model.matrix.bayes}{bayesglm.h}(object, data = environment(object), 
+model.matrix.bayes.h(object, data = environment(object), 
     contrasts.arg = NULL, xlev = NULL, keep.order = FALSE,  batch = NULL, ...)
 }
 

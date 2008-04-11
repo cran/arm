@@ -20,12 +20,12 @@ if (!isGeneric("display")) {
                standardGeneric("display"))
 }
 
-if (!isGeneric("model.matrix.bayes")) {
-    setGeneric("model.matrix.bayes",
-               function(object, ...)
-               standardGeneric("model.matrix.bayes"))
-}
-
+#if (!isGeneric("model.matrix.bayes")) {
+#    setGeneric("model.matrix.bayes",
+#               function(object, ...)
+#               standardGeneric("model.matrix.bayes"))
+#}
+#
 
 if (!isGeneric("sim")) {
     setGeneric("sim",
