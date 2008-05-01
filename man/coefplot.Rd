@@ -41,7 +41,8 @@ coefplot(object,\dots)
   \item{coefs}{a vector of coefficients.}
   \item{sds}{a vector of sds of coefficients.}
   \item{varnames}{a vector of variable names, default is NULL, which will use
-    the names of variables.}
+    the names of variables; if specified, the length of varnames must be equal to
+    the length of predictors, including the intercept.}
   \item{CI}{confidence interval, default is 2, which will plot $\pm 2$ sds or
     95\% CI. If CI=1, plot $\pm 1$ sds or 50\% CI instead.}
   \item{vertical}{orientation of the plot, default is TRUE which will plot

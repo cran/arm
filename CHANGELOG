@@ -1,3 +1,12 @@
+2008-5-1  Yu-Sung Su     <ys463@columbia.edu>  
+    * DESCRIPTION (Version, Date): 1.1-5.
+
+2008-4-12  Yu-Sung Su     <ys463@columbia.edu>  
+    * R/bayesglm.h: 
+        1. fix a bug in print for bayesglm.h
+        2. add show for bayesglm.h
+    * R/coefplot: add a stop message for varnames
+
 2008-4-11  Yu-Sung Su     <ys463@columbia.edu>  
     * DESCRIPTION (Version, Date): 1.1-4.
     * man/terms: terms.Rd is obsolet!

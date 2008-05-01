@@ -525,4 +525,7 @@ function (x, y, weights = rep(1, nobs), start = NULL, etastart = NULL,
         sigma.0=sigma.0, sigma.batch=sigma.batch, sigma.mu.batch=sigma.mu.batch )
 }
 
-setMethod("print", signature(x = "bayesglm.h"), function(x, digits=2) display(object=x, ...))
+setMethod("print", signature(x = "bayesglm.h"), 
+  function(x, digits=2) display(object=x, digits=getOption("digits")))
+setMethod("show", signature(object = "bayesglm.h"), 
+    function(object) display(object, digits=getOption("digits")))

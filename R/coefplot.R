@@ -98,6 +98,10 @@ setMethod("coefplot", signature(object = "lm"),
     sds <- summary(object)$coef[,2]
     ifelse (is.null(varnames), varnames <- names(coefs),
             varnames <- varnames)
+    if (length(varnames)!= length(names(coefs))){
+      stop(message="the length of varnames does not equal the length of predictors.  
+      Note: varnames must include a name for constant/intercept")
+    }
     if (intercept){
         coefs <- coefs
         sds <- sds
@@ -124,6 +128,10 @@ setMethod("coefplot", signature(object = "glm"),
     sds <- summary(object)$coef[,2]
     ifelse (is.null(varnames), varnames <- names(coefs),
             varnames <- varnames)
+    if (length(varnames)!= length(names(coefs))){
+      stop(message="the length of varnames does not equal the length of predictors.  
+      Note: varnames must include a name for constant/intercept")
+    }    
     if (intercept){
         coefs <- coefs
         sds <- sds
