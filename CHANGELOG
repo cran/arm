@@ -1,3 +1,14 @@
+2008-6-22  Yu-Sung Su     <ys463@columbia.edu>  
+    * DESCRIPTION (Version, Date): 1.1-8.
+    * R/Bayesglm: Clean up redundant code.
+
+2008-6-5  Yu-Sung Su     <ys463@columbia.edu>  
+    * DESCRIPTION (Version, Date): 1.1-8.
+    all the lmer2 class-related methods are now mer-class methods.
+    all the mer-class methods are obsolete 
+    mcmcsamp is obsolet because it is not working in lme4
+
+
 2008-6-4  Yu-Sung Su     <ys463@columbia.edu>  
     * DESCRIPTION (Version, Date): 1.1-7.
     * R/traceplot: add mcmc.list method (previously was mask by traceplot
