@@ -1,6 +1,6 @@
 Package: arm
-Version: 1.1-12
-Date: 2008-7-16
+Version: 1.1-13
+Date: 2008-7-17
 Title: Data Analysis Using Regression and Multilevel/Hierarchical Models
 Author: Andrew Gelman <gelman@stat.columbia.edu>,
         Yu-Sung Su <ys463@columbia.edu>,
@@ -15,4 +15,4 @@ Suggests: car, foreign
 Description: R functions for processing lm, glm, mer and polr outputs.
 URL: http://www.stat.columbia.edu/~gelman/software/
 License: GPL (>= 2)
-Packaged: Wed Jul 16 15:57:46 2008; SUYS
+Packaged: Thu Jul 17 16:45:35 2008; SUYS
