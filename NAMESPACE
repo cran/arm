@@ -1,4 +1,5 @@
 exportClasses(
+              "balance",
               "bayesglm",
               "bayesglm.h",
               "bayespolr"
@@ -18,7 +19,8 @@ exportMethods(
               )
 
 export(
-       "balanceplot",
+       "array.append",
+       "balance",
        "bayesglm",
        "bayesglm.fit",
        "bayespolr",
@@ -39,6 +41,7 @@ export(
        "mcplot",
        "pfround",
        "rescale",
+       "residual.plot",
        "se.coef",
        "se.fixef",
        "se.ranef",
@@ -52,3 +55,5 @@ export(
 
 
 S3method(print, GO)
+S3method(plot, balance)
+S3method(print, balance)

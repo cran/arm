@@ -13,7 +13,7 @@
 }
 
 \usage{
-sigma.hat(object)
+sigma.hat(object,\dots)
 
 \S4method{sigma.hat}{lm}(object)
 \S4method{sigma.hat}{glm}(object)
@@ -23,6 +23,7 @@ sigma.hat(object)
 
 \arguments{
   \item{object}{any fitted model object of lm, glm and mer class}
+  \item{\dots}{other arguments}
 }
 
 \author{Andrew Gelman \email{gelman@stat.columbia.edu};
@@ -70,5 +71,5 @@ sigma.hat(object)
    sigma.hat(M5)
 
 }
-
+\keyword{manip}
 \keyword{methods}

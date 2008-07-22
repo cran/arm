@@ -1,27 +1,40 @@
-\name{balanceplot}
-\alias{balanceplot}
+\name{balance}
+\docType{class}
+% Classes
+\alias{balance-class}
+% Function
+\alias{balance}
+% display methods
+\alias{print.balance}
+\alias{plot.balance}
 
-\title{Plot of Balance Statistics}
+\title{Functions to compute the balance statistics}
 \description{
-  This function plots the balance statistics before and after matching.
+  This function computes the balance statistics before and after matching.
 }
 \usage{
-balanceplot(rawdata, matched, pscore.fit, 
-    longcovnames = NULL, factor=TRUE,
+balance(rawdata, matched, pscore.fit, factor=TRUE)
+
+\method{print}{balance}(x, \dots, digits = getOption("digits"))
+
+\method{plot}{balance}(x, longcovnames = NULL, 
     main = "Standardized Difference in Means",
     v.axis=TRUE, cex.main = 1, 
-    cex.vars = 0.8, cex.pts = 0.8, mar=c(0,3,5.1,2),...)
+    cex.vars = 0.8, cex.pts = 0.8, 
+    mar=c(0,3,5.1,2), plot=TRUE, \dots)
 }
 
 \arguments{
   \item{rawdata}{data before using \code{matching} function, see the example below.}
   \item{matched}{matched data using \code{matching} function, see the example below.}
   \item{pscore.fit}{glm.fit object to get propensity scores.}
-  \item{longcovnames}{long covariate names.  If not provided, plot will 
-            use covariate variable name by default}
   \item{factor}{default is TRUE which will display the factorized categorical variables. In
         a situation where no equal levels of factorized categorical variables is observed,
         use factor=FALSE to proceed.}
+  \item{x}{an object return by the balance function.}
+  \item{digits}{minimal number of \emph{significant} digits}
+  \item{longcovnames}{long covariate names.  If not provided, plot will 
+            use covariate variable name by default}
   \item{main}{The main title (on top) using font and size (character
           expansion) \code{par("font.main")} and color \code{par("col.main")};
           default title is \code{Standardized Difference in Means}.}
@@ -32,7 +45,7 @@ balanceplot(rawdata, matched, pscore.fit,
   \item{mar}{A numerical vector of the form \code{c(bottom, left, top, right)}
           which gives the number of lines of margin to be specified on
           the four sides of the plot. The default is \code{c(0,3,5.1,2)}.}
-
+  \item{plot}{default is TRUE, which will plot the plot.}
   \item{\dots}{other plot options may be passed to this function}
 }
 \details{
@@ -64,6 +77,7 @@ Regression and Multilevel/Hierarchical Models, Cambridge University Press, 2006.
         
 \examples{
 # matching first
+old.par <- par(no.readonly = TRUE)
 data(lalonde)
 attach(lalonde)
 fit <- glm(treat ~ re74 + re75 + age + factor(educ) + 
@@ -73,12 +87,15 @@ pscores <- predict(fit, type="link")
 matches <- matching(z=lalonde$treat, score=pscores)
 matched <- lalonde[matches$matched,]
 
-# make the plot
-balanceplot(lalonde, matched, fit)
+# balance check
+b.stats <- balance(lalonde, matched, fit)
+print(b.stats)
+plot(b.stats)
+par(old.par)
 }
 
 
 \keyword{methods}
-\keyword{models}
+\keyword{manip}
 \keyword{hplot}
 \keyword{dplot}

@@ -30,7 +30,7 @@ triangleplot (x, y=NULL, cutpts=NULL, details=TRUE,
 \details{
 The function makes a triangle plot from a square matrix, e.g., the correlation plot, see 
 \code{\link{corrplot}}.  If a square matrix contains missing values, the cells of missing values
-will be marked ``x".
+will be marked \code{x}.
 }
 
 
@@ -42,6 +42,8 @@ will be marked ``x".
 }
 
 \examples{
+old.par <- par(no.readonly = TRUE)
+
  # create a square matrix
  x <- matrix(runif(1600, 0, 1), 40, 40)
  
@@ -55,6 +57,8 @@ will be marked ``x".
  x[12,13] <- x[13,12] <- NA
  x[25,27] <- x[27,25] <- NA
  triangleplot(x)
+ 
+par(old.par)
 }
 
 \keyword{dplot}
