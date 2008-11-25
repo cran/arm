@@ -1,20 +1,23 @@
 \name{matching}
 \alias{matching}
 
-\title{Matching}
+\title{Single Nearest Neighborhood Matching}
 
 \description{
 Function for processing matching with propensity score 
 }
 
 \usage{
-matching(z, score)
+matching(z, score, replace=FALSE)
 }
 
 \arguments{
   \item{z}{vector of indicators for treatment or control.}
   
   \item{score}{vector of the propensity scores in the same order as z.}
+  
+  \item{replace}{whether the control units could be reused for matching, 
+      default is FALSE.} 
 }
 
 \details{Function for matching each treatment unit in turn 
@@ -42,7 +45,7 @@ attach(lalonde)
 fit <- glm(treat ~ re74 + re75 + age + factor(educ) + 
             black + hisp + married + nodegr + u74 + u75, 
             family=binomial(link="logit"))
-pscores <- predict(fit, type="link")
+pscores <- predict(fit, type="response")
 matches <- matching(z=lalonde$treat, score=pscores)
 matched <- lalonde[matches$matched,]
 
