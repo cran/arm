@@ -49,14 +49,17 @@ though; they can be identified using \code{\link{bayesglm}} and
 \code{bayesglm.hierachical}.
 }
 
-\references{Andrew Gelman, Aleks Jakulin, Maria Grazia Pittau and Yu-Sung Su, 
-            A default prior distribution for logistic and other regression models,  
-unpublished paper available at \url{http://www.stat.columbia.edu/~gelman/standardize/}
+\references{Andrew Gelman, Aleks Jakulin, Maria Grazia Pittau and Yu-Sung Su. (2009).
+            \dQuote{A Weakly Informative Default Prior Distribution For
+            Logistic And Other Regression Models.}
+            \emph{The Annals of Applied Statistics} 2 (4): 1360--1383.  
+            \url{http://www.stat.columbia.edu/~gelman/research/published/priors11.pdf}
 }
 
 \seealso{
-  \code{\link{model.frame}}, \code{\link{model.extract}},
-  \code{\link{terms}}, \code{\link{terms.formula}}, \code{\link{bayesglm}}. 
+  \code{\link[stats]{model.frame}}, \code{\link[stats]{model.extract}},
+  \code{\link[stats]{terms}}, \code{\link[stats]{terms.formula}}, 
+  \code{\link{bayesglm}}. 
 }
 
 \author{Yu-Sung Su \email{ys463@columbia.edu}}
