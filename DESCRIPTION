@@ -1,5 +1,5 @@
 Package: arm
-Version: 1.2-9.01
+Version: 1.2-10
 Date: 2009-9-17
 Title: Data Analysis Using Regression and Multilevel/Hierarchical
         Models
@@ -15,8 +15,6 @@ Suggests: car, foreign
 Description: R functions for processing lm, glm, mer and polr outputs.
 URL: http://www.stat.columbia.edu/~gelman/software/
 License: GPL (>= 2)
+Packaged: 2009-11-23 00:08:33 UTC; yusung
 Repository: CRAN
-Repository/R-Forge/Project: arm
-Repository/R-Forge/Revision: 110
-Date/Publication: 2009-10-01 19:53:48
-Packaged: 2009-09-17 20:10:26 UTC; rforge
+Date/Publication: 2009-11-23 07:51:11
