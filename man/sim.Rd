@@ -20,7 +20,7 @@ sim(object, ...)
 
 \S4method{sim}{lm}(object, n.sims = 100)
 \S4method{sim}{glm}(object, n.sims = 100)
-\S4method{sim}{mer}(object, n.sims = 100, ranef=TRUE)
+\S4method{sim}{mer}(object, n.sims = 100)
 
 }
 
@@ -28,7 +28,6 @@ sim(object, ...)
   \item{object}{the output of a call to \code{lm} with n data points and k predictors.}
   \item{...}{further arguments passed to or from other methods.}
   \item{n.sims}{number of independent simulation draws to create.}
-  \item{ranef}{default is \code{TRUE}, which will return simulated random effects.}
 }
 
 \value{
@@ -94,9 +93,6 @@ sim(object, ...)
  E1 <- lmer (y ~ x + (1 | group))
  display(E1)
  E1.sim <- sim (E1)
- ## obtain intervals of the estimates
- t(apply(E1.sim$fixef, 2, quantile, probs = c(0.025, 0.5, 0.975)))
-
 
 # Example 2
  u.full <- u[group]
