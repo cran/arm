@@ -94,6 +94,19 @@ setMethod("standardize", signature(object = "glm"),
 }
 )
 
+setMethod("standardize", signature(object = "polr"),
+  function(object, unchanged=NULL, 
+    standardize.y=FALSE, binary.inputs="center")
+{
+  call <- object$call
+  out <- standardize.default(call=call, unchanged=unchanged, 
+    standardize.y=standardize.y, binary.inputs=binary.inputs)
+  return(out)
+}
+)
+
+
+
 setMethod("standardize", signature(object = "mer"),
   function(object, unchanged=NULL, 
     standardize.y=FALSE, binary.inputs="center")
