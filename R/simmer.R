@@ -185,7 +185,6 @@ setMethod("sim", signature(object = "mer"),
   # create some object matrix and util functions#########
   numRanef <- object@dims[["q"]]
   numFixef <- object@dims[["p"]]
-  
   # sigma
   simulatedSD <- NULL
   simulatedSD[[1]] <- rep(NA, n.sims)
@@ -265,7 +264,11 @@ setMethod("sim", signature(object = "mer"),
       dimnames(beta.bygroup[[m]]) <- c(list(NULL), dimnames(rr[[m]]))
     }
     #####################
-    ans <- c(beta.unmodeled, beta.bygroup, simulatedSD)
+
+    ans <- new("sim.mer", 
+               "fixef" = beta.unmodeled$fixef,
+               "ranef" = beta.bygroup,
+               "sigma" = simulatedSD$sigma)
     return(ans)
   } 
   else {
@@ -290,7 +293,12 @@ setMethod("sim", signature(object = "mer"),
       dimnames(beta.bygroup[[m]]) <- c(list(NULL), dimnames(rr[[m]]))
     }
     #####################
-    ans <- c(beta.unmodeled, beta.bygroup)
+    
+    ans <- new("sim.mer", 
+                "fixef" = beta.unmodeled$fixef,
+                "ranef" = beta.bygroup,
+                "sigma" = NA)
+
     return(ans)
   }
 })

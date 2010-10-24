@@ -6,8 +6,15 @@ importFrom(Matrix,
 )
 
 importFrom(stats,
-      "extractAIC"
+      "extractAIC",
+      "coef"
 )
+
+importFrom(lme4,
+      "fixef",
+      "ranef"
+)
+      
 
 importMethodsFrom(Matrix, "%*%")
 
@@ -16,18 +23,23 @@ exportClasses(
               "balance",
               "bayesglm",
               "bayesglm.h",
-              "bayespolr"
+              "bayespolr",
+              "sim",
+              "sim.mer"
               )
 
 exportMethods(
+              "coef",
               "coefplot",
               "display",
+              "fixef",
               #"mcsamp",
               #"model.matrix.bayes",
               "se.coef",
               "sim",
               "sigma.hat",
               "print",
+              "ranef",
               "show",
               "standardize",
               "traceplot"

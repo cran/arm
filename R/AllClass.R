@@ -65,4 +65,20 @@ setClass("bayespolr",
      contains = "polr"
 )
 
+
+setClass("sim",
+     representation(
+            coef = "matrix",
+            sigma = "numeric")
+)
+
+
+
+setClass("sim.mer",
+     representation(
+            fixef = "matrix",
+            ranef = "list",
+            sigma = "ANY")
+)
+
 setClass("GO")

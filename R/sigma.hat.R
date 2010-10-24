@@ -6,6 +6,16 @@ setMethod("sigma.hat", signature(object = "lm"),
     }
 )
 
+setMethod("sigma.hat", signature(object = "sim"),
+    function(object)
+    {
+    sigma <- object@sigma
+    return (sigma)
+    }
+)
+
+
+
 
 setMethod("sigma.hat", signature(object = "glm"),
     function(object)
@@ -26,6 +36,9 @@ setMethod("sigma.hat", signature(object = "glm"),
     return(sigma)
     }
 )
+
+
+
 
 
 #setMethod("sigma.hat", signature(object = "mer"),
@@ -80,3 +93,13 @@ setMethod("sigma.hat", signature(object = "mer"),
     return (list (sigma=sigmas, cors=cors))
     }
 )  
+
+
+
+setMethod("sigma.hat", signature(object = "sim.mer"),
+    function(object)
+    {
+    sigma <- object@sigma
+    return (sigma)
+    }
+)

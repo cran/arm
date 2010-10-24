@@ -1,9 +1,16 @@
 \name{sim}
 %\docType{genericFunction}
 \alias{sim}
+\alias{sim-class}
+\alias{sim.mer-class}
 \alias{sim,lm-method}
 \alias{sim,glm-method}
 \alias{sim,mer-method}
+\alias{coef,sim-method}
+\alias{coef,sim.mer-method}
+\alias{fixef,sim.mer-method}
+\alias{ranef,sim.mer-method}
+
 
 
 
@@ -21,6 +28,12 @@ sim(object, ...)
 \S4method{sim}{lm}(object, n.sims = 100)
 \S4method{sim}{glm}(object, n.sims = 100)
 \S4method{sim}{mer}(object, n.sims = 100)
+
+\S4method{coef}{sim}(object)
+\S4method{coef}{sim.mer}(object)
+\S4method{fixef}{sim.mer}(object)
+\S4method{ranef}{sim.mer}(object)
+
 
 }
 
@@ -76,9 +89,11 @@ sim(object, ...)
  M1 <- lm (y1 ~ x1)
  display(M1)
  M1.sim <- sim(M1)
+ coef.M1.sim <- coef(M1.sim)
+ sigma.M1.sim <- sigma.hat(M1.sim)
  ## to get the uncertainty for the simulated estimates
- apply(M1.sim$coef, 2, quantile)
- quantile(M1.sim$sigma)
+ apply(coef(M1.sim), 2, quantile)
+ quantile(sigma.hat(M1.sim))
  
 # Logistic regression 
  u.data <- cbind (1:J, u)
@@ -88,24 +103,40 @@ sim(object, ...)
  M2 <- glm (y ~ x, family=binomial(link="logit"))
  display(M2)
  M2.sim <- sim (M2)
+ coef.M2.sim <- coef(M2.sim)
+ sigma.M2.sim <- sigma.hat(M2.sim)
 
 # Using lmer:
 # Example 1
  E1 <- lmer (y ~ x + (1 | group))
  display(E1)
  E1.sim <- sim (E1)
+ coef.E1.sim <- coef(E1.sim)
+ fixef.E1.sim <- fixef(E1.sim)
+ ranef.E1.sim <- ranef(E1.sim)
+ sigma.E1.sim <- sigma.hat(E1.sim)
+
 
 # Example 2
  u.full <- u[group]
  E2 <- lmer (y ~ x + u.full + (1 | group))
  display(E2)
  E2.sim <- sim (E2)
+ coef.E2.sim <- coef(E2.sim)
+ fixef.E2.sim <- fixef(E2.sim)
+ ranef.E2.sim <- ranef(E2.sim)
+ sigma.E2.sim <- sigma.hat(E2.sim)
+
 
 # Example 3 
  y <- rbinom (n, 1, invlogit (a[group] + b*x))
  E3 <- glmer (y ~ x + (1 | group), family=binomial(link="logit"))
  display(E3)
  E3.sim <- sim (E3)
+ coef.E3.sim <- coef(E3.sim)
+ fixef.E3.sim <- fixef(E3.sim)
+ ranef.E3.sim <- ranef(E3.sim)
+ sigma.E3.sim <- sigma.hat(E3.sim)
  
 }
 
