@@ -1,6 +1,6 @@
 Package: arm
-Version: 1.4-08
-Date: 2011-4-24
+Version: 1.4-09
+Date: 2011-5-8
 Title: Data Analysis Using Regression and Multilevel/Hierarchical
         Models
 Author: Andrew Gelman <gelman@stat.columbia.edu>, Yu-Sung Su
@@ -15,6 +15,6 @@ Suggests: foreign
 Description: R functions for processing lm, glm, mer and polr outputs.
 URL: http://cran.r-project.org/web/packages/arm
 License: GPL (>= 2)
-Packaged: 2011-04-25 04:52:31 UTC; yusung
+Packaged: 2011-05-08 00:24:29 UTC; yusung
 Repository: CRAN
-Date/Publication: 2011-04-25 07:58:31
+Date/Publication: 2011-05-08 06:23:07
