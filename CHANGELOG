@@ -1,4 +1,8 @@
 2011-06-19 Yu-Sung Su     <suyusung@tsinghua.edu.cn> 
+   * DESCRIPTION (Version, Date): 1.4-13
+   * R/coefplot: fix margin control.
+
+2011-06-11 Yu-Sung Su     <suyusung@tsinghua.edu.cn> 
    * DESCRIPTION (Version, Date): 1.4-12
    * R/bayespolr: add min.prior.scale
    * R/binnedplot: add nclass > 1 check
