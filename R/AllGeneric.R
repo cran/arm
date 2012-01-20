@@ -5,7 +5,9 @@
 #}
 
 
-
+setGeneric("coef")
+setGeneric("print")
+#setGeneric("extractAIC")
 
 if (!isGeneric("coefplot")) {
     setGeneric("coefplot",
@@ -48,11 +50,11 @@ if (!isGeneric("se.coef")) {
 
 
 
-#if (!isGeneric("mcsamp")) {
-#    setGeneric("mcsamp",
-#               function(object, ...)
-#               standardGeneric("mcsamp"))
-#}
+if (!isGeneric("mcsamp")) {
+    setGeneric("mcsamp",
+               function(object, ...)
+               standardGeneric("mcsamp"))
+}
 
 
 
