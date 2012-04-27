@@ -1,6 +1,6 @@
-365a1cf8c69c94cb102c0b37ec3bb93d *CHANGELOG
+b4f123ef450bd2a6e0fdd891202ba075 *CHANGELOG
 80d5280342ccaa1edf2a4b1c87a47d94 *COPYING.LIB
-3936f72f381b469126c0275d12bd7ff4 *DESCRIPTION
+8b54cee75fbee9dda06ff590711429e8 *DESCRIPTION
 6630d197d1c0151f77ce76ef6f4240ed *NAMESPACE
 dd22c130a335be6db33dd5c5a5b5dc72 *R/AllClass.R
 f2cdb7782096f0f5148f9980fcb26112 *R/AllGeneric.R
@@ -36,7 +36,7 @@ fc71b369b7c6518bfd78eba1e5c9f88d *R/sim.R
 d3851be90c543181999c913abc32f88e *R/triangleplot.R
 12e52a54f9a2b2aa85f8162365ecce7c *data/lalonde.rda
 54284ad057b236cb94043035813afd3a *man/balance.Rd
-f53b2a7f5b3a72ba3a46dce3bd1ae8a8 *man/bayesglm.Rd
+9405856954ea3faef91c8256da05fd93 *man/bayesglm.Rd
 53dce722f12def7b3afaeb940f7ec267 *man/bayespolr.Rd
 ebcb240293af88f21122a5edde46d44b *man/binnedplot.Rd
 ce4a636e3cabb7e8ab9c0967077ca36d *man/coefplot.Rd
