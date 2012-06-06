@@ -1,12 +1,12 @@
-b4f123ef450bd2a6e0fdd891202ba075 *CHANGELOG
+d67169994ef9e7be7821920e3143d41b *CHANGELOG
 80d5280342ccaa1edf2a4b1c87a47d94 *COPYING.LIB
-8b54cee75fbee9dda06ff590711429e8 *DESCRIPTION
-6630d197d1c0151f77ce76ef6f4240ed *NAMESPACE
+c0e75a85dbd261c115cfd1053f19f0d5 *DESCRIPTION
+6970c12565bda7c3cfbf0088606a6d04 *NAMESPACE
 dd22c130a335be6db33dd5c5a5b5dc72 *R/AllClass.R
 f2cdb7782096f0f5148f9980fcb26112 *R/AllGeneric.R
 1aa6c6ca0b75207163aed1c1f2abcb29 *R/AllInternal.R
 7ede1254266dce3d330df2c42da5f2dc *R/balance.R
-16b07722c6a8976d7341de3117b85c03 *R/bayesglm.R
+4af68fce90dc9b3fc389aca4ab690183 *R/bayesglm.R
 054bbff33242f6e4bd26a9f7990207b1 *R/bayesglm.h.R
 280eda815dff4d7e26467b0c4a9c1eab *R/bayespolr.R
 39cf3881649f24cc1a9b6764144fe469 *R/binnedplot.R
@@ -36,7 +36,7 @@ fc71b369b7c6518bfd78eba1e5c9f88d *R/sim.R
 d3851be90c543181999c913abc32f88e *R/triangleplot.R
 12e52a54f9a2b2aa85f8162365ecce7c *data/lalonde.rda
 54284ad057b236cb94043035813afd3a *man/balance.Rd
-9405856954ea3faef91c8256da05fd93 *man/bayesglm.Rd
+f3c442874d794884c83e9cc4da77168d *man/bayesglm.Rd
 53dce722f12def7b3afaeb940f7ec267 *man/bayespolr.Rd
 ebcb240293af88f21122a5edde46d44b *man/binnedplot.Rd
 ce4a636e3cabb7e8ab9c0967077ca36d *man/coefplot.Rd
