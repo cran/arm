@@ -1,12 +1,12 @@
-8b88686b6cd0f054a7acc64747eb9939 *CHANGELOG
+5c3809628cad40d073c9c51c3fd01f5d *CHANGELOG
 80d5280342ccaa1edf2a4b1c87a47d94 *COPYING.LIB
-60a5cb0cbafa9e0eaebe411299307d1a *DESCRIPTION
+85794c76ab185174f9ae44eb7b85a366 *DESCRIPTION
 6970c12565bda7c3cfbf0088606a6d04 *NAMESPACE
 dd22c130a335be6db33dd5c5a5b5dc72 *R/AllClass.R
 f2cdb7782096f0f5148f9980fcb26112 *R/AllGeneric.R
 1aa6c6ca0b75207163aed1c1f2abcb29 *R/AllInternal.R
 d35bd2a081cc1f1ca5af71b206bb17cb *R/balance.R
-74e1f5d2343db283af544741584782c6 *R/bayesglm.R
+9bbda442796cbee67e91bbc02596295b *R/bayesglm.R
 054bbff33242f6e4bd26a9f7990207b1 *R/bayesglm.h.R
 280eda815dff4d7e26467b0c4a9c1eab *R/bayespolr.R
 39cf3881649f24cc1a9b6764144fe469 *R/binnedplot.R
@@ -23,7 +23,7 @@ a5b68ad1b3ac99f2cd737e2e640fe78c *R/discrete.histogram.R
 26f9a0e44dededc7181e3eec6ecd3e84 *R/load.first.R
 8db68f019ae5bdd6ae103328db51a832 *R/matching.R
 38155a78b50c9a9559221161b361f575 *R/mcsamp.R
-f2b625548f5db60232effdf6f235282d *R/model.matrix.bayes.R
+c560fa2f9ff1eb9fab3ff7c0b155d941 *R/model.matrix.bayes.R
 6d6bc7861c1f13930bfa36044b8c0ca4 *R/multicomp.plot.R
 bcf237b4f9940d6b8da304a403cc3a99 *R/rescale.R
 0eb80aef5e725716ee52fafa50654820 *R/residual.plot.R
