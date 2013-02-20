@@ -1,8 +1,7 @@
-ef44d8a2323cc728666a1f9a7064adf4 *CHANGELOG
-80d5280342ccaa1edf2a4b1c87a47d94 *COPYING.LIB
-19c2f726085c6f6046d8e196ad81e1d2 *DESCRIPTION
+ba7be2dcd973886010145b43b2ff0d27 *CHANGELOG
+804bc3336b9b4238b84273cad458374d *DESCRIPTION
 6970c12565bda7c3cfbf0088606a6d04 *NAMESPACE
-dd22c130a335be6db33dd5c5a5b5dc72 *R/AllClass.R
+9e3a01c44825a47c9d25723c9289d7bb *R/AllClass.R
 f2cdb7782096f0f5148f9980fcb26112 *R/AllGeneric.R
 1aa6c6ca0b75207163aed1c1f2abcb29 *R/AllInternal.R
 d35bd2a081cc1f1ca5af71b206bb17cb *R/balance.R
@@ -11,11 +10,11 @@ d35bd2a081cc1f1ca5af71b206bb17cb *R/balance.R
 280eda815dff4d7e26467b0c4a9c1eab *R/bayespolr.R
 39cf3881649f24cc1a9b6764144fe469 *R/binnedplot.R
 ea472776a3ab1e6c9a439409e68c8cfe *R/coef.R
-04455e895f65059725561dce200db4b4 *R/coefplot.R
+a012a9e1014899bac761bd1b6103205e *R/coefplot.R
 87ff45a243d955c0d0d3bd8af50a3f2f *R/contrasts.bayes.R
 4933fc24c60bb950e1eab5ae8c759d97 *R/corrplot.R
 a5b68ad1b3ac99f2cd737e2e640fe78c *R/discrete.histogram.R
-64a8346413bbbe9662e60fdf5bb0c46d *R/display.R
+e79fc671bb29899ff5c10323b4741ced *R/display.R
 8e9b394400a6ee18d2597eb6c9dac660 *R/extractDIC.R
 069a7f96fbba5b80380d6bc90aa766be *R/fround.R
 9e1dc642876804773d8d9e56c6fde116 *R/go.R
@@ -43,7 +42,7 @@ ce4a636e3cabb7e8ab9c0967077ca36d *man/coefplot.Rd
 a1b8750a84af242a5317ab317b2c9fbd *man/contrasts.bayes.Rd
 31accba9d79c6a08c0a871aab1d36ecc *man/corrplot.Rd
 acfcf2417615be0009295eb0dec52461 *man/discrete.histogram.Rd
-8711e08faf8dfe1f0f2fd9657e15b703 *man/display.Rd
+c679f8d18086a11e22e7845644225d0d *man/display.Rd
 2cf6783be00c7ef1b92d640f2b231ece *man/extractDIC.mer.Rd
 f369ae9b94cbafa6783974a219d98cde *man/fround.Rd
 2f96eecdbd14cd8ce4caa733f383b828 *man/go.Rd
