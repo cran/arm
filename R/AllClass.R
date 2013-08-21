@@ -3,6 +3,7 @@ setOldClass("mcmc.list")
 setOldClass("polr")
 setOldClass("bugs")
 setOldClass("svyglm")
+#setOldClass("merMod")
 
 setClass("balance",
      representation(
@@ -81,11 +82,18 @@ setClass("sim.polr",
 
 
 
-setClass("sim.mer",
+#setClass("sim.mer",
+#     representation(
+#            fixef = "matrix",
+#            ranef = "list",
+#            sigma = "ANY")
+#)
+
+setClass("GO")
+
+setClass("sim.merMod",
      representation(
             fixef = "matrix",
             ranef = "list",
             sigma = "ANY")
 )
-
-setClass("GO")
