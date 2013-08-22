@@ -139,6 +139,13 @@ n <- NULL
 }
 
 
+.weights.default <- function (object, ...) 
+{
+    wts <- object$weights
+    if (is.null(wts)) 
+        wts
+    else napredict(object$na.action, wts)
+}
 
 #.sweep.inv <- function(G){
 #  # sweeps a symmetric matrix on all positions

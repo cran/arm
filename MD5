@@ -1,11 +1,11 @@
-ffd8321741fd7c7be1b305b7f5ecabbb *CHANGELOG
-6d3c3ad5e5cefef952da2dc0b69f2a9c *DESCRIPTION
-4bfd62fdfbeeab5374b16e46e4039ff2 *NAMESPACE
+53330f32507cce1748331f03d62877e1 *CHANGELOG
+27c0e88e35684383087195c23b4a4d7b *DESCRIPTION
+4995fec8bd56eb7ee30f08b873d80dd8 *NAMESPACE
 9e3a01c44825a47c9d25723c9289d7bb *R/AllClass.R
 817c164816e8d83eeabea44eb058de07 *R/AllGeneric.R
-1aa6c6ca0b75207163aed1c1f2abcb29 *R/AllInternal.R
+a2c62bf06a9a76dc6965d8f435f471ec *R/AllInternal.R
 d35bd2a081cc1f1ca5af71b206bb17cb *R/balance.R
-0ded0fdc87cb9e6306bdb6cb0774c9f4 *R/bayesglm.R
+d7fae7483c6031075822143eeee7d1c4 *R/bayesglm.R
 054bbff33242f6e4bd26a9f7990207b1 *R/bayesglm.h.R
 280eda815dff4d7e26467b0c4a9c1eab *R/bayespolr.R
 39cf3881649f24cc1a9b6764144fe469 *R/binnedplot.R
@@ -32,7 +32,7 @@ ebd88f0b5b04aa9ce33537c85f185106 *R/sigma.hat.R
 fc71b369b7c6518bfd78eba1e5c9f88d *R/sim.R
 3c1adba63db18f4b46a9484e474ae6cc *R/simmer.R
 5494e9d42933e7e1e70ac9d2300a868f *R/standardize.R
-1a4aa3d217b078a74beb9035a81c9351 *R/traceplot.R
+6ce64fc6e9ddf6a320b473dd6965ecc7 *R/traceplot.R
 d3851be90c543181999c913abc32f88e *R/triangleplot.R
 12e52a54f9a2b2aa85f8162365ecce7c *data/lalonde.rda
 54284ad057b236cb94043035813afd3a *man/balance.Rd
