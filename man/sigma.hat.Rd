@@ -26,7 +26,7 @@ sigma.hat(object,\dots)
 }
 
 \arguments{
-  \item{object}{any fitted model object of \code{lm}, \code{glm} and \code{mer} class}
+  \item{object}{any fitted model object of \code{lm}, \code{glm} and \code{merMod} class}
   \item{\dots}{other arguments}
 }
 

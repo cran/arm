@@ -27,7 +27,7 @@ display (object, ...)
 }
 
 \arguments{
-  \item{object}{The output of a call to lm, glm, merMod, polr, svyglm or related regressions 
+  \item{object}{The output of a call to lm, glm, mer, polr, svyglm or related regressions 
     function with n data points and k predictors.}
   \item{...}{further arguments passed to or from other methods.}
   \item{digits}{number of significant digits to display.}
@@ -35,7 +35,7 @@ display (object, ...)
   }
 
 \details{This generic function gives a
-    clean printout of lm, glm, merMod and polr objects, focusing 
+    clean printout of lm, glm, mer and polr objects, focusing 
     on the most pertinent pieces of information: 
     the coefficients and their standard errors, the sample size, 
     number of predictors, residual standard deviation, and R-squared.
@@ -100,19 +100,19 @@ display (object, ...)
 
    M1 <- lm (y1 ~ x)
    display (M1)
-   #M1.sim <- sim(M1, n.sims=2)  
+   M1.sim <- sim(M1, n.sims=2)  
 
 # display a simple logit model
 
    M2 <- glm (y2 ~ x, family=binomial(link="logit"))
    display (M2)
-   #M2.sim <- sim(M2, n.sims=2)  
+   M2.sim <- sim(M2, n.sims=2)  
 
 # Then fit and display a simple varying-intercept model:
  
    M3 <- lmer (y1 ~ x + (1|group))
    display (M3)
-   #M3.sim <- sim(M3, n.sims=2)  
+   M3.sim <- sim(M3, n.sims=2)  
 
 
 # Then the full varying-intercept, varying-slope model:

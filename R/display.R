@@ -215,6 +215,7 @@ setMethod("display", signature(object = "glm"),
 #)
 
 
+
 setMethod("display", signature(object = "merMod"),
     function(object, digits=2, detail=FALSE)
     {
@@ -275,6 +276,7 @@ setMethod("display", signature(object = "merMod"),
     return(invisible(out))
     }
 )
+
 
 
 setMethod("display", signature(object = "polr"),

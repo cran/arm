@@ -2,20 +2,21 @@
 %\docType{genericFunction}
 \alias{extractDIC}
 \alias{extractDIC.merMod}
-%\alias{extractAIC.mer}
+\alias{extractAIC.merMod}
 
 \title{
-Extract DIC from a \code{merMod} model
+Extract AIC and DIC from a mer model
 }
 
 \description{
- Computes the (generalized) *D*eviance *I*nformation *C*riterion for a \code{merMod} model.
+ Computes the (generalized) Akaike *A*n *I*nformation *C*riterion 
+ and *D*eviance *I*nformation *C*riterion for a mer model.
 }
 \usage{
 extractDIC(fit,\dots)
-\S3method{extractDIC}{merMod}(fit,\dots)
+\method{extractDIC}{merMod}(fit,\dots)
 
-%\method{extractAIC}{mer}(fit,\dots)
+%\method{extractAIC}{merMod}(fit,\dots)
 }
 
 \arguments{
@@ -32,7 +33,7 @@ extractDIC(fit,\dots)
 
 \examples{
 fm1 <- lmer(Reaction ~ Days + (Days|Subject), sleepstudy)
-AIC(fm1)
+extractAIC(fm1)
 extractDIC(fm1)
 }
 

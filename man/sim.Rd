@@ -22,7 +22,7 @@
 \description{
 This generic function gets posterior simulations of sigma and beta from a \code{lm} object, or
 simulations of beta from a \code{glm} object, or
-simulations of beta from a \code{mer} object
+simulations of beta from a \code{merMod} object
 }
 
 \usage{
@@ -54,8 +54,7 @@ sim(object, ...)
 \value{
   \item{coef}{matrix (dimensions n.sims x k) of n.sims random draws of coefficients.}
   \item{zeta}{matrix (dimensions n.sims x k) of n.sims random draws of zetas (cut points in polr).}
-  \item{fixef}{matrix (dimensions n.sims x k) of n.sims random draws of coefficients 
-    of the fixed effects for the \code{mer} objects. Previously, it is called \code{unmodeled}.}
+  \item{fixef}{matrix (dimensions n.sims x k) of n.sims random draws of coefficients     of the fixed effects for the \code{merMod} objects. Previously, it is called \code{unmodeled}.}
   \item{sigma}{vector of n.sims random draws of sigma
   (for \code{glm}'s, this just returns a vector of 1's or else of the
   square root of the overdispersion parameter if that is in the model)}
@@ -148,12 +147,12 @@ coefall.sim <- coef(M.plr)
  y <- rbinom (n, 1, invlogit (a[group] + b*x))
  E3 <- glmer (y ~ x + (1 | group), family=binomial(link="logit"))
  display(E3)
- #E3.sim <- sim (E3)
- #coef.E3.sim <- coef(E3.sim)
- #fixef.E3.sim <- fixef(E3.sim)
- #ranef.E3.sim <- ranef(E3.sim)
- #sigma.E3.sim <- sigma.hat(E3.sim)
- #yhat <- fitted(E3.sim, E3)
+ E3.sim <- sim (E3)
+ coef.E3.sim <- coef(E3.sim)
+ fixef.E3.sim <- fixef(E3.sim)
+ ranef.E3.sim <- ranef(E3.sim)
+ sigma.E3.sim <- sigma.hat(E3.sim)
+ yhat <- fitted(E3.sim, E3)
 }
 
 \keyword{models}

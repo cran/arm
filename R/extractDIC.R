@@ -1,3 +1,5 @@
+
+
 extractDIC <- function(fit,...){
   UseMethod("extractDIC")
 }

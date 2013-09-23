@@ -24,7 +24,7 @@ se.ranef (object)
 }
 
 \arguments{
-  \item{object}{object of \code{lm}, \code{glm} and \code{mer} fit}
+  \item{object}{object of \code{lm}, \code{glm} and \code{merMod} fit}
   \item{\dots}{other arguments}
 }
 \value{

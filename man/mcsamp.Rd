@@ -3,7 +3,7 @@
 \alias{mcsamp}
 \alias{mcsamp.default}
 \alias{mcsamp,merMod-method}
-%\alias{mcsamp,glmerMod-method}
+%\alias{mcsamp,glmer-method}
 
 \title{Generic Function to Run mcmcsamp() in lme4}
 
@@ -16,7 +16,7 @@
     n.thin=max(1, floor(n.chains * (n.iter - n.burnin)/1000)), 
     saveb=TRUE, deviance=TRUE, make.bugs.object=TRUE)
 \S4method{mcsamp}{merMod} (object, ...)
-%\S4method{mcsamp}{glmerMod} (object, ...)
+%\S4method{mcsamp}{glmer} (object, ...)
 }
 
 \arguments{
