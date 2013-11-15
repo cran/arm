@@ -1,8 +1,8 @@
-179d3f6a8d1654444ce29b6917b86d5c *CHANGELOG
-cda2c48b5738af01834393130c721543 *DESCRIPTION
-bcc9e7ad09f69432c56842b61fe7e4d4 *NAMESPACE
+970e0058936a34270dcac41576387eee *CHANGELOG
+41411b832be658301750e437689056ff *DESCRIPTION
+5155d322d71b51a40d3858517670d5b6 *NAMESPACE
 df99a0be1f7702e22980626c8c9c6336 *R/AllClass.R
-f8c59d1a402fd97f0dadfede4d8f3d02 *R/AllGeneric.R
+d15ab8cdba3772f8a09a7e5965686d3f *R/AllGeneric.R
 a2c62bf06a9a76dc6965d8f435f471ec *R/AllInternal.R
 d35bd2a081cc1f1ca5af71b206bb17cb *R/balance.R
 d7fae7483c6031075822143eeee7d1c4 *R/bayesglm.R
@@ -22,12 +22,12 @@ a5b68ad1b3ac99f2cd737e2e640fe78c *R/discrete.histogram.R
 78c23bf2f0dd152a68a264805111053b *R/invlogit.R
 26f9a0e44dededc7181e3eec6ecd3e84 *R/load.first.R
 8db68f019ae5bdd6ae103328db51a832 *R/matching.R
-40c0c16417c27d518ea9268dd8bb3686 *R/mcsamp.R
+df9287e969f74e2947f9e0e5b19d26fc *R/mcsamp.R
 c560fa2f9ff1eb9fab3ff7c0b155d941 *R/model.matrix.bayes.R
 6d6bc7861c1f13930bfa36044b8c0ca4 *R/multicomp.plot.R
 bcf237b4f9940d6b8da304a403cc3a99 *R/rescale.R
 0eb80aef5e725716ee52fafa50654820 *R/residual.plot.R
-7394de5867ec10f247376db5b9e1e528 *R/se.coef.R
+b2c045448ef2d771b1213b48d09f01b4 *R/se.coef.R
 f79d7ffafea6241898f499ee753df203 *R/sigma.hat.R
 fc71b369b7c6518bfd78eba1e5c9f88d *R/sim.R
 7e0aa554842a03662d9369f61bd602af *R/simmer.R
