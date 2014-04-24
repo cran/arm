@@ -1,11 +1,11 @@
-970e0058936a34270dcac41576387eee *CHANGELOG
-41411b832be658301750e437689056ff *DESCRIPTION
+738a3f80df5e27be4609009a04054022 *CHANGELOG
+17eb1c0aa89c6626a33a8ecb20d9d142 *DESCRIPTION
 5155d322d71b51a40d3858517670d5b6 *NAMESPACE
 df99a0be1f7702e22980626c8c9c6336 *R/AllClass.R
 d15ab8cdba3772f8a09a7e5965686d3f *R/AllGeneric.R
 a2c62bf06a9a76dc6965d8f435f471ec *R/AllInternal.R
 d35bd2a081cc1f1ca5af71b206bb17cb *R/balance.R
-d7fae7483c6031075822143eeee7d1c4 *R/bayesglm.R
+d0051e18b15ca95911b2013abd5abfbb *R/bayesglm.R
 054bbff33242f6e4bd26a9f7990207b1 *R/bayesglm.h.R
 280eda815dff4d7e26467b0c4a9c1eab *R/bayespolr.R
 39cf3881649f24cc1a9b6764144fe469 *R/binnedplot.R
@@ -16,7 +16,7 @@ a012a9e1014899bac761bd1b6103205e *R/coefplot.R
 a5b68ad1b3ac99f2cd737e2e640fe78c *R/discrete.histogram.R
 6862a9391aeb68eab9ec6855298ab860 *R/display.R
 74c65898e73cd54baa81e8aed4bbf781 *R/extractDIC.R
-17dee19966ee30bfaaaf65244888af88 *R/fitted.R
+86d4144019e8e89a2190813f8b557910 *R/fitted.R
 069a7f96fbba5b80380d6bc90aa766be *R/fround.R
 9e1dc642876804773d8d9e56c6fde116 *R/go.R
 78c23bf2f0dd152a68a264805111053b *R/invlogit.R
@@ -30,7 +30,7 @@ bcf237b4f9940d6b8da304a403cc3a99 *R/rescale.R
 b2c045448ef2d771b1213b48d09f01b4 *R/se.coef.R
 f79d7ffafea6241898f499ee753df203 *R/sigma.hat.R
 fc71b369b7c6518bfd78eba1e5c9f88d *R/sim.R
-7e0aa554842a03662d9369f61bd602af *R/simmer.R
+ac062a15d734353b57d0626121c3e577 *R/simmer.R
 ccd813b440101e320bbdeabc36c61a0e *R/standardize.R
 61bb3cf33b95254095529939f3a6fbd9 *R/traceplot.R
 d3851be90c543181999c913abc32f88e *R/triangleplot.R
@@ -57,7 +57,7 @@ c1d2330f842bb2e92ee2a2a855fdb9c2 *man/rescale.Rd
 ac82073046f893e37c9500741a39014d *man/residual.plot.Rd
 e467c0efc956d30c7fb9a33343a4dc04 *man/se.coef.Rd
 841c8c1027188518a2ed09ba09e737fa *man/sigma.hat.Rd
-230380432b6b1098e2fff02a10281ffa *man/sim.Rd
+2e9d78b6d57c14dd5ff69d22ecb3c425 *man/sim.Rd
 cf4f3997a5abff3ab48630e9f4c40113 *man/standardize.Rd
 07b3cc5e1f04ce3a1bd2791fefe502cf *man/traceplot.Rd
 66635f3bc271935f08bdb626869ebbf5 *man/triangleplot.Rd
