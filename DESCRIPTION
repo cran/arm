@@ -1,6 +1,6 @@
 Package: arm
-Version: 1.7-02
-Date: 2014-4-24
+Version: 1.7-03
+Date: 2014-4-27
 Title: Data Analysis Using Regression and Multilevel/Hierarchical
         Models
 Authors@R: c(person("Andrew", "Gelman", role = "aut", email = "gelman@stat.columbia.edu"),
@@ -27,7 +27,7 @@ Suggests: R2WinBUGS, foreign
 Description: R functions for processing lm, glm, svy.glm, merMod and polr outputs.
 URL: http://CRAN.R-project.org/package=arm
 License: GPL (>= 2)
-Packaged: 2014-04-24 09:50:14 UTC; suyusung
+Packaged: 2014-04-27 02:59:48 UTC; suyusung
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2014-04-24 13:14:48
+Date/Publication: 2014-04-27 08:39:40
