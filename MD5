@@ -1,11 +1,11 @@
-3ff1d33948d75f58759d68f23ea8514c *CHANGELOG
-998348ca935765a588759ea2bbe49aa2 *DESCRIPTION
-5155d322d71b51a40d3858517670d5b6 *NAMESPACE
+643899a7170994b26e9992279eb14157 *CHANGELOG
+0f8763d633be87b5ebb913aa44fb320e *DESCRIPTION
+866badc13f56a890365da22b70b4e351 *NAMESPACE
 df99a0be1f7702e22980626c8c9c6336 *R/AllClass.R
-d15ab8cdba3772f8a09a7e5965686d3f *R/AllGeneric.R
+692abd8a2b7c24531f940b899388a588 *R/AllGeneric.R
 a2c62bf06a9a76dc6965d8f435f471ec *R/AllInternal.R
 d35bd2a081cc1f1ca5af71b206bb17cb *R/balance.R
-3230a606f1719391dba41f42458c07d3 *R/bayesglm.R
+db32b9b21316f579acb57531dded1289 *R/bayesglm.R
 054bbff33242f6e4bd26a9f7990207b1 *R/bayesglm.h.R
 280eda815dff4d7e26467b0c4a9c1eab *R/bayespolr.R
 39cf3881649f24cc1a9b6764144fe469 *R/binnedplot.R
@@ -13,7 +13,7 @@ d35bd2a081cc1f1ca5af71b206bb17cb *R/balance.R
 a012a9e1014899bac761bd1b6103205e *R/coefplot.R
 87ff45a243d955c0d0d3bd8af50a3f2f *R/contrasts.bayes.R
 4933fc24c60bb950e1eab5ae8c759d97 *R/corrplot.R
-a5b68ad1b3ac99f2cd737e2e640fe78c *R/discrete.histogram.R
+004bf778675992949bc419bcdcf21382 *R/discrete.histogram.R
 4590f24b27f18002dde6022ed0a22096 *R/display.R
 74c65898e73cd54baa81e8aed4bbf781 *R/extractDIC.R
 86d4144019e8e89a2190813f8b557910 *R/fitted.R
@@ -25,11 +25,12 @@ a5b68ad1b3ac99f2cd737e2e640fe78c *R/discrete.histogram.R
 df9287e969f74e2947f9e0e5b19d26fc *R/mcsamp.R
 c560fa2f9ff1eb9fab3ff7c0b155d941 *R/model.matrix.bayes.R
 6d6bc7861c1f13930bfa36044b8c0ca4 *R/multicomp.plot.R
+7d0f269ea12f242f4d43e3661f68396e *R/readColumns.R
 bcf237b4f9940d6b8da304a403cc3a99 *R/rescale.R
 0eb80aef5e725716ee52fafa50654820 *R/residual.plot.R
 b2c045448ef2d771b1213b48d09f01b4 *R/se.coef.R
 f79d7ffafea6241898f499ee753df203 *R/sigma.hat.R
-fc71b369b7c6518bfd78eba1e5c9f88d *R/sim.R
+e8650050285c43da44f07bef80cd31f5 *R/sim.R
 ac062a15d734353b57d0626121c3e577 *R/simmer.R
 ccd813b440101e320bbdeabc36c61a0e *R/standardize.R
 61bb3cf33b95254095529939f3a6fbd9 *R/traceplot.R
@@ -42,7 +43,7 @@ ebcb240293af88f21122a5edde46d44b *man/binnedplot.Rd
 ce4a636e3cabb7e8ab9c0967077ca36d *man/coefplot.Rd
 a1b8750a84af242a5317ab317b2c9fbd *man/contrasts.bayes.Rd
 31accba9d79c6a08c0a871aab1d36ecc *man/corrplot.Rd
-acfcf2417615be0009295eb0dec52461 *man/discrete.histogram.Rd
+9449fa9d48406131a6bb36c55abc02fa *man/discrete.histogram.Rd
 71fb3d77fdaacc5b46ace05c2b41f778 *man/display.Rd
 3ef05ec1645782c29c22411ffbbaf3d8 *man/extractDIC.mer.Rd
 f369ae9b94cbafa6783974a219d98cde *man/fround.Rd
@@ -53,6 +54,7 @@ c845a70394bc4cbb0529b5a88caa9a2a *man/lalonde.Rd
 2fc0fce43f0ed58ad4c8a2ae41f6a425 *man/mcsamp.Rd
 ff9f47aaeffe635c3102c228aaf2652d *man/model.matrix.bayes.Rd
 376bfc9dc58f842bd9bfa599efdbc7dc *man/multicomp.plot.Rd
+36a4b93b16160c3659bf8379d32d2abb *man/readColumns.Rd
 c1d2330f842bb2e92ee2a2a855fdb9c2 *man/rescale.Rd
 ac82073046f893e37c9500741a39014d *man/residual.plot.Rd
 e467c0efc956d30c7fb9a33343a4dc04 *man/se.coef.Rd
