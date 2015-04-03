@@ -15,7 +15,7 @@ setMethod("sim", signature(object = "lm"),
     dimnames(beta) <- list (NULL, rownames(beta.hat))
     for (s in 1:n.sims){
       sigma[s] <- sigma.hat*sqrt((n-k)/rchisq(1,n-k))
-      beta[s,] <- mvrnorm (1, beta.hat, V.beta*sigma[s]^2)
+      beta[s,] <- MASS::mvrnorm (1, beta.hat, V.beta*sigma[s]^2)
     }
 
     ans <- new("sim",
@@ -43,7 +43,7 @@ setMethod("sim", signature(object = "glm"),
     beta <- array (NA, c(n.sims,k))
     dimnames(beta) <- list (NULL, dimnames(beta.hat)[[1]])
     for (s in 1:n.sims){
-      beta[s,] <- mvrnorm (1, beta.hat, V.beta)
+      beta[s,] <- MASS::mvrnorm (1, beta.hat, V.beta)
     }
     # Added by Masanao
     beta2 <- array (0, c(n.sims,length(coefficients(object))))
@@ -72,9 +72,9 @@ setMethod("sim", signature(object = "polr"),
   Sigma <- vcov(object)
 
   if(n.sims==1){
-    parameters <- t(mvrnorm(n.sims, c(coefs, zeta), Sigma))
+    parameters <- t(MASS::mvrnorm(n.sims, c(coefs, zeta), Sigma))
   }else{
-    parameters <- mvrnorm(n.sims, c(coefs, zeta), Sigma)
+    parameters <- MASS::mvrnorm(n.sims, c(coefs, zeta), Sigma)
   }
   ans <- new("sim.polr",
               coef = parameters[,1:k,drop=FALSE],

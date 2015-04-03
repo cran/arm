@@ -6,7 +6,7 @@
 \alias{traceplot,bugs-method}
 
 
-\title{Trace plot of bugs object}
+\title{Trace plot of \sQuote{bugs} object}
 
 \usage{
 \S4method{traceplot}{bugs}( x, mfrow = c( 1, 1 ), varname = NULL,

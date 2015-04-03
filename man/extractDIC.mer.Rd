@@ -5,7 +5,7 @@
 \alias{extractAIC.merMod}
 
 \title{
-Extract AIC and DIC from a mer model
+Extract AIC and DIC from a \sQuote{mer} model
 }
 
 \description{

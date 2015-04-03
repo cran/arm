@@ -23,7 +23,7 @@
 bayesglm (formula, family = gaussian, data,
     weights, subset, na.action,
     start = NULL, etastart, mustart,
-    offset, control = glm.control(...),
+    offset, control = list(...),
     model = TRUE, method = "glm.fit",
     x = FALSE, y = TRUE, contrasts = NULL,
     drop.unused.levels = TRUE,
@@ -35,14 +35,15 @@ bayesglm (formula, family = gaussian, data,
     prior.df.for.intercept = 1,
     min.prior.scale=1e-12,
     scaled = TRUE, keep.order=TRUE,
-    drop.baseline=TRUE, n.iter = 100,
+    drop.baseline=TRUE,
+    maxit=100, 
     print.unnormalized.log.posterior=FALSE,
     Warning=TRUE,...)
 
 bayesglm.fit (x, y, weights = rep(1, nobs),
     start = NULL, etastart = NULL,
     mustart = NULL, offset = rep(0, nobs), family = gaussian(),
-    control = glm.control(), intercept = TRUE,
+    control = list(), intercept = TRUE,
     prior.mean = 0,
     prior.scale = NULL,
     prior.df = 1,
@@ -169,7 +170,7 @@ bayesglm.fit (x, y, weights = rep(1, nobs),
 
   \item{drop.baseline}{Drop the base level of categorical x's, default is TRUE.}
 
-  \item{n.iter}{default is 100.}
+  \item{maxit}{integer giving the maximal number of IWLS iterations, default is 100. This can also be controlled by \code{control}.}
   \item{print.unnormalized.log.posterior}{display the unnormalized log posterior likelihood for bayesglm, default=FALSE}
   \item{Warning}{default is TRUE, which will show the error messages of not convergence and separation.}
   \item{\dots}{further arguments passed to or from other methods.}

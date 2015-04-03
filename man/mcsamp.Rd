@@ -5,7 +5,7 @@
 \alias{mcsamp,merMod-method}
 %\alias{mcsamp,glmer-method}
 
-\title{Generic Function to Run mcmcsamp() in lme4}
+\title{Generic Function to Run \sQuote{mcmcsamp()} in lme4}
 
 \description{
     The quick function for MCMC sampling for

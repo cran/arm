@@ -28,7 +28,7 @@
   \code{DehejiaWahba}, replicates one of the models from Dehejia and
   Wahba (1999).  The second demo, \code{AbadieImbens}, replicates the
   models produced by Abadie and Imbens
-  \url{http://elsa.berkeley.edu/~imbens/matlab/lalonde_exper_04feb2.m}.
+  \url{http://scholar.harvard.edu/imbens/scholar_software/matching-estimators}.
   Many of these models are found to produce good balance for the Lalonde
   data.
   }
@@ -40,7 +40,7 @@
 
   LaLonde, Robert. 1986.  ``Evaluating the Econometric Evaluations of
   Training Programs.''  \emph{American Economic Review} 76:604-620.
-} 
+}
 
 \note{This documentation is adapted from \code{Matching} package.}
 

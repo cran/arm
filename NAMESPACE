@@ -16,7 +16,10 @@ importFrom(stats,
 
 importFrom(coda, "traceplot")
 
-importFrom(MASS, "polr")
+importFrom(MASS, 
+            "polr", 
+            "mvrnorm"
+)
 
 importFrom(methods, "setOldClass")
 

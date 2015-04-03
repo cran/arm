@@ -1,3 +1,9 @@
+2015-3-31 Yu-Sung Su     <suyusung@tsinghua.edu.cn>
+   * DESCRIPTION (Version, Date): 1.8-03
+   * R/bayesglm: revert back to a more straightforward coding, easier for debugging.
+   * R/bayespolr: check n.iter to maxit, and pass it through control.
+
+
 2014-8-27 Yu-Sung Su     <suyusung@tsinghua.edu.cn>
    * DESCRIPTION (Version, Date): 1.7-07
    * R/readColumns: add read.columns()
