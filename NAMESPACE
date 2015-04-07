@@ -9,15 +9,21 @@ importFrom(Matrix,
 
 importFrom(stats,
       "coef",
+      "fitted",
       "napredict",
       ".getXlevels",
+      "predict",
       "model.frame"
 )
 
-importFrom(coda, "traceplot")
+importFrom(coda,
+    "nvar",
+    "varnames",
+    "nchain"
+)
 
-importFrom(MASS, 
-            "polr", 
+importFrom(MASS,
+            "polr",
             "mvrnorm"
 )
 
@@ -25,7 +31,9 @@ importFrom(methods, "setOldClass")
 
 importFrom(nlme,
       "fixef",
-      "ranef"
+      "ranef",
+      "VarCorr"
+
 )
 
 importFrom(lme4,
@@ -37,38 +45,28 @@ importFrom(lme4,
 importFrom(abind, "abind")
 
 
-#importMethodsFrom(Matrix, "%*%")
-
 
 exportClasses(
               "balance",
               "bayesglm",
-              #"bayesglm.h",
               "bayespolr",
               "sim",
               "sim.merMod"
               )
 
 exportMethods(
-              "coef",
               "coefplot",
               "display",
-              "fixef",
-              "fitted",
               "mcsamp",
-              #"model.matrix.bayes",
               "se.coef",
               "sim",
-              "sigma.hat",
               "print",
-              "ranef",
               "show",
               "standardize",
               "traceplot"
               )
 
 export(
-#       "extractAIC",
        "extractDIC",
        "balance",
        "bayesglm",
@@ -95,7 +93,6 @@ export(
        "multicomp.plot",
        "mcplot",
        "pfround",
-       "predict.bayesglm",
        "read.columns",
        "rescale",
        "residual.plot",
@@ -104,13 +101,24 @@ export(
        "se.ranef",
        "sigma.hat",
        "sim",
+       "traceplot",
        "triangleplot"
 )
 
 
 S3method(extractDIC, merMod)
-#S3method(extractAIC, mer)
 S3method(print, GO)
 S3method(plot, balance)
 S3method(print, balance)
 S3method(predict, bayesglm)
+S3method(coef, sim)
+S3method(coef, sim.polr)
+S3method(coef, sim.merMod)
+S3method(fitted, sim.merMod)
+S3method(fixef, sim.merMod)
+S3method(ranef, sim.merMod)
+S3method(sigma.hat, lm)
+S3method(sigma.hat, glm)
+S3method(sigma.hat, merMod)
+S3method(sigma.hat, sim)
+S3method(sigma.hat, sim.merMod)

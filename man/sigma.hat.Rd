@@ -1,11 +1,11 @@
 \name{sigma.hat}
 %\docType{genericFunction}
 \alias{sigma.hat}
-\alias{sigma.hat,lm-method}
-\alias{sigma.hat,glm-method}
-\alias{sigma.hat,merMod-method}
-\alias{sigma.hat,sim-method}
-\alias{sigma.hat,sim.merMod-method}
+\alias{sigma.hat.lm}
+\alias{sigma.hat.glm}
+\alias{sigma.hat.merMod}
+\alias{sigma.hat.sim}
+\alias{sigma.hat.sim.merMod}
 
 
 
@@ -17,11 +17,11 @@
 \usage{
 sigma.hat(object,\dots)
 
-\S4method{sigma.hat}{lm}(object)
-\S4method{sigma.hat}{glm}(object)
-\S4method{sigma.hat}{merMod}(object)
-\S4method{sigma.hat}{sim}(object)
-\S4method{sigma.hat}{sim.merMod}(object)
+\method{sigma.hat}{lm}(object,\dots)
+\method{sigma.hat}{glm}(object,\dots)
+\method{sigma.hat}{merMod}(object,\dots)
+\method{sigma.hat}{sim}(object,\dots)
+\method{sigma.hat}{sim.merMod}(object,\dots)
 
 }
 
@@ -48,7 +48,7 @@ sigma.hat(object,\dots)
    mu.b <- 3
    sigma.b <- 4
    rho <- 0
-   Sigma.ab <- array (c(sigma.a^2, rho*sigma.a*sigma.b, 
+   Sigma.ab <- array (c(sigma.a^2, rho*sigma.a*sigma.b,
                     rho*sigma.a*sigma.b, sigma.b^2), c(2,2))
    sigma.y <- 1
    ab <- mvrnorm (10, c(mu.a,mu.b), Sigma.ab)
@@ -58,10 +58,10 @@ sigma.hat(object,\dots)
    x <- rnorm (100)
    y1 <- rnorm (100, a[group] + b[group]*x, sigma.y)
    y2 <- rbinom(100, 1, prob=invlogit(a[group] + b*x))
-   
-   M1 <- lm (y1 ~ x) 
+
+   M1 <- lm (y1 ~ x)
    sigma.hat(M1)
-   
+
    M2 <- bayesglm (y1 ~ x, prior.scale=Inf, prior.df=Inf)
    sigma.hat(M2) # should be same to sigma.hat(M1)
 
@@ -69,8 +69,8 @@ sigma.hat(object,\dots)
    sigma.hat(M3)
 
    M4 <- lmer (y1 ~ (1+x|group))
-   sigma.hat(M4) 
-   
+   sigma.hat(M4)
+
    M5 <- glmer (y2 ~ (1+x|group), family=binomial(link="logit"))
    sigma.hat(M5)
 

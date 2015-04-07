@@ -1,13 +1,8 @@
-#if (!isGeneric("bayesglm")) {
-#    setGeneric("bayesglm",
-#               function(formula, ...)
-#               standardGeneric("bayesglm"))
-#}
 
 
-setGeneric("coef")
-setGeneric("print")
-setGeneric("fitted")
+#setGeneric("coef")
+#setGeneric("print")
+#setGeneric("fitted")
 
 #setGeneric("extractAIC")
 
@@ -24,12 +19,6 @@ if (!isGeneric("display")) {
                standardGeneric("display"))
 }
 
-#if (!isGeneric("model.matrix.bayes")) {
-#    setGeneric("model.matrix.bayes",
-#               function(object, ...)
-#               standardGeneric("model.matrix.bayes"))
-#}
-#
 
 if (!isGeneric("sim")) {
     setGeneric("sim",
@@ -37,32 +26,16 @@ if (!isGeneric("sim")) {
                standardGeneric("sim"))
 }
 
-
-if (!isGeneric("sigma.hat")) {
-    setGeneric("sigma.hat",
-               function(object, ...)
-               standardGeneric("sigma.hat"))
+sigma.hat <- function(object,...){
+    UseMethod("sigma.hat")
 }
+
 
 if (!isGeneric("se.coef")) {
     setGeneric("se.coef",
                function(object, ...)
                standardGeneric("se.coef"))
 }
-
-if (!isGeneric("fixef")) {
-    setGeneric("fixef",
-               function(object, ...)
-               standardGeneric("fixef"),
-               useAsDefault = function(object, ...) nlme::fixef(object, ...))
-} 
-
-if (!isGeneric("ranef")) {
-    setGeneric("ranef",
-               function(object, ...)
-               standardGeneric("ranef"),
-               useAsDefault = function(object, ...) nlme::ranef(object, ...))
-} 
 
 
 if (!isGeneric("mcsamp")) {
@@ -88,9 +61,10 @@ if (!isGeneric("standardize")) {
 #}
 
 
+
 if (!isGeneric("traceplot")) {
     setGeneric("traceplot",
                function(x, ...)
                standardGeneric("traceplot"),
                useAsDefault = function(x, ...) coda::traceplot(x, ...))
-} 
+}

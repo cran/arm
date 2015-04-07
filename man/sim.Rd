@@ -7,12 +7,12 @@
 \alias{sim,glm-method}
 \alias{sim,polr-method}
 \alias{sim,merMod-method}
-\alias{coef,sim-method}
-\alias{coef,sim.polr-method}
-\alias{coef,sim.merMod-method}
-\alias{fixef,sim.merMod-method}
-\alias{ranef,sim.merMod-method}
-\alias{fitted,sim.merMod-method}
+\alias{coef.sim}
+\alias{coef.sim.polr}
+\alias{coef.sim.merMod}
+\alias{fixef.sim.merMod}
+\alias{ranef.sim.merMod}
+\alias{fitted.sim.merMod}
 
 
 
@@ -33,12 +33,12 @@ sim(object, ...)
 \S4method{sim}{polr}(object, n.sims = 100)
 \S4method{sim}{merMod}(object, n.sims = 100)
 
-\S4method{coef}{sim}(object)
-\S4method{coef}{sim.polr}(object, slot=c("ALL", "coef", "zeta"))
-\S4method{coef}{sim.merMod}(object)
-\S4method{fixef}{sim.merMod}(object)
-\S4method{ranef}{sim.merMod}(object)
-\S4method{fitted}{sim.merMod}(object, regression)
+\method{coef}{sim}(object,\dots)
+\method{coef}{sim.polr}(object, slot=c("ALL", "coef", "zeta"),\dots)
+\method{coef}{sim.merMod}(object,\dots)
+\method{fixef}{sim.merMod}(object,\dots)
+\method{ranef}{sim.merMod}(object,\dots)
+\method{fitted}{sim.merMod}(object, regression,\dots)
 
 
 }
@@ -76,7 +76,7 @@ sim(object, ...)
 }
 
 \examples{
-#Examples of "sim" 
+#Examples of "sim"
  set.seed (1)
  J <- 15
  n <- J*(J+1)/2
@@ -90,7 +90,7 @@ sim(object, ...)
  y <- rnorm (n, a[group] + b*x, sigma.y)
  u <- runif (J, 0, 3)
  y123.dat <- cbind (y, x, group)
-# Linear regression 
+# Linear regression
  x1 <- y123.dat[,2]
  y1 <- y123.dat[,1]
  M1 <- lm (y1 ~ x1)
@@ -101,8 +101,8 @@ sim(object, ...)
  ## to get the uncertainty for the simulated estimates
  apply(coef(M1.sim), 2, quantile)
  quantile(sigma.hat(M1.sim))
- 
-# Logistic regression 
+
+# Logistic regression
  u.data <- cbind (1:J, u)
  dimnames(u.data)[[2]] <- c("group", "u")
  u.dat <- as.data.frame (u.data)
@@ -113,11 +113,11 @@ sim(object, ...)
  coef.M2.sim <- coef(M2.sim)
  sigma.M2.sim <- sigma.hat(M2.sim)
 
-# Ordered Logistic regression 
+# Ordered Logistic regression
 house.plr <- polr(Sat ~ Infl + Type + Cont, weights = Freq, data = housing)
 display(house.plr)
 M.plr <- sim(house.plr)
-coef.sim <- coef(M.plr, slot="coef")   
+coef.sim <- coef(M.plr, slot="coef")
 zeta.sim <- coef(M.plr, slot="zeta")
 coefall.sim <- coef(M.plr)
 
@@ -143,7 +143,7 @@ coefall.sim <- coef(M.plr)
  sigma.E2.sim <- sigma.hat(E2.sim)
  yhat <- fitted(E2.sim, E2)
 
-# Example 3 
+# Example 3
  y <- rbinom (n, 1, invlogit (a[group] + b*x))
  E3 <- glmer (y ~ x + (1 | group), family=binomial(link="logit"))
  display(E3)

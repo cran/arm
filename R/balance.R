@@ -1,6 +1,6 @@
 balance <- function (rawdata, matched, pscore.fit, factor=TRUE)
 {
-    
+
     #int <- attr(terms(pscore.fit), "intercept")
     call.raw <- call.matched <- pscore.fit$call
     call.raw$data <- substitute(rawdata)
@@ -8,7 +8,7 @@ balance <- function (rawdata, matched, pscore.fit, factor=TRUE)
     if(!is.call(pscore.fit$call$formula)){
         call.raw$formula <- formula(terms(pscore.fit))
     }
-    
+
     if (!factor){
         form <- gsub("factor(", "", call.raw$formula, fixed = TRUE)
         form <- gsub(")", "", form, fixed = TRUE)
@@ -27,7 +27,7 @@ balance <- function (rawdata, matched, pscore.fit, factor=TRUE)
     treat.matched <- fit.matched$y
     pred.raw <- model.matrixBayes(fit.raw$formula, data=rawdata, keep.order=TRUE)
     pred.matched <- model.matrixBayes(fit.matched$formula, data=matched, keep.order=TRUE)
-    
+
     #if (int){
     #    pred.raw <- model.matrix(fit.raw)[,-1]
     #    pred.matched <- model.matrix(fit.matched)[,-1]
@@ -36,12 +36,12 @@ balance <- function (rawdata, matched, pscore.fit, factor=TRUE)
     #    pred.raw <- model.matrix(fit.raw)
     #    pred.matched <- model.matrix(fit.matched)
     #}
-    
+
     if(dim(pred.raw)[2]!=dim(pred.matched)[2])
         warnings("number of covariates of the raw data does not equal to
             that of the matched data! This might be due to the drop of
             factor levels.  Use factor=FALSE to proceed!")
-    
+
     raw.dat <- data.frame(pred.raw,treat=treat.raw)
     matched.dat <- data.frame(pred.matched,treat=treat.matched)
     covnames <- c(colnames(pred.matched),"treat")
@@ -61,7 +61,7 @@ balance <- function (rawdata, matched, pscore.fit, factor=TRUE)
     }
     dimnames(diff.means) <- list(covnames[-(K+1)],
         c("Treat","control","diff","diff.std","se","sd"))
-    
+
     # diff.means.matched.dat
     diff.means.matched=matrix(NA,K,6)
     for(i in 1:K){
@@ -76,7 +76,7 @@ balance <- function (rawdata, matched, pscore.fit, factor=TRUE)
     }
     dimnames(diff.means.matched) <- list(covnames[-(K+1)],
         c("Treat","control","diff","diff.std","se","sd"))
-    
+
     out <- list(diff.means.raw=diff.means,
       diff.means.matched=diff.means.matched, covnames=covnames)
     class(out) <- "balance"
@@ -111,27 +111,27 @@ plot.balance <- function(x, longcovnames=NULL,
 
   covnames <- x$covnames
   # prepare for plot use
-  
+
   est <- x$diff.means.raw[,3]
   sd <- x$diff.means.raw[,6]
   est2 <- x$diff.means.matched[,3]
   sd2 <- x$diff.means.matched[,6]
-  
+
   # x.range <- range (c(est,est2)/c(sd,sd2))
   # x.range[2] <- x.range[2] +.3
   # A <- -x.range[1]/(x.range[2]-x.range[1])
   # B <- 1/(x.range[2]-x.range[1])
   # pts <- A + B*(est/sd)              # before matched.dat
   # pts2 <- A + B*(est2/sd2)           # after macthed
-  
+
   pts <-  est/sd                      # before matched.dat
   pts2 <- est2/sd2                    # after macthed
   #x.range <- c(jitter(min(c(pts, pts2)),15), max(c(pts,pts2)+.105))
-  
-  
+
+
   # tune the graphic console
   #par (mar=mar, mgp=mgp, oma=oma, tcl=tcl)
-  
+
 
   par(mar = c(0, 3, 5.1, 2))
   if (is.null(longcovnames)) {
@@ -144,7 +144,7 @@ plot.balance <- function(x, longcovnames=NULL,
   min.mar <- par("mar")
   mar[2] <- min(min.mar[2], trunc(mar[2] + maxchar/10)) + mar[2] + 0.1
   par(mar = mar)
-  
+
   if(plot){
      # plot the estimates
      plot(c(pts,pts2), c(idx,idx),

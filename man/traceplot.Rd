@@ -12,7 +12,7 @@
 \S4method{traceplot}{bugs}( x, mfrow = c( 1, 1 ), varname = NULL,
   match.head = TRUE, ask = TRUE,
   col = rainbow( x$n.chains ),
-  lty = 1, lwd = 1, \dots) 
+  lty = 1, lwd = 1, \dots)
 }
 
 \arguments{
@@ -34,13 +34,13 @@ Displays a plot of iterations \emph{vs.} sampled values for each variable
 in the chain, with a separate plot per variable.
 }
 
-\author{ 
+\author{
   Masanao Yajima \email{yajima@stat.columbia.edu}.
   Yu-Sung Su \email{suyusung@tsinghua.edu.cn}
 }
 
 \seealso{
-   \code{\link[coda]{densplot}}, \code{\link[coda]{plot.mcmc}}, 
+   \code{\link[coda]{densplot}}, \code{\link[coda]{plot.mcmc}},
    \code{\link[coda]{traceplot}}
 }
 

@@ -1,3 +1,10 @@
+2015-4-7 Yu-Sung Su     <suyusung@tsinghua.edu.cn>
+   * DESCRIPTION (Version, Date): 1.8-4
+   * R/sigma.hat: sigma.hat changed to S3 function.
+   * R/fitted: changed to S3 function
+   * R/coef: coef, fixef, ranef, changed to S3 function
+
+
 2015-3-31 Yu-Sung Su     <suyusung@tsinghua.edu.cn>
    * DESCRIPTION (Version, Date): 1.8-03
    * R/bayesglm: revert back to a more straightforward coding, easier for debugging.
