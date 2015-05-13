@@ -1,3 +1,7 @@
+2015-5-3 Yu-Sung Su     <suyusung@tsinghua.edu.cn>
+   * DESCRIPTION (Version, Date): 1.8-5
+   * R/bayesglm: fix a missing line in the re-factorization of bayesglm.fit, when scaled=TRUE, and a column of X takes on more than two values, than prior.scale = prior.scale /(sd(x)*2).
+   
 2015-4-7 Yu-Sung Su     <suyusung@tsinghua.edu.cn>
    * DESCRIPTION (Version, Date): 1.8-4
    * R/sigma.hat: sigma.hat changed to S3 function.

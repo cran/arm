@@ -213,6 +213,7 @@ bayesglm.fit <- function (x, y, weights = rep(1, nobs), start = NULL, etastart =
             }else if(num.categories>2){
                 x.scale <- 2*sd(x.obs)
             }
+            prior.scale[j] <- prior.scale[j]/x.scale
             if(prior.scale[j] < min.prior.scale){
                 prior.scale[j] <- min.prior.scale
                 warning("prior scale for varible ", j,
