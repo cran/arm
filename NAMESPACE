@@ -1,20 +1,58 @@
+importFrom(graphics,
+    "abline",
+    "axis",
+    "box",
+    "image",
+    "layout",
+    "lines",
+    "par",
+    "plot",
+    "points",
+    "polygon",
+    "rect",
+    "segments",
+    "text",
+    "title")
+
+
+importFrom(grDevices,
+    "gray",
+    "heat.colors",
+    "rainbow")
+
+importFrom(methods,
+    "as",
+    "getMethod",
+    "new",
+    "setOldClass",
+    "signature")
+
+
+importFrom(utils,
+    "packageDescription",
+    "read.fwf")
+
+
+
 importFrom(Matrix,
       "t",
       "crossprod",
       "tcrossprod",
-      "colMeans"
+      "colMeans",
+      "Diagonal"
 )
-
-
 
 importFrom(stats,
-      "coef",
-      "fitted",
-      "napredict",
-      ".getXlevels",
-      "predict",
-      "model.frame"
-)
+    ".getXlevels",
+    ".checkMFClasses", "AIC", "as.formula", "binomial", "coefficients", "coef",
+    "contrasts<-", "cor", "dcauchy", "delete.response", "deviance", "dlogis",
+    "dnorm", "dt", "family", "fitted", "formula", "gaussian", "glm.control",
+    "is.empty.model", "lm.fit", "logLik", "model.extract", "model.frame", "model.matrix",
+    "model.matrix.default", "model.offset", "model.response", "model.weights",
+    "na.exclude", "na.omit", "na.pass", "napredict", "optim", "predict", "pcauchy",
+    "plogis", "pnorm",
+    "qt", "rchisq", "rgamma", "rnorm", "sd", "terms", "terms.formula", "var", "vcov")
+
 
 importFrom(coda,
     "nvar",
@@ -27,7 +65,6 @@ importFrom(MASS,
             "mvrnorm"
 )
 
-importFrom(methods, "setOldClass")
 
 importFrom(nlme,
       "fixef",

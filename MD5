@@ -1,6 +1,6 @@
-69e06443ad63323d723caf001ef9e526 *CHANGELOG
-c24b7a598c2f3695286aa1353d7dfabd *DESCRIPTION
-3ac6b78464fde500f50f39481a0f1066 *NAMESPACE
+f29d2fd209d49e986606c9f6709f55c2 *CHANGELOG
+38ee5a16a9d67ac5d671600618588336 *DESCRIPTION
+65218ca974d7aa5e0a42f99f4b6302ee *NAMESPACE
 df99a0be1f7702e22980626c8c9c6336 *R/AllClass.R
 de23b5716ddafb25fbb2abee086af892 *R/AllGeneric.R
 a2c62bf06a9a76dc6965d8f435f471ec *R/AllInternal.R
@@ -14,7 +14,7 @@ a012a9e1014899bac761bd1b6103205e *R/coefplot.R
 87ff45a243d955c0d0d3bd8af50a3f2f *R/contrasts.bayes.R
 041d95b04bf7fdb3dbee0fde2bfbe400 *R/corrplot.R
 004bf778675992949bc419bcdcf21382 *R/discrete.histogram.R
-4590f24b27f18002dde6022ed0a22096 *R/display.R
+7a7faa9a2bdbe892275d4ed1e5dc2755 *R/display.R
 74c65898e73cd54baa81e8aed4bbf781 *R/extractDIC.R
 01ed741d359e1ed07bf61a543b3889ac *R/fitted.R
 069a7f96fbba5b80380d6bc90aa766be *R/fround.R
@@ -31,7 +31,7 @@ bcf237b4f9940d6b8da304a403cc3a99 *R/rescale.R
 b2c045448ef2d771b1213b48d09f01b4 *R/se.coef.R
 182cfee5b48b437cdc22b005cfc4c62b *R/sigma.hat.R
 472916eae727da75730bac3269679541 *R/sim.R
-ac062a15d734353b57d0626121c3e577 *R/simmer.R
+3d9248a996d479cd604322283ae62a0d *R/simmer.R
 ccd813b440101e320bbdeabc36c61a0e *R/standardize.R
 af03f0653476d7242cb96915aa3ba7eb *R/traceplot.R
 4dae5be8be23a21a990dd56234748f31 *R/triangleplot.R
