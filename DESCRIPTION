@@ -1,6 +1,6 @@
 Package: arm
-Version: 1.9-1
-Date: 2016-8-21
+Version: 1.9-3
+Date: 2016-11-21
 Title: Data Analysis Using Regression and Multilevel/Hierarchical
         Models
 Authors@R: c(person("Andrew", "Gelman", role = "aut", email = "gelman@stat.columbia.edu"),
@@ -10,7 +10,7 @@ Authors@R: c(person("Andrew", "Gelman", role = "aut", email = "gelman@stat.colum
              person("Maria Grazia", "Pittau", role =  "ctb", email = "grazia@stat.columbia.edu"),
              person("Jouni", "Kerman", role =  "ctb", email = "jouni@kerman.com"),
              person("Tian", "Zheng", role =  "ctb", email = "tzheng@stat.columbia.edu"),
-             person("Vicent", "Dorie", role =  "ctb", email = "vjd4@nyu.edu")
+             person("Vincent", "Dorie", role =  "ctb", email = "vjd4@nyu.edu")
              )
 Author: Andrew Gelman [aut],
   Yu-Sung Su [aut, cre],
@@ -19,14 +19,18 @@ Author: Andrew Gelman [aut],
   Maria Grazia Pittau [ctb],
   Jouni Kerman [ctb],
   Tian Zheng [ctb],
-  Vicent Dorie [ctb]
+  Vincent Dorie [ctb]
 Maintainer: Yu-Sung Su <suyusung@tsinghua.edu.cn>
+BugReports: https://github.com/suyusung/arm/issues/
 Depends: R (>= 3.1.0), MASS, Matrix (>= 1.0), stats, lme4 (>= 1.0)
 Imports: abind, coda, graphics, grDevices, methods, nlme, utils
-Description: R functions for processing 'lm', 'glm', 'svy.glm', 'merMod' and 'polr' outputs.
-URL: http://CRAN.R-project.org/package=arm
-License: GPL (>= 2)
+Description: Functions to accompany A. Gelman and J. Hill, Data Analysis Using Regression and Multilevel/Hierarchical Models, Cambridge University Press, 2007.
+URL: https://CRAN.R-project.org/package=arm
+License: GPL (>= 3)
 NeedsCompilation: no
-Packaged: 2016-08-24 02:59:32 UTC; yusung
 Repository: CRAN
-Date/Publication: 2016-08-24 18:02:32
+Repository/R-Forge/Project: arm
+Repository/R-Forge/Revision: 274
+Repository/R-Forge/DateTimeStamp: 2016-11-24 11:30:54
+Date/Publication: 2016-11-27 15:01:33
+Packaged: 2016-11-24 11:46:10 UTC; rforge

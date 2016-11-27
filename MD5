@@ -1,5 +1,5 @@
-91f5b23efcb028c2e2c34c994b5b2bb0 *CHANGELOG
-91773c3b83c2160a7c7183ac536c5a84 *DESCRIPTION
+49cc52b71f537d004256ac9ec324a39a *CHANGELOG
+03e5969b6573f347bf14931cb88a1f5f *DESCRIPTION
 7b0b4c7cf6fd9651e37d1fd481be7b43 *NAMESPACE
 df99a0be1f7702e22980626c8c9c6336 *R/AllClass.R
 de23b5716ddafb25fbb2abee086af892 *R/AllGeneric.R
@@ -35,7 +35,7 @@ b2c045448ef2d771b1213b48d09f01b4 *R/se.coef.R
 ccd813b440101e320bbdeabc36c61a0e *R/standardize.R
 af03f0653476d7242cb96915aa3ba7eb *R/traceplot.R
 4dae5be8be23a21a990dd56234748f31 *R/triangleplot.R
-12e52a54f9a2b2aa85f8162365ecce7c *data/lalonde.rda
+d830f95a11aea3dc8d6ae1769013dc14 *data/lalonde.rda
 54284ad057b236cb94043035813afd3a *man/balance.Rd
 c48081163741773a5e94773d9fc18fee *man/bayesglm.Rd
 8a91e3e8eda21c3177556485de2e43e4 *man/bayespolr.Rd
