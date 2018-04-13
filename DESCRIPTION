@@ -1,6 +1,6 @@
 Package: arm
-Version: 1.9-3
-Date: 2016-11-21
+Version: 1.10-1
+Date: 2018-4-12
 Title: Data Analysis Using Regression and Multilevel/Hierarchical
         Models
 Authors@R: c(person("Andrew", "Gelman", role = "aut", email = "gelman@stat.columbia.edu"),
@@ -28,9 +28,6 @@ Description: Functions to accompany A. Gelman and J. Hill, Data Analysis Using R
 URL: https://CRAN.R-project.org/package=arm
 License: GPL (>= 3)
 NeedsCompilation: no
+Packaged: 2018-04-13 05:56:24 UTC; yusung
 Repository: CRAN
-Repository/R-Forge/Project: arm
-Repository/R-Forge/Revision: 274
-Repository/R-Forge/DateTimeStamp: 2016-11-24 11:30:54
-Date/Publication: 2016-11-27 15:01:33
-Packaged: 2016-11-24 11:46:10 UTC; rforge
+Date/Publication: 2018-04-13 06:43:04 UTC
