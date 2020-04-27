@@ -1,3 +1,7 @@
+2020-4-27 Yu-Sung Su     <suyusung@tsinghua.edu.cn>
+      * DESCRIPTION: (Version, Date): 1.11.0
+      * NAMESPACE: import setClass from methods  (BUGS reported by Henrik)
+
 2018-4-12 Yu-Sung Su     <suyusung@tsinghua.edu.cn>
       * DESCRIPTION: (Version, Date): 1.10.1
       * R/bayesglm: fix a bug where scale=TRUE the prior.scale miscount the nvars.
