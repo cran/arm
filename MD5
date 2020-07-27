@@ -1,10 +1,10 @@
-42851c033e878881c133cfbe354f4db4 *CHANGELOG
-169e4b07c6e3bbcb390a25298be1204b *DESCRIPTION
-e403a80f2038ccd145878a1dc9c0b129 *NAMESPACE
+5e3ea91a94134779d094ed0d5cbfda6c *CHANGELOG
+d47ffbc498cdc6705179527dbe04a757 *DESCRIPTION
+4081bcd505ca14d2eef3912165341764 *NAMESPACE
 df99a0be1f7702e22980626c8c9c6336 *R/AllClass.R
 de23b5716ddafb25fbb2abee086af892 *R/AllGeneric.R
 a2c62bf06a9a76dc6965d8f435f471ec *R/AllInternal.R
-918521df294f108996d4ecae5446121e *R/balance.R
+bd29d908797730e762546ba7f522fda1 *R/balance.R
 5093d7811dbfd7c03981170adcd18ea9 *R/bayesglm.R
 054bbff33242f6e4bd26a9f7990207b1 *R/bayesglm.h.R
 2f1dbf590eda1111607feb000f318aab *R/bayespolr.R
@@ -21,7 +21,7 @@ a012a9e1014899bac761bd1b6103205e *R/coefplot.R
 9e1dc642876804773d8d9e56c6fde116 *R/go.R
 78c23bf2f0dd152a68a264805111053b *R/invlogit.R
 26f9a0e44dededc7181e3eec6ecd3e84 *R/load.first.R
-8db68f019ae5bdd6ae103328db51a832 *R/matching.R
+0abc9dcad202c44cb985ad97b77af16e *R/matching.R
 df9287e969f74e2947f9e0e5b19d26fc *R/mcsamp.R
 7be84861e689714dc27857682d749a74 *R/model.matrixBayes.R
 6d6bc7861c1f13930bfa36044b8c0ca4 *R/multicomp.plot.R
@@ -37,7 +37,7 @@ af03f0653476d7242cb96915aa3ba7eb *R/traceplot.R
 4dae5be8be23a21a990dd56234748f31 *R/triangleplot.R
 91f29004f60c810f6f3cc60a5a9520f3 *README.md
 12e52a54f9a2b2aa85f8162365ecce7c *data/lalonde.rda
-54284ad057b236cb94043035813afd3a *man/balance.Rd
+8d528001b15d7ee29ae38011dd6d7864 *man/balance.Rd
 c48081163741773a5e94773d9fc18fee *man/bayesglm.Rd
 8a91e3e8eda21c3177556485de2e43e4 *man/bayespolr.Rd
 ebcb240293af88f21122a5edde46d44b *man/binnedplot.Rd
@@ -51,8 +51,8 @@ f369ae9b94cbafa6783974a219d98cde *man/fround.Rd
 2f96eecdbd14cd8ce4caa733f383b828 *man/go.Rd
 252d366231e5912427f51c46d69da410 *man/invlogit.Rd
 b23c39c0461c761ba57a11c17c13433e *man/lalonde.Rd
-18d4a0e1d7b67eb17e573c4e84ae7b17 *man/matching.Rd
-42e37e92f0fe85daae4c4af82f5f8176 *man/mcsamp.Rd
+93dd0b99834ed4ed9cb1b4fd9a8bc1fa *man/matching.Rd
+380f76417beff9b45a14e039204505a0 *man/mcsamp.Rd
 33853edcafe777b46ed95125f5704311 *man/model.matrixBayes.Rd
 6ce8710af8c054cd4262b7a87169154d *man/multicomp.plot.Rd
 36a4b93b16160c3659bf8379d32d2abb *man/readColumns.Rd

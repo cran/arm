@@ -1,6 +1,6 @@
 Package: arm
-Version: 1.11-1
-Date: 2020-4-27
+Version: 1.11-2
+Date: 2020-7-27
 Title: Data Analysis Using Regression and Multilevel/Hierarchical
         Models
 Authors@R: c(person("Andrew", "Gelman", role = "aut", email = "gelman@stat.columbia.edu"),
@@ -23,11 +23,11 @@ Author: Andrew Gelman [aut],
 Maintainer: Yu-Sung Su <suyusung@tsinghua.edu.cn>
 BugReports: https://github.com/suyusung/arm/issues/
 Depends: R (>= 3.1.0), MASS, Matrix (>= 1.0), stats, lme4 (>= 1.0)
-Imports: abind, coda, graphics, grDevices, methods, nlme, utils
+Imports: abind, coda, graphics, grDevices, Hmisc, methods, nlme, utils
 Description: Functions to accompany A. Gelman and J. Hill, Data Analysis Using Regression and Multilevel/Hierarchical Models, Cambridge University Press, 2007.
 License: GPL (> 2)
 URL: https://CRAN.R-project.org/package=arm
 NeedsCompilation: no
-Packaged: 2020-04-27 08:07:55 UTC; suyus
+Packaged: 2020-07-26 16:56:30 UTC; suyus
 Repository: CRAN
-Date/Publication: 2020-04-27 09:40:02 UTC
+Date/Publication: 2020-07-27 05:10:29 UTC
