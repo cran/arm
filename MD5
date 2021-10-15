@@ -1,10 +1,10 @@
-5e3ea91a94134779d094ed0d5cbfda6c *CHANGELOG
-d47ffbc498cdc6705179527dbe04a757 *DESCRIPTION
-4081bcd505ca14d2eef3912165341764 *NAMESPACE
+baf07c94a97df1a8305f576bb8a63e4c *CHANGELOG
+c7a5eba23ed4b18d68314025a8d232c7 *DESCRIPTION
+63661203961ffc0cc11ea305293b7f49 *NAMESPACE
 df99a0be1f7702e22980626c8c9c6336 *R/AllClass.R
 de23b5716ddafb25fbb2abee086af892 *R/AllGeneric.R
 a2c62bf06a9a76dc6965d8f435f471ec *R/AllInternal.R
-bd29d908797730e762546ba7f522fda1 *R/balance.R
+73aaffc4bc4ef7334888371ef67c4dca *R/balance.R
 5093d7811dbfd7c03981170adcd18ea9 *R/bayesglm.R
 054bbff33242f6e4bd26a9f7990207b1 *R/bayesglm.h.R
 2f1dbf590eda1111607feb000f318aab *R/bayespolr.R
@@ -50,7 +50,7 @@ fca667b4198132390e73c91160541eb1 *man/extractDIC.mer.Rd
 f369ae9b94cbafa6783974a219d98cde *man/fround.Rd
 2f96eecdbd14cd8ce4caa733f383b828 *man/go.Rd
 252d366231e5912427f51c46d69da410 *man/invlogit.Rd
-b23c39c0461c761ba57a11c17c13433e *man/lalonde.Rd
+e7f14f9263a4f3966f0fb9c7ca194a21 *man/lalonde.Rd
 93dd0b99834ed4ed9cb1b4fd9a8bc1fa *man/matching.Rd
 380f76417beff9b45a14e039204505a0 *man/mcsamp.Rd
 33853edcafe777b46ed95125f5704311 *man/model.matrixBayes.Rd
