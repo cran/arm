@@ -1,3 +1,8 @@
+2022-8-25 Yu-Sung Su     <suyusung@tsinghua.edu.cn>
+      * DESCRIPTION: (Version, Date): 1.13.1
+      * NAMESPACE: import solve from Matrix
+      * R/simmer: comment out solveFun(), and use solve from Matrix direclty
+
 2021-10-15 Yu-Sung Su     <suyusung@tsinghua.edu.cn>
       * DESCRIPTION: (Version, Date): 1.12-2
       * man/lalonde.Rd: fixed the link to lalonde data (from http to https)
@@ -6,6 +11,7 @@
       * DESCRIPTION: (Version, Date): removed the Hmisc package from Imports field
       * NAMESPACE: Do not import wtd.var from Hmisc, anymore (this is to increase crossplatform compatibility)
       * R/balance.R: Replace call to Hmisc::wtd.var() with call to stats::cov.wt()
+
 
 2020-7-27 Yu-Sung Su     <suyusung@tsinghua.edu.cn>
       * DESCRIPTION: (Version, Date): 1.11-2
