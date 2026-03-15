@@ -1,6 +1,6 @@
 Package: arm
-Version: 1.14-4
-Date: 2024-4-1
+Version: 1.15-1
+Date: 2026-3-15
 Title: Data Analysis Using Regression and Multilevel/Hierarchical
         Models
 Authors@R: c(person("Andrew", "Gelman", role = "aut", email = "gelman@stat.columbia.edu"),
@@ -15,7 +15,7 @@ Authors@R: c(person("Andrew", "Gelman", role = "aut", email = "gelman@stat.colum
              person("Vincent", "Dorie", role =  "ctb", email = "vjd4@nyu.edu")
              )
 Author: Andrew Gelman [aut],
-  Yu-Sung Su [aut, cre] (<https://orcid.org/0000-0001-5021-8209>),
+  Yu-Sung Su [aut, cre] (ORCID: <https://orcid.org/0000-0001-5021-8209>),
   Masanao Yajima [ctb],
   Jennifer Hill [ctb],
   Maria Grazia Pittau [ctb],
@@ -24,12 +24,12 @@ Author: Andrew Gelman [aut],
   Vincent Dorie [ctb]
 Maintainer: Yu-Sung Su <suyusung@tsinghua.edu.cn>
 BugReports: https://github.com/suyusung/arm/issues/
-Depends: R (>= 3.1.0), MASS, Matrix (>= 1.0), stats, lme4 (>= 1.0)
+Depends: R (>= 3.1.0), MASS, Matrix (>= 1.6-1.1), stats, lme4 (>= 1.0)
 Imports: abind, coda, graphics, grDevices, methods, nlme, utils
 Description: Functions to accompany A. Gelman and J. Hill, Data Analysis Using Regression and Multilevel/Hierarchical Models, Cambridge University Press, 2007.
-License: GPL (> 2)
+License: GPL (>= 2)
 URL: https://CRAN.R-project.org/package=arm
 NeedsCompilation: no
-Packaged: 2024-04-01 10:51:23 UTC; yusung
+Packaged: 2026-03-15 10:34:35 UTC; suyusung
 Repository: CRAN
-Date/Publication: 2024-04-01 11:50:02 UTC
+Date/Publication: 2026-03-15 11:50:02 UTC
