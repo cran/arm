@@ -1,5 +1,5 @@
-7b1972f70704616c8306e725efbb06a2 *CHANGELOG
-e73fbbe7783abb2cfda6b9035daf5ae6 *DESCRIPTION
+ccaafd3c192fd36f84f1ae0b3cba4853 *CHANGELOG
+7f183d4b59d02a7e44227118fac3fde0 *DESCRIPTION
 7d40d53b400ac7baf286c753f8ba696e *NAMESPACE
 df99a0be1f7702e22980626c8c9c6336 *R/AllClass.R
 de23b5716ddafb25fbb2abee086af892 *R/AllGeneric.R
@@ -26,7 +26,7 @@ df9287e969f74e2947f9e0e5b19d26fc *R/mcsamp.R
 7be84861e689714dc27857682d749a74 *R/model.matrixBayes.R
 6d6bc7861c1f13930bfa36044b8c0ca4 *R/multicomp.plot.R
 7d0f269ea12f242f4d43e3661f68396e *R/readColumns.R
-2e32bf859b0056182344a96f780b01b8 *R/rescale.R
+0dc3ffdd4c262488b7994dbc8dd08a70 *R/rescale.R
 0eb80aef5e725716ee52fafa50654820 *R/residual.plot.R
 b2c045448ef2d771b1213b48d09f01b4 *R/se.coef.R
 182cfee5b48b437cdc22b005cfc4c62b *R/sigma.hat.R
