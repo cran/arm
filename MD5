@@ -1,5 +1,5 @@
-ccaafd3c192fd36f84f1ae0b3cba4853 *CHANGELOG
-7f183d4b59d02a7e44227118fac3fde0 *DESCRIPTION
+29a3d3ee337c2454fb18ae08cf49fd7c *CHANGELOG
+1ae5bd4610453790f3f05857fb709918 *DESCRIPTION
 7d40d53b400ac7baf286c753f8ba696e *NAMESPACE
 df99a0be1f7702e22980626c8c9c6336 *R/AllClass.R
 de23b5716ddafb25fbb2abee086af892 *R/AllGeneric.R
@@ -32,7 +32,7 @@ b2c045448ef2d771b1213b48d09f01b4 *R/se.coef.R
 182cfee5b48b437cdc22b005cfc4c62b *R/sigma.hat.R
 b6e0ca1f4923f57f1081e2da15cb7fe9 *R/sim.R
 b2aebcf507ea399f88098d90c9002a57 *R/simmer.R
-244de927024b7eb22e6152ece4edf861 *R/standardize.R
+fed3e27da541ce5ea74d1f54f009e74f *R/standardize.R
 af03f0653476d7242cb96915aa3ba7eb *R/traceplot.R
 4dae5be8be23a21a990dd56234748f31 *R/triangleplot.R
 91f29004f60c810f6f3cc60a5a9520f3 *README.md
@@ -61,6 +61,6 @@ ac82073046f893e37c9500741a39014d *man/residual.plot.Rd
 4daff88c386691fa72eec0cb9d02541d *man/se.coef.Rd
 0a1dd5a48de8698930dc00605630e892 *man/sigma.hat.Rd
 74864d3e83f962bbbbd4c71765f0fd30 *man/sim.Rd
-5e6b6d56643adba5e585249bfd100daa *man/standardize.Rd
+e9acebcda00645298e106d1bac754e63 *man/standardize.Rd
 f2120afe3b932435f11180d9ac5b3a57 *man/traceplot.Rd
 66635f3bc271935f08bdb626869ebbf5 *man/triangleplot.Rd
